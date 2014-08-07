@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>Buyer Profile Page - Ace Admin</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../assets/css/jquery-ui-1.10.3.custom.min.css" />
+		<link rel="stylesheet" href="../assets/css/jquery.gritter.css" />
+		<link rel="stylesheet" href="../css/font/font.css" />
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+		<link rel="stylesheet" href="../assets/css/ace-responsive.min.css" />
+		<link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+<!--inline styles if any-->
+</head>
+<body>
+<%include feedBackModal.ejs %>
+<a href="/signout">Logout</a>		
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+        <!--<h1> Profile <small> <i class="icon-double-angle-right"></i>  </small> </h1>-->
+      </div>
+      <!--/.page-header-->
+      <div class="row-fluid"> 
+<! -- / PROFILE BEGINS -->
+	<div class="boxwidth1">
+	                <!-- header -->
+	                <div class="row-fluid header">
+	                </div>
+	</div>
+	<div class="boxwidth1">
+	<div class="widget-box">
+	 <div class="row-fluid table" id="table2" >
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="span4 sortable">
+                                   <span class="line"></span> Writer
+                                </th>
+								<th class="span4 sortable">
+                                   <span class="line"></span> Communities
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>Age 
+                                </th>
+                                 <th class="span4 sortable">
+                                    <span class="line"></span>Twitter Name
+                                </th>
+                                 <th class="span4 sortable">
+                                    <span class="line"></span>Linkedin Profile
+                                </th>
+								<th class="span5 sortable>
+									<span class="line></span> Status
+                            </tr>
+		<div class="row-fluid">
+          <div class="span6" width="100%">
+            <div class="widget-box transparent" id="recent-box">
+              <div class="widget-header">
+                <div class="widget-toolbar no-border">
+                  <ul class="nav nav-tabs" id="recent-tab">
+                  </ul>
+                </div>
+              </div>
+                        </thead>
+                        <tbody>
+                        	<% for (var i=0;i< user.writer_registration_request.length;i++) {
+                        		if(locals.user.writer_registration_request[i].writer_info){%>
+                        	 <!-- row -->
+		                            <td>
+		                            	<%= user.writer_registration_request[i].name%></a>
+		                            </td>
+		 							 <td>
+		                               <%= user.writer_registration_request[i].writer_info.communities %>
+		                            </td>
+		                            <td>
+		                               <%= user.writer_registration_request[i].writer_info.age%>
+		                            </td>
+		                             <td>
+		                               <%= user.writer_registration_request[i].writer_info.twitter_name%>
+		                            </td>
+		                             <td>
+		                               <%= user.writer_registration_request[i].writer_info.linkedin_name%>
+		                            </td>
+									<td>
+									<button class="btn btn-info btn-small"  id="<%=i%>" onclick="requestToWrite(this)">
+										<i class="icon-edit bigger-110"></i>
+										Accept
+									</button>
+									</td>
+                        <%}}%>
+                                              <!-- row -->
+                        </tbody>
+                    </table>
+                </div>
+		</div>
+	</div>
+									<! -- Recent Blurbs Starts !-->	
+	<!--basic scripts--> 
+  <script src='../assets/js/jquery-1.9.1.min.js'></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+	var user= <% if(locals.user){%>
+				<%- JSON.stringify(user) %>
+			  	<%}%>;
+	function requestToWrite(element){
+		var button=$(element);
+		button.html('Accepted');
+		button.prop('disabled','disabled');
+		console.log(element.id);
+		var id = element.id;
+		var address = '/users/writer-registration-accept';
+		$.ajax({
+				type: "POST",
+				url: address,
+				data: {'first_name': user.writer_registration_request[id].name, 
+						'email' : user.writer_registration_request[id].email, 
+						'id' : user.writer_registration_request[id]._id}
+		})
+	}
+	</script>
+</body>
+</html>

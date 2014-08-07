@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Write Blurbs</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<!-- <link rel="stylesheet" href="../assets/css/link-preview.css" /> -->
+	<link rel="stylesheet" href="../assets/css/preview.css" />
+	<link rel="stylesheet"  href="../assets/css/dd.css" />
+</head>
+<body>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+                <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					
+				<ul class="nav ace-nav pull-right">
+					<li class="light-blue user-profile">
+						<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+							
+							<img src="../assets/avatars/default.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+							
+							<span id="user_info">
+								<small>Welcome,</small>Blurbi
+							</span>
+
+							<i class="icon-caret-down"></i>
+						</a>
+
+						<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+							
+
+							<li>
+								<a href="/signout">
+									<i class="icon-off"></i>
+									Logout
+								</a>
+							</li>
+						</ul>
+					</li>
+
+				</ul><!--/.ace-nav-->
+			</div>
+		</div><!--/.container-fluid-->
+	</div><!--/.navbar-inner-->
+	
+	<div class="container-fluid" id="main-container">
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+		<div id="sidebar">
+			<% include sidebar.ejs %>
+		</div>
+		<div id="main-content" class="clearfix">
+			<div id="page-content" class="clearfix">
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<div class="row-fluid">
+					<div id="addDiscountPolicy">
+						<form id="addDiscountPolicyForm" method="Post" action="/users/addDiscountPolicy">
+							<label> Add current discount policy for all user according to invitation </label><br>
+							
+<!-- 							<div>
+								<label> Code: </label> 
+								<input type="text" name="code"/>
+							</div> -->
+
+							<div>
+								<label> Discount Type: </label>
+								<select id="discount_type" name="discountType">
+									<option> Free Days </option>
+									<option> Percentage </option>
+								</select> 
+							</div>
+							
+							<div id="perInvitationFreeDaysDiv">
+								<div>
+									<label> Free Days For Inviting Per User</label>
+									<input type="number" name="perInvitationFreeDays" />
+								</div>
+								<div>
+									<label> Free $ Per Day</label>
+									<input type="number" name="perDayDiscount" />
+								</div>
+							</div>
+
+							<div id="perInvitationDiscountDiv" style="display: none;" >
+								<label> Discount For Inviting Per User</label>
+								<input type="number" name="perInvitationDiscount" />
+							</div>
+
+							<div>
+								<label>Discount text</label>
+								<textarea  name="discountText"></textarea>
+							</div>
+
+							<div>
+								<button type="submit" class="btn btn-small btn-info">Submit </button>
+							</div>
+							
+						</form>
+					</div>
+			
+				</div> <!-- end row-fluid -->
+			</div>
+		</div>
+		<% include feedback.ejs%>
+	</div>
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> 
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/jquery.dd.min.js"></script>
+	<script src="../js/topbar.js"></script>
+	<script src="../assets/js/jquery.timepicker.js"></script>
+	<script src="../assets/js/jquery.timepicker.min.js"></script>
+
+	<script>
+		$(document).ready(function(){
+			$('#discountValidDate').datepicker();
+
+		})
+		$('#discount_type').change(function(){
+			console.log($(this).val());
+			if($(this).val()=="Free Days"){
+
+				$('#perInvitationFreeDaysDiv').show();
+				$('#perInvitationDiscountDiv').hide();
+
+			}
+			else{
+
+				$('#perInvitationFreeDaysDiv').hide();
+				$('#perInvitationDiscountDiv').show();
+			}
+
+		})
+		$('#addDiscountPolicyForm').submit(function(){
+			var formdata = $(this).serialize();
+			var address = "/users/addDiscountPolicy";
+			$.ajax({
+				type: "Post",
+				url: address,
+				data: formdata,
+				success: function(data){
+					location.reload();
+
+				}
+			})
+			return false;
+		})
+	</script>
+
+
+	
+
+
+</body>
+</html>

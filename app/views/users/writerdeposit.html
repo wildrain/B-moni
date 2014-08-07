@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Writer Deposit</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	</head>
+	<body>
+		<%
+			var amount = accountBalance;
+			var target;
+			var x;
+			var percentege;
+			if (amount < 10 || amount ==10)
+			{
+				percentege = (amount/10)*100;
+				target = 10;
+			} 
+			else  if((amount<25 && amount > 10) || amount==25){
+					percentege = (amount/25)*100;
+					target = 25;
+			}
+			else if((amount>25 && amount<100) || amount==100){
+					percentege = (amount/100)*100;
+					target = 100;
+			}
+			percentege=Math.floor(percentege);
+	%>
+
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					<% include topbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+		</div>
+		<div class="container-fluid" id="main-container">
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+			<div id="sidebar">
+			<% include sidebar.ejs %>
+			</div>
+			<div id="main-content" class="clearfix">
+				<div id="page-content" class="clearfix">
+					<div class="page-header position-relative">
+						<h1 style="color: #3b9852">
+							Deposit Progress
+							<small>
+							</small>
+						</h1>
+					</div><!--/.page-header-->
+					<div class="row-fluid">
+						<!--PAGE CONTENT BEGINS HERE-->
+														<! -- BAR GRAPH Starts !-->	
+							<div class="boxwidth1">
+						<a href="#">
+										<div class="clearfix">
+											<span class="pull-left"  style="color: #3b9852; float:left; margin-right:200px">Deposit Progress</span>
+											<span style="color: #3b9852" class="pull-left">Target Amount: &nbsp
+											$<%= target %></span>
+											<span style="color: #3b9852" class="pull-right"><%=percentege%>%</span>
+										</div>
+										<div class="progress progress-mini progress-success">
+											<div style="width:<%=percentege%>%" class="bar"></div>
+										</div>
+									</a>
+									</div>
+									<br>
+										</div>
+										<br>
+										<div id="deposit_progress">
+											<div class="control-group">
+										<label class="control-label"> <h8> Change Deposit Amount </h8></label>
+										<div class="controls">
+											<label>
+												<input name="form-field-radio" type="radio" value="10">
+												<span class="lbl"> $10 <h7>(37c fee)</h7> </span>
+											</label>
+											<label>
+												<input name="form-field-radio" type="radio" value="25">
+												<span class="lbl">$25 <h7>(no fee)</h7></span>
+											</label>
+											<label>
+												<input name="form-field-radio" type="radio" value="100">
+												<span class="lbl"> $100 <h7>(no fee)</h7> </span>
+											</label>
+											</div>
+											</div>
+										<br>
+										<button id="disableButton" class="btn btn-success" type="submit" onclick="deposit_confirm()">
+									<i class="icon-ok bigger-110"></i>
+									Confirm
+								</button>
+								</div>
+								<p></p>
+								<div  id="submitmsg" class="widget-header widget-header-blue widget-header-flat wi1dget-header-large" style="display: none;">
+									<strong style:"color:green;">Your Account Balance is insuffiecient to make this request.</strong>
+								</div>
+								<div  id="reqmsg" class="widget-header widget-header-blue widget-header-flat wi1dget-header-large" style="display: none;">
+									<strong style:"color:green;">Your request is sent.</strong>
+								</div>
+								<div id="deposit_form" style="display:none;">
+								Enter Your Email-Adress: <input type="text" style="float-left; margin-right:5px" id="email" name="email" />
+								<button type="submit"  class="btn btn-success" onclick="mail_blurbi()">Submit</button>
+								</div>
+								<% include feedback.ejs%>
+
+
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../js/topbar.js"></script>
+		
+	<script type="text/javascript">
+
+
+		var accountBalance= <% if(locals.accountBalance)%>
+					<%= accountBalance %>
+
+		var today = new Date();
+		
+		var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
+		
+
+		if(today.toString().substring(0,15) === lastDayOfMonth.toString().substring(0,15)){
+			$('#disableButton').prop("disabled",false);
+		}else{
+			$('#disableButton').prop("disabled",true);
+		}		
+
+		
+
+		function deposit_confirm()
+		{
+			x=$("#deposit_progress input[type='radio']:checked").val();
+			
+			if(x)
+			{
+				if(x< accountBalance || x== accountBalance)
+				{
+					//$("#amount").val(x);
+					$('#deposit_form').show();
+				}
+				else
+				{
+					$('#submitmsg').show();
+					setTimeout(function(){$("#submitmsg").fadeOut()},2000);
+				}
+			}
+		}
+
+
+		function mail_blurbi(){
+			var email=$('#email').val();
+			if(email){
+
+				address='/users/writerDepositPost';
+				$.ajax({
+		            type: "POST",
+		            url: address,
+		            data: {'amount': x, 'email' : email},
+		            	success: function(res) {
+		              	$('#deposit_form').hide();
+						$('#reqmsg').show();
+						setTimeout(function(){$("#reqmsg").fadeOut()},2000);
+		                }
+		        });
+			}
+		}
+
+	
+	</script>
+
+	
+	</body>
+</html>

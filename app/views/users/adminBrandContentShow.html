@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Analytics</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+
+
+	
+
+
+
+	</head>
+
+	<body>
+
+		<!-- start top bar section -->
+
+		
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+	                <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+						
+					<ul class="nav ace-nav pull-right">
+						<li class="light-blue user-profile">
+							<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+								
+								<img src="../assets/avatars/default.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+								
+								<span id="user_info">
+									<small>Welcome,</small>Blurbi
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+
+								<li>
+									<a href="/signout">
+										<i class="icon-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+
+					</ul><!--/.ace-nav-->
+				</div>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+
+
+		<!-- end top bar section -->
+		
+
+
+
+
+
+		<div class="container-fluid" id="main-container">
+
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+
+
+
+			<!-- start side bar section -->
+
+			<div id="sidebar">
+				
+				<% include sidebar.ejs %>
+
+				
+			</div>
+
+			<!-- end sidebar section -->
+
+
+
+
+			<div id="main-content" class="clearfix">
+				
+				<div id="page-content" class="clearfix">
+				
+				
+				
+					<div class="page-header position-relative">
+						
+					</div><!--/.page-header-->
+
+					<div class="row-fluid" >
+					
+						<!--PAGE CONTENT BEGINS HERE-->
+
+
+
+
+
+						<!-- start brandContentShow section -->
+
+
+
+						<div class="span12">
+							<div class="widget-box row-fluid">
+								<div class="widget-header" style="margin-bottom:-10px;">
+									<h4>All Posted Blurbs</h4>
+									<select id="event"  name="events" style="width:185px; margin:10px -13px 10px 0">
+										<option value="allBlurbs"> All Companies </option>
+										
+									</select>
+									<span class="widget-toolbar no-border"></span>
+								</div>
+								<div class="widget-body">
+									<div class="span12">
+										<table id="table_bug_report no-border" class="table table-hover">
+											<thead>
+												<tr >
+													<th class="span4 center">Company</th>	
+													<th class="span4" style="border:1px solid lightgray; text-align:center !important;">
+														<i class="icon-align-justify icon-2x" style="color: #5C983B;">
+													</i></th>
+													<th class="span2" style="border:1px solid lightgray; text-align:center !important;">
+														<i class="icon-user" style="color: #5C983B; font-size:22px;"></i>
+													</th>
+													<th class="span2" style="border:1px solid lightgray; text-align:center !important;">
+														<i style="color: #5C983B; font-size:22px;" class="icon-bullhorn icon-2x"></i>
+													</th>
+													<th class="span2" style="border:1px solid lightgray; text-align:center !important;">
+														<i style="color: #5C983B; font-size:22px;" class="icon-money"></i>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												
+												<% for(var i=0; i<historyWriteBlurb.length; i++) { %>
+												<tr class="tr<%= i %>" >
+													<td class="td<%= i %>"><%= historyWriteBlurb[i].companyName %></td>
+													<td>
+														<a style="color: #5C983B " href="#"><%= historyWriteBlurb[i].description %></a>
+													</td>
+													<td style="text-align:center;"><%= historyWriteBlurb[i].writerName %>	</td>
+													<td style="text-align:center;" class="hidden-480"><%= historyWriteBlurb[i].si %><b class="green"></b></td>
+													<td style="text-align:center;" class="hidden-phone">$<%= historyWriteBlurb[i].price %></td>
+												</tr>
+												<%}%>
+													
+											</tbody>
+										</table>
+									</div>
+									
+								</div> <!-- end widget body -->
+							</div> <!-- end widget box -->
+						</div>
+
+						
+						<!-- end brandContentShow section -->
+
+
+
+
+
+
+
+						
+
+
+						
+
+					</div>	 <!-- end row-fluid -->
+
+				</div> <!-- end page content -->
+
+			</div><!--/#main-content-->
+		</div><!--/.fluid-container#main-container-->
+
+
+		<!-- start feedback section -->
+
+		<div class="feedback">
+
+
+			<div style="background: #FFFFFF; width: 100%; height: 25px; position:fixed; bottom:0%; left:1%; ">
+
+		
+				<ul style="list-style:none;">
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a href="/users/FAQuser" style="cursor: pointer; color: #5C983B;">FAQ</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/policy" target="_blank">Privacy</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/terms" target="_blank">TOS</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="http://blog.blurbi.ca/" target="_blank">Blog</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/users/Feedback">Feedback</a></li>
+				</ul>
+				
+				
+			</div>
+			
+
+
+		</div>
+
+		<!-- end feedback section -->
+
+
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../assets/js/underscore-min.js"></script>
+		<script src="../js/topbar.js"></script>
+
+
+		<script>
+
+		var historyWriteBlurb = <% if(locals.historyWriteBlurb){ %>
+								   <%- JSON.stringify(historyWriteBlurb) %>
+								   <% } %>
+
+		
+		var company = new Array();
+		var companyName = new Array();
+		for(var i=0; i<historyWriteBlurb.length; i++){
+			company.push(historyWriteBlurb[i].companyName);
+		}						   
+		
+		companyName = _.uniq(company);
+		console.log(companyName.length);
+
+		var selectbox = $('#event');
+		
+
+		for(var i=0; i<companyName.length; i++){
+			selectbox.append('<option value="'+companyName[i]+'">'+ companyName[i] +'</option>');
+		}
+
+
+		$('#event').change(function(){
+
+			var value = $('#event').val();			
+			$('.tr'+i).show();
+			var a;
+
+			if(value == 'allBlurbs'){
+				for(var i=0; i<historyWriteBlurb.length; i++){
+					$('.tr'+i).show('slow');
+				}
+			}else{
+
+				for(var i=0; i<historyWriteBlurb.length; i++){
+
+					a =$('.td'+i).html()
+
+					if(value == a ){
+						$('.tr'+i).show('slow');
+					}else{
+						$('.tr'+i).hide('slow');
+					}
+				}
+			}
+
+			
+		});
+
+
+		
+		
+		
+
+
+		</script>
+	
+		
+		
+		
+		
+		
+	</body>
+</html>

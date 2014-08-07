@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Changre Pricing</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+		<style>#slider { margin: 10px; width: 200px; }	</style>
+	</head>
+<body>
+			<div class="navbar navbar-inverse">
+				<div class="navbar-inner">
+					<div class="container-fluid">
+						<div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+						<% include topbar.ejs %>
+					</div><!--/.container-fluid-->
+				</div><!--/.navbar-inner-->
+			</div>
+			<div class="container-fluid" id="main-container">
+				<a id="menu-toggler" href="#">
+					<span></span>
+				</a>
+				<div id="sidebar">
+					<% include sidebar.ejs %>
+				</div>
+				<div id="main-content" class="clearfix">
+					<div id="page-content" class="clearfix">
+						<div class="page-header position-relative">
+							<h1 style="color: #3b9852">
+								Change Pricing
+								<small style="color: #3b9852" >
+									<i class="icon-double-angle-right"></i>
+									This is where you change the price you pay per-Blurb
+								</small>
+							</h1>
+						</div><!--/.page-header-->
+						<div class="row-fluid">
+							<!--PAGE CONTENT BEGINS HERE-->
+							<div class="alert alert-block alert-success">
+								<button type="button" class="close" data-dismiss="alert">
+									<i class="icon-remove"></i>
+								</button>
+								Adjust the slider to change the price you pay per-blurb.
+							</div>
+							<div id="modal" style="display:none" class="alert alert-block alert-success">
+								<button type="button" class="close" data-dismiss="alert">
+									<i class="icon-remove"></i>
+								</button>
+								Price Per Blurb changed to $ <text id="change_price"> </text></br>
+							</div>
+							<div id="modalRes" style="display:none" class="alert alert-block alert-success">
+								<button type="button" class="close" data-dismiss="alert">
+									<i class="icon-remove"></i>
+								</button>								
+								Price Per Response changed to $ <text id="change_response_price"> </text>
+							</div>
+							<!-- SLIDER !-->
+							<div class="boxwidth1">
+								<!-- start price per blurbs change pricing -->
+								<div class="control-group" style="float:left; margin-right: 100px;">
+									<label class="control-label" for="form-field-1">Price per-blurb</label>
+									<div class="controls">
+										<input type="text" class="perBlurbs" value="<%=parseFloat(pricePerBlurb).toFixed(2)%>" id="price" style="color:Black" placeholder="<%=parseFloat(pricePerBlurb).toFixed(2)%>"> $
+									</div>
+									<div id="slider">
+									</div>
+									<button class="btn btn-success btn-small" type="submit" id="change_pricing" onclick="changepricing()">
+										<i class="icon-ok bigger-110"></i>
+										Accept
+									</button>
+								</div>
+								<!-- end price per blurbs change pricing -->
+								<div class="boxwidth1" style="width : 80%; margin-top: 60px;">
+									<div class="widget-box">
+										<div class="widget-header">
+											<h4>Campaign/Event Pricing</h4>
+											<span class="widget-toolbar no-border"></span>
+										</div>
+										<div class="widget-body">
+											<div class="row-fluid span12">
+												<table id="table_bug_report no-border" class="table table-hover">
+													<thead>
+														<tr>														
+															<th>Title</th>
+															<th>Per Blurbs</th>
+															<th class="hidden-480">Accept</th>																	
+														</tr>
+													</thead>
+													<tbody>
+														<% for(var i=0;i<historyCallAction.length;i++) { %>
+														<% if(historyCallAction[i].eventType == "campaign" || historyCallAction[i].eventType == "event") { %>
+														<tr>
+															<td style="width: 225px">
+																<% if(historyCallAction[i].title.length>40){ %>
+																	<%= historyCallAction[i].title.substring(0,40) %>...
+																	<% } else{ %>
+																	<%= historyCallAction[i].title %>
+																	<% } %>
+															</td>
+															<td>
+																<!-- <div class="controls"> -->
+																	<input class="input-small" type="text" id="updateBlurbPrice<%= i %>"  value="<%= historyCallAction[i].price %>"> $
+																<!-- </div> -->
+															</td>
+															<td>
+																<button  style="width: 95px;" class="btn btn-success btn-small" type="submit" id="change_pricing" onclick="updateCEPricing(<%= i %>)">
+																	<i class="icon-ok bigger-110"></i>
+																	Accept
+																</button>
+															</td>
+														</tr>
+														<% } } %>
+													</tbody>
+												</table>
+											</div>
+										</div> <!-- end widget body -->
+									</div> <!-- end widget box -->
+								</div>   <!-- end box-width 2 -->
+								<!-- end campaign/event section -->
+							</div>  <!-- end boxwidth1 -->
+						</div>	 <!-- end row-fluid -->
+					</div> <!-- end page-content -->
+				</div> <!-- end main-content -->
+			</div> <!-- end container -->
+			<% include feedback.ejs%>
+			<script src='../assets/js/jquery-1.9.1.min.js'></script>
+			<script src="../assets/js/bootstrap.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+			<script type="text/javascript">
+				$( "#slider" ).slider({
+					range: "min",
+					value: <%= pricePerBlurb %>,
+					step: 0.1,
+					min: 0.50,
+					max: 10,
+					slide: function(event,ui){
+						$("input.perBlurbs").val(parseFloat(ui.value).toFixed(2));
+					}
+				});
+				$("input").change(function(){
+					var value = this.value.substring(1);
+					console.log(value);
+					$("#slider").slider("value",parseFloat(value).toFixed(2));
+					$("#sliderPerResponse").slider("value",parseFloat(value).toFixed(2));
+				});
+				$("#sliderPerResponse").slider({
+					range: "min",
+					value: <%= pricePerResponse%>,
+					step: 0.1,
+					min : 0.50,
+					max: 10,
+					slide: function(event,ui){
+						$("input.perResponse").val(parseFloat(ui.value).toFixed(2));
+					}
+				});
+			</script>
+			<script type="text/javascript">
+				var historyCallAction = <% if(locals.historyCallAction){ %>
+										<%- JSON.stringify(historyCallAction)%>
+										<% } %>
+				/*for per blurbs*/
+				function changepricing()
+				{
+					var pricing = $('#price').val();					
+					document.getElementById('change_price').innerHTML = parseFloat($('#price').val()).toFixed(2);	
+					$('#modal').show();
+					setTimeout(function(){$("#modal").fadeOut()},2000);
+					address = '/users/changePricing';
+					$.ajax({
+					 	type: "POST",
+					 	url: address,
+					 	data: {'price' : pricing},
+					 	success: function(data){
+					  }
+					});
+				}
+				/*for per response*/
+				function changeResPricing()
+				{
+					var pricingPerResponse = $('#pricePerResponse').val();
+					document.getElementById('change_response_price').innerHTML = parseFloat($('#pricePerResponse').val()).toFixed(2);
+					$('#modalRes').show();
+					setTimeout(function(){$("#modal").fadeOut()},2000);
+					address = '/users/changePricing';
+					$.ajax({
+					 	type: "POST",
+					 	url: address,
+					 	data: {'pricePerResponse' : pricingPerResponse},
+					 	success: function(data){
+					  }
+					});
+				}
+				/*update campaign or event pricing*/
+				function updateCEPricing(i){
+					var updateBlurbPrice = $('#updateBlurbPrice'+i).val();	
+					var updateResPrice = $('#updateResPrice'+i).val();				
+					var CEid = historyCallAction[i]._id;
+					$.ajax({
+						type : "POST",
+						address: '/users/changePricing',
+						data: {'updateBlurbPrice' : updateBlurbPrice,'CEid': CEid,'updateResPrice': updateResPrice},
+						success: function(result){
+						}
+					});
+				}
+			</script>
+</body>
+</html>

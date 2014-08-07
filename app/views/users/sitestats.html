@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Analytics</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	</head>
+
+	<body>
+
+	<!-- start top bar section -->
+	<div class="navbar navbar-inverse">
+	  <div class="navbar-inner">
+	    <div class="container-fluid">
+	      <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+	        
+	      <ul class="nav ace-nav pull-right">
+	        <li class="light-blue user-profile">
+	          <a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+	            
+	            <img src="../assets/avatars/derekblurb.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+	            
+	            <span id="user_info">
+	              <small>Welcome,</small>Blurbi
+	            </span>
+
+	            <i class="icon-caret-down"></i>
+	          </a>
+
+	          <ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+
+	            <li>
+	              <a href="/signout">
+	                <i class="icon-off"></i>
+	                Logout
+	              </a>
+	            </li>
+	          </ul>
+	        </li>
+
+	      </ul><!--/.ace-nav-->
+	    </div>
+	  </div><!--/.container-fluid-->
+	</div><!--/.navbar-inner-->
+
+
+	<!-- end top bar section -->
+		
+
+
+
+
+
+	<div class="container-fluid" id="main-container">
+
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+
+
+
+		<!-- start side bar section -->
+
+		<div id="sidebar">
+
+			<% include sidebar.ejs %>
+			
+		</div>
+
+		<!-- end sidebar section -->
+
+
+
+
+		<div id="main-content" class="clearfix">
+			
+			<div id="page-content" class="clearfix">
+			
+			
+			
+				<div class="page-header position-relative">
+					
+				</div><!--/.page-header-->
+
+				<div class="row-fluid" >
+				
+					<!--PAGE CONTENT BEGINS HERE-->
+
+					<div class="row-fluid" style="margin-bottom: 15px">
+
+
+
+						
+
+
+						<!-- start avg si/blurb section -->
+
+						<div class="boxwidth2">
+							<div class="vspace"></div>
+
+						
+							<div class="widget-box no-border" >
+								<div class="widget-header widget-header-flat widget-header-small">
+									<h5>
+										<i class="icon-bullhorn icon-2x green"></i>
+										Avg SI/blurbs
+									</h5>
+									
+
+									<div class="widget-toolbar no-border">
+										<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+											This Week
+											<i class="icon-angle-down icon-on-right"></i>
+										</button>
+
+										<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+											<li class="active">
+												<a href="#">This Week</a>
+											</li>
+
+											<li>
+												<a href="#">This month</a>
+											</li>
+
+											<li>
+												<a href="#">All Time</a>
+											</li>
+
+											<li>
+												<a href="#">Weekly Average</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										
+
+										
+
+										<div class="clearfix">
+											<div class="grid3">
+												
+											
+											</div>
+
+										<i class="icon-arrow-up green" ></i>
+
+												
+												<h1 class="center">1,050</h1>
+											
+										</div>
+									</div><!--/widget-main-->
+								</div><!--/widget-body-->
+							</div><!--/widget-box-->
+						
+						</div><!--end boxwidth 1-->
+
+						<!-- end avg si/blurb section -->
+
+
+
+						<!-- start avg spent/blurb section -->
+
+						<div class="boxwidth2" style="margin-right: 12px;">
+							<div class="vspace"></div>
+
+						
+							<div class="widget-box no-border" >
+								<div class="widget-header widget-header-flat widget-header-small">
+									<h5>
+										<i class="icon-money icon-2x green"></i>
+										Avg Spent/blurb
+									</h5>
+									
+
+									<div class="widget-toolbar no-border">
+										<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+											This Week
+											<i class="icon-angle-down icon-on-right"></i>
+										</button>
+
+										<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+											<li class="active">
+												<a href="#">This Week</a>
+											</li>
+
+											<li>
+												<a href="#">This month</a>
+											</li>
+
+											<li>
+												<a href="#">All Time</a>
+											</li>
+
+											<li>
+												<a href="#">Weekly Average</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										
+
+										
+
+										<div class="clearfix">
+											<div class="grid3">
+												
+											
+											</div>
+												
+											<h1 class="center">$1.75</h1>
+											
+										</div>
+									</div><!--/widget-main-->
+								</div><!--/widget-body-->
+							</div><!--/widget-box-->
+						
+						</div><!--end boxwidth 1-->
+
+						<!-- end avg si/blurb section -->
+
+
+
+						<!-- start avg acceptance section -->
+
+						<div class="boxwidth2" style="margin-right: 12px;">
+							<div class="vspace"></div>
+
+						
+							<div class="widget-box no-border" >
+								<div class="widget-header widget-header-flat widget-header-small">
+									<h5>
+										<i class="icon-heart icon-2x green"></i>
+										Avg Acceptance
+									</h5>
+									
+
+									<div class="widget-toolbar no-border">
+										<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+											This Week
+											<i class="icon-angle-down icon-on-right"></i>
+										</button>
+
+										<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+											<li class="active">
+												<a href="#">This Week</a>
+											</li>
+
+											<li>
+												<a href="#">This month</a>
+											</li>
+
+											<li>
+												<a href="#">All Time</a>
+											</li>
+
+											<li>
+												<a href="#">Weekly Average</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										
+
+										
+
+										<div class="clearfix">
+											<div class="grid3">
+												
+											
+											</div>
+
+												<h1 class="center">62%</h1>
+											
+										</div>
+									</div><!--/widget-main-->
+								</div><!--/widget-body-->
+							</div><!--/widget-box-->
+						
+						</div><!--end boxwidth 1-->
+
+						<!-- end avg acceptance section -->
+
+
+
+						<div class="boxwidth2" style="margin-right: 12px; width: 15%;float: left">
+							<div class="vspace"></div>
+
+						
+							<ul style="list-style-type: none; font-size: 20px; font-weight: bold">
+								<li style="margin-bottom: 10px">Buyers : <span class="green">1025</span></li>
+								<li>Writers : <span class="green">1025</span></li>
+							</ul>
+						
+						</div><!--end boxwidth 1-->
+
+
+
+
+
+
+
+
+					</div> <!-- end row-fluid -->
+
+
+
+
+
+					<!-- starts Your Top Blurbers section  -->					
+			
+					<div class="boxwidth2">
+
+					
+						<div class="widget-box transparent">
+
+							<div class="widget-header widget-header-flat">
+								<h4 class="lighter">
+									<i class="icon-star orange"></i>
+								
+									Your Top Blurbers
+								
+								</h4>
+								
+								
+									
+								<div class="widget-toolbar no-border">
+									<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+										This Week
+										<i class="icon-angle-down icon-on-right"></i>
+									</button>
+
+									<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+										<li class="active">
+											<a href="#">This Week</a>
+										</li>
+
+										<li>
+											<a href="#">This month</a>
+										</li>
+
+										<li>
+											<a href="#">All Time</a>
+										</li>
+
+										
+									</ul>
+								</div>
+
+								
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>
+													
+														<i class="icon-user icon-2x"></i>
+												</th>
+
+												<th>
+													
+													<i class="icon-bullhorn icon-2x"></i>
+												</th>
+
+												<th class="hidden-phone">
+												
+													<i class="icon-heart icon-2x"></i>
+												</th>
+												<th>
+												
+													<i class="icon-money icon-2x"></i>
+												</th>
+											</tr>
+										</thead>
+
+										<tbody>
+
+											<tr>
+												
+												<td><a href="#">TylerH</a></td>
+
+												<td>
+													
+													<b class="green">85222</b>
+												</td>
+
+												<td class="hidden-phone">
+													<b class="pink">62%</b>
+												</td>
+												<td class="hidden-phone">
+													<b class="light-green">$5700</b>
+												</td>
+											</tr>
+
+											<tr>
+												<td><a href="#">TylerH</a></td>
+
+												<td>
+													<small>
+														<s class="red"></s>
+													</small>
+													<b class="green">635353</b>
+												</td>
+
+												<td class="hidden-phone">
+													<b class="pink">73%</b>
+												</td>
+												<td class="hidden-phone">
+													<b class="light-green">$4622</b>
+												</td>
+											</tr>
+
+											<tr>
+												<td><a href="#">TylerH</a></td>
+
+												<td>
+													
+													<b class="green">25882</b>
+												</td>
+
+												<td class="hidden-phone">
+													<b class="pink">32%</b>
+												</td>
+												<td class="hidden-phone">
+													<b class="light-green">$3788</b>
+												</td>
+											</tr>
+
+											<tr>
+												<td><a href="#">TylerH</a></td>
+
+												<td>
+													
+													<b class="green">99833</b>
+												</td>
+
+												<td class="hidden-phone">
+													<b class="pink">41%</b>
+												</td>
+												<td class="hidden-phone">
+													<b class="light-green">$2788</b>
+												</td>
+											</tr>
+
+											<tr>
+												<td><a href="#">TylerH</a></td>
+
+												<td>
+													<small>
+														<s class="red"></s>
+													</small>
+													<b class="green">9224</b>
+												</td>
+
+												<td class="hidden-phone">
+													<b class="pink">12%</b>
+												</td>
+												<td class="hidden-phone">
+													<b class="light-green">$1998</b>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div><!--/widget-main-->
+							</div><!--/widget-body-->
+						</div><!--/widget-box-->
+					</div>  <!-- end boxwidth -->
+
+					<!-- end Your Top Blurbers section -->
+
+												
+
+			
+			
+			
+					<!-- TOP BLURBS STARTS /-->											
+							
+					<div class="boxwidth1" style="width: 69%">
+			
+						<div class="widget-box ">
+							<div class="widget-header">
+								<h4 class="lighter smaller">
+									<i class="icon-comment blue"></i>
+									Top Blurbs
+								</h4>
+								<div class="widget-toolbar no-border">
+									<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+										This Week
+										<i class="icon-angle-down icon-on-right"></i>
+									</button>
+
+									<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+										<li class="active">
+											<a href="#">This Week</a>
+										</li>
+
+										<li>
+											<a href="#">This month</a>
+										</li>
+
+										<li>
+											<a href="#">All Time</a>
+										</li>
+
+										
+									</ul>
+								</div>
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
+										<div class="dialogs" style="overflow: hidden; width: auto; height: 300px;">
+											<div class="itemdiv dialogdiv">
+												<div class="user">
+													<img alt="Tyler's Avatar" src="../assets/avatars/avatartyler.png">
+												</div>
+
+												<div class="body">														
+                                                    <div class="time">
+													Social Influence:
+														<i class="icon-arrow-up green"></i>
+														<span class="green">1208</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Tyler</a>
+													</div>
+                                                    
+                                                    
+													<div class="text">
+                                                        <div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+                                                        </div>                                                      
+                            						</div>
+												</div>
+											</div>
+											<div class="itemdiv dialogdiv">
+												<div class="user">
+													<img alt="John's Avatar" src="../assets/avatars/avatarmash.png">
+												</div>
+
+												<div class="body">														
+                                                    <div class="time">
+													Social Influence:
+														<i class="icon-arrow-up green"></i>
+														<span class="green">1208</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Mash</a>
+													</div>
+                                                    
+                                                    
+													<div class="text">
+                                                        <div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+                                                        </div>                                                      
+                            						</div>
+												</div>
+											</div>
+											<div class="itemdiv dialogdiv">
+												<div class="user">
+													<img alt="Bob's Avatar" src="../assets/avatars/user.jpg">
+												</div>
+
+												<div class="body">														
+                                                    <div class="time">
+													Social Influence:
+														<i class="icon-arrow-up green"></i>
+														<span class="green">1208</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Bob</a>
+													</div>
+                                                    
+                                                    
+													<div class="text">
+                                                        <div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+                                                        </div>                                                      
+                            						</div>
+												</div>
+											</div>
+											<div class="itemdiv dialogdiv">
+												<div class="user">
+													<img alt="Jim's Avatar" src="../assets/avatars/avatar4.png">
+												</div>
+
+												<div class="body">														
+                                                    <div class="time">
+													Social Influence:
+														<i class="icon-arrow-up green"></i>
+														<span class="green">1208</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Jim</a>
+													</div>
+                                                    
+                                                    
+													<div class="text">
+                                                        <div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+                                                        </div>                                                      
+                            						</div>
+												</div>
+											</div>
+
+										
+
+											<div class="itemdiv dialogdiv">
+												<div class="user">
+													<img alt="Jim's Avatar" src="../assets/avatars/avatar4.png">
+												</div>
+
+												<div class="body">
+													<div class="time">
+														Social Influence:
+														<i class="icon-arrow-up green"></i>
+														<span class="grey">632</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Jim</a>
+													</div>
+													<div class="text">
+														<div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+														</div>
+														<div class="another-icon">
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/edit.png"></a>
+															</div>
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/delete.png"></a>
+															</div>
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/checkmark.png"></a>
+															</div>
+														</div>
+													</div>
+
+													<div class="tools">
+														<a href="#" class="btn btn-minier btn-info">
+															<i class="icon-only icon-share-alt"></i>
+														</a>
+													</div>
+
+													<div class="social-icon">
+														<div id="facebook"><a href="#"><img src="../assets/images/facebook.png"></a></div>
+														<div id="twitter"><a href="#"><img src="../assets/images/twitter.png"></a></div>
+														<div id="attachment"><a href="#"><img src="../assets/images/attachment.png"></a></div>
+													</div>
+												</div>
+											</div>
+
+											<div class="itemdiv dialogdiv">
+
+												<div class="user">
+													<img alt="Alexa's Avatar" src="../assets/avatars/avatar1.png">
+												</div>
+
+												<div class="body">
+													<div class="time">
+														<i class="icon-time"></i>
+														<span class="green">4 min</span>
+													</div>
+
+													<div class="name">
+														<a href="#">Alexa</a>
+													</div>
+													<div class="text">
+														<div class="text-solid">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+														</div>
+														<div class="another-icon">
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/edit.png"></a>
+															</div>
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/delete.png"></a>
+															</div>
+															<div class="other-icon">
+																<a href="#"><img src="../assets/images/checkmark.png"></a>
+															</div>
+														</div>
+													</div>
+
+													<div class="tools">
+														<a href="#" class="btn btn-minier btn-info">
+															<i class="icon-only icon-share-alt"></i>
+														</a>
+													</div>
+													<div class="social-icon">
+														<div id="facebook"><a href="#"><img src="../assets/images/facebook.png"></a></div>
+														<div id="twitter"><a href="#"><img src="../assets/images/twitter.png"></a></div>
+														<div id="attachment"><a href="#"><img src="../assets/images/attachment.png"></a></div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										
+									</div>
+
+									<div class="slimScrollBar ui-draggable" style="background-color: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 108.50113636363636px; background-position: initial initial; background-repeat: initial initial;">
+										
+									</div>
+
+									<div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;">
+										
+									</div>
+								</div>
+
+									
+								</div><!--/widget-main-->
+							</div><!--/widget-body-->
+						</div><!--/widget-box-->
+					
+					</div>   <!-- end boxwidth 1 -->
+
+					<!-- TOP BLURBS END /-->
+
+				</div>	 <!-- end row-fluid -->
+
+			</div> <!-- end page content -->
+
+		</div><!--/#main-content-->
+	</div><!--/.fluid-container#main-container-->
+
+
+
+	<!-- start feedback section -->
+
+	<div class="feedback">
+
+
+		<div style="background: #FFFFFF; width: 100%; height: 25px; position:fixed; bottom:0%; left:1%; ">
+
+	
+			<ul style="list-style:none;">
+				<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a href="/users/FAQuser" style="cursor: pointer; color: #5C983B;">FAQ</a></li>
+				<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/policy" target="_blank">Privacy</a></li>
+				<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/terms" target="_blank">TOS</a></li>
+				<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="http://blog.blurbi.ca/" target="_blank">Blog</a></li>
+				<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/users/Feedback">Feedback</a></li>
+			</ul>
+			
+			
+		</div>
+		
+
+
+	</div>
+
+	<!-- end feedback section -->
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../js/topbar.js"></script>
+		
+		
+		
+		
+	</body>
+</html>

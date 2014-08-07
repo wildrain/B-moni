@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="img/favicon.png">
+  <title>Blurbi: Social Media Content</title>
+  <!-- Bootstrap core CSS -->
+  <link href="../assets/css/bootstrap3.css" rel="stylesheet">
+  <link href="../assets/css/PublicPagsStyle.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400' rel='stylesheet' type='text/css'>
+</head>
+<body style="padding-top:75px;">
+<!-- NAVBAR
+  ================================================== -->
+  <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+    <div class="container-fluid col-lg-offset-2 col-md-offset-1 col-sm-offset-0">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header co-xs-2">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><span class="logo-txt">Blurbi</span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav" id="nav-scroll">
+          <li><a data-scroll data-options="easing: easeInQuad" class="section-0" href="#section-0">For brands/agencies</a></li>
+          <li><a  href="/writers">For content curators/writers</a></li>
+          <li><a data-scroll data-options="easing: easeInCubic" class="section-2" href="#section-2">What is Blurbi?</a></li>
+        </ul>
+        <!-- <div class="btn-group" style="padding-top:12px; padding-left:10px;">
+          <a href="signup.html" class="btn btn-primary btn-xs"style="border-radius:2px;"><b>Sign up</b></a>
+        </div>
+        <div class="btn-group" style="padding-top:12px; padding-left:10px;">
+          <a href="login.html" class="btn btn-primary btn-xs" style="border-radius:2px;"><b>Log in</b></a>
+        </div> -->
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+  <!-- START THE FEATURETTES -->
+  <div class="col-lg-12 col-sm-12 col-md-12 sign-up-main" id="userSignup">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+        <h2 class="sign-up-main-solo">Sign up for the beta</h2>
+      </div>
+      <form id="signup" method="post" action="/users/signup">
+
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group sec-label">
+          <label class="control-label small label-sign">Name</label>
+          <input class="form-control input-xs" type="text" name="name" id="name" placeholder="Benjamin Button" required/>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group mar-t-0">
+          <label class="control-label small label-sign">Email address</label>
+          <input type="email" id="signup-email" name="email" placeholder="benjamin@buttoncorp.com" class="form-control input-xs in-email" required>
+          <div id="available" style="display: none;">
+            <label class="small invalid" >Email address is in use.</label>
+          </div>
+        </div>
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group sec-label">
+          <label class="control-label small login-pass-label">Password</label>
+          <input class="form-control input-xs" name="password" id="password" type="password" placeholder="••••••••••" required/>
+        </div>
+
+        
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 sec-rad">
+          <div class="radio">
+            <label>
+              <input type="radio" name="radio" value="brand" id="optionsRadios1"  checked>
+              <small class="sec-rad-txt">Buy Social Media Content</small>
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="radio" value="writer" id="optionsRadios2" >
+              <small class="sec-rad-txt">Write/Curate Content</small>
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="radio" value="agency" id="optionsRadios3" >
+              <small class="sec-rad-txt">Buy Social Media Content for multiple clients (agency)</small>
+            </label>
+          </div>
+          <div id="selectRadio" style="display: none;">
+            <label class="small invalid" >Select an option.</label>
+          </div>
+        </div>
+        
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group">
+          <input class="btn col-lg-12 col-md-12 col-sm-12 b-beta sign-up" style="" id="sumit_button" type="submit" value="Sign up" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- start signup as writer section -->
+
+  <div class="col-lg-12 col-sm-12 col-md-12 sign-up-main" id="writersignup" style="display:none;">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+        <h2 class="sign-up-main-solo">Sign up for the beta</h2>
+      </div>
+      <form id="signup" method="post" action="/users/signup">
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group mar-t-0">
+          <label class="control-label small label-sign">Email address</label>
+          <input type="email" id="signup-email" name="email" placeholder="benjamin@buttoncorp.com" class="form-control input-xs in-email" required>
+          <div id="available" style="display: none;">
+            <label class="small invalid" >Email address is in use.</label>
+          </div>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group sec-label">
+          <label class="control-label small label-sign">Name</label>
+          <input class="form-control input-xs" type="text" name="name" id="name" placeholder="Benjamin Button" required/>
+        </div>
+       
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 sec-rad">
+          <div class="radio">
+            <label>
+              <input type="radio" name="radio" value="writer" id="optionsRadios2" checked="true" >
+              <small class="sec-rad-txt">Write/Curate Content</small>
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 form-group">
+          <input class="btn col-lg-12 col-md-12 col-sm-12 b-beta sign-up" style="" id="sumit_button" type="submit" value="Sign up" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- end signup as writer section -->
+  <!-- start section-0 section -->
+  <div class="col-xs-12 full-wi" id="section-0" style="display: none;">
+    <div class="col-lg-12 col-md-12 col-sm-12 how-does">
+      <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+        <h5 class="brnd-agn">Brands / Agencies</h5>
+        <h1 class="brnd-agn-solo">How does it benefit my business?</h1>
+      </div>
+      <div class="col-lg-10 col-lg-offset-1 full-wi-body">
+        <div class="col-lg-6 col-md-6 col-sm-6 pad-lft-40">
+          <h3 class="title-full-wi">Save time</h3>
+          <p class="full-wi-txt">The most time consuming task of social media marketing is creating content. Let professional writers do it for you.</p>
+        </div>
+        <div class="col-lg-6  col-md-6 col-sm-6 pad-left-30">
+          <h3 class="title-full-wi">Save money</h3>
+          <p class="full-wi-txt">Forget hiring or outsourcing your content. By crowdsourcing content on a pay per use basis you can scale your content at any rate, and at any cost you feel necessary.</p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 pad-lft-40 mar-top-20">
+          <h3 class="title-full-wi">More content + better content</h3>
+          <p class="full-wi-txt">Because you have as many writers writing for you as you want, you’ll be privy to a wider range of content. Since these writers are all vetted professionals, you can be sure that your content will be extra engaging.</p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 mar-top-20 pad-left-30">
+          <h3 class="title-full-wi">Manage several accounts</h3>
+          <p class="full-wi-txt">With an Agency account you have the ability to set up and manage content for as many brands as you represent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end section-0 section -->
+  <!-- Start section-1 section -->
+  <div class="col-xs-10 col-lg-offset-1 col-sm-offset-1 col-md-offset-1 sec-work" id="section-2" style="display: none;">
+    <div class="col-sx-12 text-center">
+      <h5 class="at-glance">At a glance</h5>
+      <h1 class="how-exact">How exactly does Blurbi work?</h1>
+    </div>
+    <div class="col-xs-6 left-a">
+      <div class="col-xs-12 list-sec-img">
+        <i class="col-xs-2">
+          <img class="img-responsive" src="../assets/images/overview-1.svg">
+        </i>
+        <p class="exact-txt col-xs-10 list-sec-txt">Brands and writers are matched up according to communities.</p>
+      </div>
+      <div class="col-xs-12 list-sec-img">
+        <i class="col-lg-2 col-md-2 col-sm-2">
+          <img class="img-responsive" src="../assets/images/overview-2.svg">
+        </i>
+        <p class="exact-txt col-lg-10 list-sec-txt">Writers curate/write engaging content and interact with followers.</p>
+      </div>
+      <div class="col-xs-12 list-sec-img">
+        <i class="col-xs-2">
+          <img class="img-responsive" src="../assets/images/overview-3.svg">
+        </i>
+        <p class="exact-txt col-xs-10 list-sec-txt:">Brands accept/edit content to be posted to their social media channels.</p>
+      </div>
+      <div class="col-xs-12 list-sec-img">
+        <i class="col-xs-2">
+          <img class="img-responsive" src="../assets/images/overview-4.svg">
+        </i>
+        <p class="exact-txt col-xs-10 list-sec-txt">Brands pay the writers a small fee.</p>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <iframe class="col-xs-12" src="http://player.vimeo.com/video/66216798?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    </div>
+  </div> 
+  <!-- end section-1 section-->
+  <!-- FOOTER -->
+  <!-- FOOTER -->
+  <footer>
+    <div class="col-xs-12 footer-main">
+      <div class="col-xs-12">
+        <ul class="nav nav-pills col-xs-3">
+          <li class="pull-right"><a href="index.html">&copy; 2013 Blurbi Inc.</a></li>
+        </ul>
+        <ul class="nav nav-pills pull-right col-xs-6">
+          <li><a data-toggle="modal" data-target="#marketing-modal">Get Custom Marketing</a></li>
+          <li><a href="http://blog.blurbi.ca/">Blog</a></li>
+          <li><a href="https://twitter.com/blurbi_content">Twitter</a></li>
+          <li><a href="https://www.facebook.com/pages/Blurbi/536017369753104">Facebook</a></li>
+          <li><a href="mailto:helloblurbi@blurbi.ca">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="marketing-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" style="position:absolute; right:2%; top:4%;" class="btn btn-danger btn-xs" data-dismiss="modal" aria-hidden="true">X</button>
+            <h5 class="modal-title" id="myModalLabel">Get Custom Marketing</h5>
+          </div>
+          <div class="modal-body">
+            <div class="col-xs-10 co-lg-offset-1 col-md-offset-1">
+              Do you want more than just content for your marketing? We offer an array of services from social media growth to SEO.  
+              Let us know what you need!
+              <div class="col-xs-6" style="padding-top:20px;">
+                <div class="form-group">
+                  <label class="control-label small login-pass-label">Name*</label>
+                  <input type="text" class="form-control input-xs" placeholder="Enter you name here." required>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group" style="padding-top:20px;">
+                  <label class="control-label small login-pass-label">Phone number</label>
+                  <input type="number" class="form-control input-xs" placeholder="XXX-XXX-XXXXX" required>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label class="control-label small login-pass-label">Requirement</label>
+                  <textarea type="text" class="form-control input-xs" rows="3" placeholder="Please tell us your need and we will get back to you in two business days." required></textarea>
+                </div>
+                <div class="btn-group">
+                  <button type="submit" class="btn btn-primary btn-sm ebook-btn" style="border-radius:0px;">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--modal-->
+  </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap3.min.js"></script>
+    <script src="js/signup.js"></script>
+    <script src="../assets/js/smooth-scroll.js"></script>
+    <script>
+      /*smooth scroll plugin initialize*/
+      smoothScroll.init({
+        speed: 500,
+        easing: 'easeInOutCubic',
+        updateURL: false,
+        callbackBefore: function ( toggle, anchor ) {},
+        callbackAfter: function ( toggle, anchor ) {}
+      });
+      /* end smooth scroll plugin initialize*/
+      $('.section-0').click(function(){
+        $('#userSignup').hide();
+        $('#section-0').show();
+      })
+      $('.section-2').click(function(){
+        $('#section-2').show();
+        $('# userSignup').hide();
+      })
+    </script>
+</body>
+</html>

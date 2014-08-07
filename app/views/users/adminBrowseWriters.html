@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blurbi - Admin Page</title>
+  <link rel="shortcut icon" href="../img/favicon.png">
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+  <link rel="stylesheet" href="../assets/css/font.css" />
+  <!--ace styles-->
+  <link rel="stylesheet" href="../assets/css/ace.min.css" />
+
+  <style type="text/css">
+
+  	hr{
+  		margin-top: 8px;
+  		margin-bottom: 8px;
+  	}
+
+  </style>
+</head>
+<body>
+
+
+
+<!-- start top bar section -->
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+        
+      <ul class="nav ace-nav pull-right">
+        <li class="light-blue user-profile">
+          <a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+            
+            <img src="../assets/avatars/derekblurb.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+            
+            <span id="user_info">
+              <small>Welcome,</small>Blurbi
+            </span>
+
+            <i class="icon-caret-down"></i>
+          </a>
+
+          <ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+            
+
+            <li>
+              <a href="/signout">
+                <i class="icon-off"></i>
+                Logout
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
+
+      </ul><!--/.ace-nav-->
+    </div>
+  </div><!--/.container-fluid-->
+</div><!--/.navbar-inner-->
+
+
+<!-- end top bar section -->
+
+
+
+
+<div class="container-fluid" id="main-container">
+
+    <a id="menu-toggler" href="#">
+    	<span></span>
+    </a>
+
+
+
+    <!-- start side bar section -->
+
+    <div id="sidebar">       
+
+        <% include sidebar.ejs %>
+
+    </div>
+
+    <!-- end sidebar section -->
+
+
+    <!-- start written blurbs show  modal -->
+
+    <div id="confirm_modal" class="modal hide" style="width: 650px; height: auto;  left:55%; top: 10%" >  
+		<div class="modal-header" style="background-color:  #D6E9C0; padding: 26px 15px;">  
+			<h2  style="font-size: 15px" >
+				<button style="color: #CC0000; margin-top: -26px" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</h2>  
+		</div>      
+		<div class="modal-body" style="color: green">  
+			<ul class="show_blurbs">
+			</ul> 
+
+			
+
+
+		</div>  
+	</div>
+
+	<!-- end written blubs show modal -->
+
+	<!-- start no blurb  modal -->
+
+    <div id="noBlurb_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+		<div class="modal-header" style="background-color:  #D6E9C0;">  
+			<h2  style="font-size: 15px" >
+				<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</h2>  
+		</div>      
+		<div class="modal-body" style="color: green">  
+			<h6>This writer does not write any blurb for this buyer</h6>   
+		</div>  
+	</div>
+
+	<!-- end no blurb modal -->
+
+
+
+
+    <div id="main-content" class="clearfix">
+        
+	    <div id="page-content" class="clearfix" style="margin-top: 17px;">
+	        
+	        
+	        
+	        <div class="widget-header" style="margin-bottom:-20px;">
+				<h4>All Posted Blurbs</h4>
+				<select id="event"  name="events" style="width:185px; margin:10px -13px 10px 0">
+					<option value="allWriters"> Show All </option>
+					<% for(var i=0; i<allBrands.length; i++) { %>
+					<option value="<%= allBrands[i].brandId %>"> <%= allBrands[i].companyName %> </option>
+					<% } %>
+					
+				</select>
+				<span class="widget-toolbar no-border"></span>
+			</div><hr>
+
+	        <div class="row-fluid table" id="table2" style="margin-top: -17px">
+	            <table class="table table-hover">
+	              	<thead>
+		                <tr>
+		                  <th class="span4 sortable">
+		                    <span class="line"></span> Writer
+		                  </th>
+		                  <th class="span4 sortable">
+		                    <span class="line"></span> Emails
+		                  </th>
+		                  <th class="span4 sortable">
+		                    <span class="line"></span> Interests
+		                  </th>
+		                  <th class="span3 sortable">
+		                    <span class="line"></span>Age 
+		                  </th>
+		                  <th class="span4 sortable">
+		                    <span class="line"></span>Twitter Name
+		                  </th>
+		                  <th class="span4 sortable">
+		                    <span class="line"></span>Linkedin Profile
+		                  </th>
+		                  <th style="display: none" >clients</th>
+		                  <th class="span3">show blrubs</th>
+		                  
+		               </tr>
+	               
+	              	</thead>
+
+		            <tbody>
+
+		          
+		            <% for (var i=0;i< allWriters.length;i++) { %>
+		                
+		                <tr class="tr<%= i %>">
+		                
+
+			                <td>
+			                <% if(locals.allWriters[i].logoPath) {%>
+				                <div style="width: 36px; height: 36px;">
+				                	<img alt="Tyler's Avatar" src="../<%=allWriters[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit; height: inherit;" />
+				                </div>
+			                <% } else { %>
+				                <div style="width: 36px; height: 36px;">
+				                	<img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+				                </div>
+			                <%}%>
+				                <a style="color: #3b9852; " href="#"  class="name"><%= allWriters[i].profileInfo.name%></a>
+				            </td>
+			                <td>
+			                	<%= allWriters[i].email%></a>
+			                </td>
+			                <td>
+			                	<%= allWriters[i].profileInfo.interest.replace(/,(?=[^,]*$)/, '') %>
+			                </td>
+			                <td>
+			                    <%= allWriters[i].profileInfo.Age%>
+			                </td>
+			                <td>
+			                    <%= allWriters[i].profileInfo.twitter_name%>
+			                </td>
+			                <td>
+			                    <%= allWriters[i].profileInfo.linkedin_name%>
+			                </td>
+			                <td class="td<%= i %>" style="display: none" >
+			                	<% for(var j=0; j<allWriters[i].clientsId.length; j++){ %>
+			                		<%= allWriters[i].clientsId[j] %>,
+			                	<% } %>
+			                </td>
+			                
+		                	<td >
+		                		<button class=" show-blurbs btn btn-success btn-small" onclick="showBlubrs(<%= i  %>)" >Show Blurbs</button>              		
+
+		                	</td>
+			               
+		                  
+		               </tr>
+
+		               
+		               <%}%>
+		               
+		            </tbody>
+	            </table>
+	        </div>  <!-- end row-fluid -->
+
+
+
+	    </div> <!-- end page content -->
+
+    </div><!--/#main-content-->
+
+
+</div><!--/.fluid-container#main-container-->
+
+
+
+
+<!--basic scripts--> 
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+
+
+<script>
+
+
+var allBrands = <% if(locals.allBrands){ %>
+				<%- JSON.stringify(allBrands) %>
+				<% } %>;
+
+
+var allWriters = <% if(locals.allWriters){ %>
+				<%- JSON.stringify(allWriters) %>
+				<% } %>;
+
+var value = $('#event').val();	
+
+if(value == 'allWriters'){
+	$('.show-blurbs').hide();
+}
+
+$('#event').change(function(){
+
+	var value = $('#event').val();			
+	var a;
+	var b;
+	
+	if(value == 'allWriters'){
+		$('.show-blurbs').hide();
+		for(var i=0; i<allWriters.length; i++){
+			$('.tr'+i).show('slow');
+
+		}
+
+	}else{
+		$('.show-blurbs').show();
+		for(var i=0; i<allWriters.length; i++){
+
+			var ar = new Array();
+			a =$('.td'+i).html();
+			b = a.split(",");
+			
+			for(var j=0; j<b.length; j++){
+				ar.push(b[j].trim());
+			}
+			
+			for(var k=0; k<ar.length; k++){
+				if(value == ar[k]){
+					a = ar[k];
+					break;
+				}else{
+					a='notfound';
+				}
+			}
+
+			
+
+			if(value == a ){
+				$('.tr'+i).show('slow');
+
+
+			}else{
+				$('.tr'+i).hide('slow');
+
+			}
+
+
+
+		}
+
+
+
+
+	}
+
+	
+});	
+
+
+function showBlubrs(i){
+	
+	var value = $('#event').val();	
+	var brandName =  $("#event option:selected").html();
+	console.log(brandName);
+	var writtenBlurbs = new Array();
+	
+	writtenBlurbs.push('<h2 style="text-align: center">'+'<span style="color: red" >'+allWriters[i].profileInfo.name+'</span>'+'&nbsp; posted Blurbs to<span style="color: red;">'+ brandName + '</span></h2>');
+
+	for(var a=0; a<allWriters[i].historyWriteBlurb.length; a++){
+
+		
+		for(var b=0; b<allWriters[i].historyWriteBlurb[a].brandList.length; b++){
+
+			if(value == allWriters[i].historyWriteBlurb[a].brandList[b].brandId){
+				
+				writtenBlurbs.push('<li>'+allWriters[i].historyWriteBlurb[a].description+'</li><hr>');
+				
+				$('.show_blurbs').html(writtenBlurbs);
+				$('#confirm_modal').modal();
+			}
+
+		}
+
+
+	}
+
+
+
+
+}
+
+$('#bclose').click(function(){
+	/*$('.show_blurbs').remove();*/
+	/*window.location = '/users/browseWriters'*/
+})			
+	
+
+
+</script>
+
+
+         
+</body>
+</html>

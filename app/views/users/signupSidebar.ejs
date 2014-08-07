@@ -1,0 +1,50 @@
+
+				<% if(userType=='brand' || userType=='agency' ){%>
+				<ul class="nav nav-list">
+					<li  id="one" >
+						<a href="#amodal" data-toggle="modal" >
+							<i class="icon-reorder"></i>
+							<span >Content</span>
+						</a>
+					</li>
+					<li id="three">
+						<a href="#amodal" data-toggle="modal">
+							<i class="icon-sitemap"></i>
+							<span>Calls to Action</span>
+						</a>
+					</li>
+					<li id="four">
+						<a href="#amodal" data-toggle="modal" >
+							<i class="icon-bar-chart"></i>
+							<span>Analytics</span>
+						</a>
+					</li>
+					<%} else if(userType=='writer'){ %>
+						<ul class="nav nav-list">
+							<li>
+								<a href="#">
+									<i class="icon-reorder"></i>
+									<span>Write Blurbs</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="icon-group"></i>
+									<span>Browse Clients</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="icon-sitemap"></i>
+									<span>Calls to Action</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="icon-bar-chart"></i>
+									<span>Analytics</span>
+								</a>
+							</li>
+						</ul>
+					<%} %>
+				</ul>

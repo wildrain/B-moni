@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Home</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../css/font/font.css" />
+		<link rel="stylesheet" href="../assets/css/preview.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+		<script type="text/javascript">
+		if (window.opener) {
+		    window.close();
+		    window.opener.location.reload();
+		}
+		else{
+			//alert("djfkdjf")
+			document.onselectstart = function(){
+				return false;
+			}
+		}
+	    </script>
+	</head>
+	<body oncopy="return false">
+	<!-- this is for test -->
+	<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                 <a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a>
+                 	<% include topbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+		<div class="container-fluid" id="main-container">
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+			<div id="sidebar">
+			<% include sidebar.ejs %>
+			</div>
+			<div>
+			</div>
+			<div id="main-content" class="clearfix">
+			<div id="modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+			    <div class="modal-header" style="background-color:  #D6E9C0;">  
+			        <h2 >
+			        <text id="header">&nbsp</text>
+			        <button style="color: #CC0000" type="button" id="bclose_" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        </h2>  
+			    </div>      
+			    <div class="modal-body" style="color: green">  
+			        <p id="description">
+			        </p>  
+			    </div>
+			</div>
+			<div id="confirm_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+			    <div class="modal-header" style="background-color:  #D6E9C0;">  
+			        <h2 >
+			        <text id="header">Post</text>
+			        </h2>  
+			    </div>      
+			    <div class="modal-body" style="color: green">  
+			        <p id="description">
+			        	Are you sure you want to post this Blurb. <!-- sss $<text id="blurb_price"> </text>-->
+			        </p> 
+			        <br>
+			         <button  data-dismiss="modal" id="yes" class="btn btn-success btn-small">Yes</button>
+			         <button   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+			    </div>  
+			</div>
+			<div id="account_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+			    <div class="modal-header" style="background-color:  #D6E9C0;">  
+			        <h2 >
+			       	Alert
+			        <button style="color: #CC0000" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        </h2>  
+			    </div>      
+			    <div class="modal-body" style="color: green">  
+			        <p >
+			        Your Account Balance is not sufficient for this post.
+			        </p>  
+			    </div>  
+			</div>
+			<div id="link_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+			    <div class="modal-header" style="background-color:  #D6E9C0;">  
+			        <h2 >
+			       	Alert
+			        <button style="color: #CC0000" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        </h2>  
+			    </div>      
+			    <div class="modal-body" style="color: green">  
+			        <p >
+			       You need to link an acount first.
+			        </p>  
+			    </div>  
+			</div>
+				<div id="page-content" class="clearfix">
+					<div class="page-header position-relative">
+					</div><!--/.page-header-->
+					<div class="row-fluid" id="row-fluid">
+						<!--PAGE CONTENT BEGINS HERE-->
+														<! -- Recent Blurbs Starts !-->	
+						<div class="boxwidth3" style="width: 75%; position:relative;">
+							<div class="widget-box">
+								<div class="widget-header">
+									<h4>Recent</h4>
+									<span class="widget-toolbar no-border"></span>
+								</div>
+								<div class="widget-body">
+							  		<div class="row-fluid span12">
+										<table id="table_bug_report no-border" class="table table-hover">
+											<thead >
+												<tr>													
+													<th></th>
+													<th><i class="icon-user icon-2x" style="color: #3b9852;"></i></th>
+													<th class="hidden-480"><i style="color: #3b9852;" class="icon-bullhorn icon-2x"></i></th>			
+													<th class="hidden-480"><i style="color: #3b9852;" class="icon-money icon-2x"></i></th>
+												</tr>
+											</thead>
+											<tbody>
+											<%
+											for(var i=historyWriteBlurb.length-1; i>=0; i--){
+												var des = historyWriteBlurb[i].description;
+												if(historyWriteBlurb[i].status=='Accepted'){
+													var influence = 0;
+												%>
+												<tr>
+													<td>
+															<a style="color: #3b9852 " href="#" onclick="popup_blurb(<%=i%>)"><%= des.substring(0,40) %>...</a>
+														</td>
+														<td><%= historyWriteBlurb[i].writer.name %></td>
+														<td class="hidden-480"><%=influence%><b class="green"></b></td>
+														<td class="hidden-phone">$<%= historyWriteBlurb[i].price %>
+													</td>
+												</tr>
+											<% }}%>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+							<!-- END of New Writers in your community !-->
+							<!-- BROWSE CONTENT !-->
+					</div><!--/span-->
+				</div><!--/row-->
+				<div id = "dialg" style="display: none">
+					Coming Soon
+				</div>
+						<% include feedback.ejs%>
+            </div><!--PAGE CONTENT ENDS HERE-->
+		</div><!--/row-->
+	</div><!--/#page-content-->
+		<!--basic scripts-->
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../js/topbar.js"></script>
+		<script src="../js/postFacebook.js"></script>
+    	<script src="../js/jquery.embedly.js" type="text/javascript"></script>
+    	<script src="../js/jquery.preview.js" type="text/javascript"></script>
+<script>
+var fg=0;
+	var fb_color = new Array();
+	var twt_color = new Array();
+	var buf_color = new Array();
+	var linkedin_color = new Array();
+var historyWriteBlurb= <% if(locals.historyWriteBlurb){%>
+			<%- JSON.stringify(historyWriteBlurb) %>
+		  	<%}%>;
+var accountBalance= <% if(locals.accountBalance)%>
+				<%= accountBalance %>;
+var facebook= <% if(locals.facebook){%>
+			<%- JSON.stringify(facebook) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+var twitter= <% if(locals.twitter){%>
+			<%- JSON.stringify(twitter) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+var bufferapp= <% if(locals.bufferapp){%>
+			<%- JSON.stringify(bufferapp) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+var linkedin= <% if(locals.linkedin){%>
+			<%- JSON.stringify(linkedin) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+var uncheck = <% if(locals.uncheck)%>
+			  <%=uncheck%>
+$(document).ready(function(){
+	$('#bclose_').click(function(){
+		//alert("djfkdf");
+		location.reload();
+	})
+	if(uncheck)
+	{
+		$('#uncheck_icon').show();
+		setTimeout(function(){$('#uncheck_icon').fadeOut()},6000);
+	}
+	$('#bclose').click(function(){
+		location.reload();
+	})
+	$('#content_list').click(function(){
+		if(fg==0){
+			$('#write_content').show();
+			fg=1;
+		}
+		else{
+			$('#write_content').hide();
+			fg=0;
+		}
+	})
+	 $('#write_blurb').preview({key: '16f7a571ba3546f5ba52d638c76b9158'}) // Sign up for a key: http://embed.ly/pricing
+})
+function select_fb_w(element){
+	//var id = $(element);
+	var id = $('#fb_w');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/fb2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/fb2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_twt_w(element){
+	 var id = $('#twt_w');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/tw2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/tw2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_buf_w(element){
+	 var id = $('#buf_w');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/buffer_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/buffer.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_linkedin_w(element){
+	 var id = $('#linkedin_w');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/linkedin_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/linkedin.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_fb(element){
+	//var id = $(element);
+	var id = $('#fb' + element.id);
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/fb2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/fb2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_twt(element){
+	 var id = $('#twt' + element.id);
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/tw2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/tw2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_buf(element){
+	 var id = $('#buf' + element.id);
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/buffer_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/buffer.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_linkedin(element){
+	 var id = $('#linkedin' + element.id);
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/linkedin_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/linkedin.png";
+		  	 	id.val('true') ;
+		  }
+}
+function edit(element)
+{
+  console.log(element.id);
+  var index=element.id;
+ var van=$('#editvanish'+element.id);
+ var edit_van= $('#editPanel'+element.id);
+ var message = $('#message'+element.id);
+ var edit_id = $('#edit_id'+element.id);
+ var counter = $('#counter'+element.id);
+  van.hide();
+  edit_van.show();
+ // $('#row-fluid').hide();
+  var data=historyWriteBlurb[index].description;
+  console.log(data);
+  message.val(data);
+  edit_id.val(element.id);
+  counter.val(140-data.length);
+}
+function del(element){
+  var index=element.id;
+  var form = document.createElement("form");
+  form.setAttribute("method", 'POST');
+  form.setAttribute("action", './brandContent');
+  var hiddenField = document.createElement("input");
+  hiddenField.setAttribute("type", "hidden");
+  hiddenField.setAttribute("name",'id');
+  hiddenField.setAttribute("value", index);
+  form.appendChild(hiddenField);
+  document.body.appendChild(form);
+  form.submit();
+}
+function textCounter(field,field2,maxlimit)
+{
+  var countfield = document.getElementById(field2);
+  countfield.value = maxlimit - field.value.length;
+ if ( field.value.length > maxlimit ) {
+ 	document.getElementById(field2).style.color = 'RED';
+  //field.value = field.value.substring( 0, maxlimit );
+  //return false;
+ } else {
+ 	document.getElementById(field2).style.color = 'BLACK';
+ }
+}
+function popup_blurb(i){
+		var blurb = historyWriteBlurb[i].description;
+	//alert(blurb);
+	document.getElementById('description').innerHTML = blurb ;
+	//document.getElementById('header').innerHTML = "Blurb Description" ;
+	 $('#modal').modal();
+}
+</script>
+	</body>
+	<!--<a href="/users/here"> here </a>-->
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Analytics</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+
+
+		<style>
+
+			.btn-success{
+				line-height: 22px;
+			}
+
+		</style>
+
+
+
+	</head>
+
+	<body>
+
+		<!-- start top bar section -->
+
+		
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+	                <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+						
+					<ul class="nav ace-nav pull-right">
+						<li class="light-blue user-profile">
+							<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+								
+								<img src="../assets/avatars/default.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+								
+								<span id="user_info">
+									<small>Welcome,</small>Blurbi
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+								<!-- <li>
+									<a href="/users/settings">
+										<i class="icon-cog"></i>
+										Settings
+									</a>
+								</li>
+								
+								<li>
+									<a href="/users/profile">
+										<i class="icon-user"></i>
+										Profile
+									</a>
+								</li> -->
+
+								<!-- <li class="divider"></li> -->
+
+								<li>
+									<a href="/signout">
+										<i class="icon-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+
+					</ul><!--/.ace-nav-->
+				</div>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+
+
+		<!-- end top bar section -->
+		
+
+
+
+
+
+		<div class="container-fluid" id="main-container">
+
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+
+
+
+			<!-- start side bar section -->
+
+			<div id="sidebar">
+				<% include sidebar.ejs %>
+				
+			</div>
+
+			<!-- end sidebar section -->
+
+
+
+
+			<div id="main-content" class="clearfix">
+				
+				<div id="page-content" class="clearfix">
+				
+				
+				
+					<div class="page-header position-relative">
+						
+					</div><!--/.page-header-->
+
+					<div class="row-fluid" >
+					
+						<!--PAGE CONTENT BEGINS HERE-->
+
+
+
+
+
+						<!-- start enterprise section -->
+
+						<div class="boxwidth1" style="width : 100%;">
+						
+							<div class="widget-box">
+								<div class="widget-header">
+									
+									<span class="widget-toolbar no-border"></span>
+								</div>
+								
+								
+								<div class="widget-body">
+									<div class="row-fluid span12">
+										<table id="table_bug_report no-border" class="table table-hover">
+											<thead>
+												<tr>
+													<th>Index No.</th>														
+													<th class="center">Company</th>
+													<th class="center">Call To Action</th>
+													<th class="center">Invoice Amount</th>
+													<th class="hidden-480 center">Deposited Amount</th>
+													<th class="hidden-480 center">Due Amount</th>
+													<th class="hidden-480 center">Update</th>																	
+												</tr>
+											</thead>
+
+											<tbody>
+
+												<% for(var i=0; i<historyInvoiceAction.length; i++) {%>
+												
+												<tr>
+													<td class="center span2"><%= historyInvoiceAction[i].invoiceIndexNo %></td>
+													<td class="center" style="width: 225px"><%= historyInvoiceAction[i].company %></td>
+													<td class="center" style="width: 225px"><%= historyInvoiceAction[i].campaignTitle  %></td>
+													<td class="center"><%= historyInvoiceAction[i].invoiceAmount %></td>
+													<td  class="center" id="depositedAmount<%= i %>"><%= historyInvoiceAction[i].depositedAmount %></td>
+													<td class="center" id="editDepositedAmount<%= i %>" style="display: none" >
+														<input type="number" id="amount<%= i %>" value="<%= historyInvoiceAction[i].depositedAmount %>" style="width: 60%">
+													</td>
+													<td class="center"><%= historyInvoiceAction[i].invoiceAmount-historyInvoiceAction[i].depositedAmount %></td>
+
+													<td class="center" id="editAmount<%= i %>">
+														<button style="width: 95px;" onclick="editAmount(<%= i %>)" class="btn btn-info btn-small" type="submit">
+															Edit
+														</button>
+													</td>
+
+													<td class="center" id="updateAmount<%= i %>"  style="display: none">
+														<button style="width: 95px;" onclick="updateAmount(<%= i %>)" class="btn btn-info btn-small" type="submit">
+															update
+														</button>
+													</td>
+													<td class="center" id="paid<%= i %>"  style="display: none;">
+														<button style="width: 95px;" class="btn btn-success" type="submit">
+															Paid
+														</button>
+													</td>
+													
+
+												</tr>
+
+												<% } %>
+												
+											
+												
+											</tbody>
+										</table>
+									</div>
+
+												
+								</div> <!-- end widget body -->
+							</div> <!-- end widget box -->
+						</div>
+
+						<!-- end enterprise section -->
+
+
+						
+
+					</div>	 <!-- end row-fluid -->
+
+				</div> <!-- end page content -->
+
+			</div><!--/#main-content-->
+		</div><!--/.fluid-container#main-container-->
+
+
+		<!-- start feedback section -->
+
+		<div class="feedback">
+
+
+			<div style="background: #FFFFFF; width: 100%; height: 25px; position:fixed; bottom:0%; left:1%; ">
+
+		
+				<ul style="list-style:none;">
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a href="/users/FAQuser" style="cursor: pointer; color: #5C983B;">FAQ</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/policy" target="_blank">Privacy</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/terms" target="_blank">TOS</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="http://blog.blurbi.ca/" target="_blank">Blog</a></li>
+					<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/users/Feedback">Feedback</a></li>
+				</ul>
+				
+				
+			</div>
+			
+
+
+		</div>
+
+		<!-- end feedback section -->
+
+
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../js/topbar.js"></script>
+
+
+		<script>
+
+		var historyInvoiceAction = <% if(locals.historyInvoiceAction){ %>
+								   <%- JSON.stringify(historyInvoiceAction) %>
+								   <% } %>
+
+
+		
+		
+		for(var i=0; i<historyInvoiceAction.length; i++){
+			if(historyInvoiceAction[i].invoiceAmount == historyInvoiceAction[i].depositedAmount){
+				
+				$('#editAmount'+i).hide();
+				$('#updateAmount'+i).hide();
+				$('#paid'+i).show();
+			}
+		}						   
+
+		
+
+		function editAmount(i){
+			$('#depositedAmount'+i).hide();
+			$('#editDepositedAmount'+i).show();
+			$('#editAmount'+i).hide();
+			$('#updateAmount'+i).show();
+
+
+
+		}
+
+
+		function updateAmount(i){
+			
+			var id = historyInvoiceAction[i]._id;
+			var campaignId = historyInvoiceAction[i].campaignId;
+			var depositedAmount = historyInvoiceAction[i].depositedAmount;
+			var updateDepositedAmount = parseInt(depositedAmount) + parseInt($('#amount'+i).val());
+			var addedCampaignAmount = $('#amount'+i).val();
+			var invoiceAmount = historyInvoiceAction[i].invoiceAmount;
+
+			/*alert(updateDepositedAmount+ ' ' +id);*/
+			/*alert(campaingId);*/
+			
+
+			$.ajax({
+				type: 'POST',
+				url: '/users/invoiceAmountPost',
+				data: {updateDepositedAmount: updateDepositedAmount, id: id, campaignId: campaignId, addedCampaignAmount: addedCampaignAmount},
+				success: function(result){
+					window.location = '/users/enterprise';
+
+				}
+			});
+			
+
+		}
+
+
+
+		</script>
+	
+		
+		
+		
+		
+		
+	</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Browse Clients</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<style type="text/css">
+		.row:before, .row:after {
+			display: table;
+			line-height: 0;
+			content: none !important;
+		}
+	</style>
+</head>
+<body>
+	<%
+	var amount = accountBalance;
+	var target;
+	var x;
+	var percentege;
+	if (amount < 10 || amount ==10)
+		{
+			percentege = (amount/10)*100;
+			target = 10;
+		}
+	else  if((amount<25 && amount > 10) || amount==25)
+		{
+			percentege = (amount/25)*100;
+			target = 25;
+		}
+	else if((amount>25 && amount<100) || amount==100)
+		{
+			percentege = (amount/100)*100;
+			target = 100;
+		}
+	percentege=Math.floor(percentege);
+		%>
+
+
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="span2">
+					<a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a>
+				</div>
+				<% include topbar.ejs %>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+	<div class="container-fluid" id="main-container">
+
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+
+		<div id="sidebar">
+			<% include sidebar.ejs %>
+		</div>
+
+		<div id="main-content" class="clearfix">
+			<div id="page-content" class="clearfix">
+				<div class="row-fluid">
+						
+						
+
+
+					<div class="table" id="table1" style="margin-top: 18px">
+						<table class="table table-hover">
+							<thead>
+								<tr class="row">
+									<th class="span2 sortable">
+										<span class="line"></span> Buyers
+									</th>
+									<th class="span4 sortable center">
+										<span class="line"></span> Interests
+									</th>
+									<th class="span2 sortable center">
+										<span class="line"></span>Target Age-Range
+									</th>
+									<th class="span3 sortable center">
+										<span class="line"></span>Acceptance Ratio <span style="float: right"><i id="tour3" class="icon-info-sign info"></i></span>
+									</th>
+									<th class="span2 sortable center">
+										<span class="line"></span>Paying Per Blurb
+									</th>
+									<th class="span2 sortable center">
+										<span class="line"></span>Last Login
+									</th>
+									<th class="span3 sortable align-right">
+		                                    <span class="line"></span>Total FameRate
+		                            </th>
+									<th class="span3 sortable center">
+										<span class="line"></span> Status
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								<% for(var i=0; i<brands.length; i++) {%>
+								<tr class="tr<%=i%>">
+									<td >
+										<% if(locals.brands[i].logoPath) {%>
+										<div style="width: 36px; height: 36px;">
+											<img alt="Tyler's Avatar" src="../<%=brands[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width:inherit; height: inherit;"/>
+										</div>
+										<% } else { %>
+										<div style="width: 36px; height: 36px;">
+											<img alt="Tyler's Avatar" src="../assets/avatars/default.png" style="width: inherit"/>
+										</div>
+										<%}%>
+										<a style="color: #3b9852" class="name" href="/users/seeProfile?id=<%= brands[i].id %>&acceptance=<%=brands[i].acceptance%>"><%= brands[i].profileInfo.company%></a>
+									</td>
+									<td class="center">
+										<%if(locals.brands[i].profileInfo.interest){ %>
+										<%= brands[i].profileInfo.interest %>
+										<%}%>
+									</td>
+									<td class="center">
+										<p><%= brands[i].profileInfo.range1%> To <%= brands[i].profileInfo.range2%> </p>
+									</td>
+									<td class="center">
+										<%=brands[i].acceptance.toFixed(2) %>%
+									</td>
+									<td class="center">
+										<%=parseFloat(brands[i].pricePerBlurb).toFixed(2) %> $
+									</td>
+									<%if (brands[i].lastLogin){%>
+					                <td class="center"><%= brands[i].lastLogin.toString().substring(4,16) %></td>
+					                <%}else{%>
+					                <td class="center"> &nbsp;  </td>
+					                <% } %>
+					                <td class="center">
+										<%=brands[i].si.toFixed(2) %>
+									</td>
+									<td class="center">
+										<% if(clients.indexOf(brands[i].id)!=-1) {%>
+
+										<button style="width: 100%" class="btn btn-success btn-small disabled<%=i%>" type="submit" id="<%= i %>" onclick="participate(<%= i %>)"><i class="icon-pencil"></i>Blurb
+										</button>
+										<% }else{ %>
+											<button style="width: 100%" disabled class="btn btn-success btn-small disabled<%=i%>" type="submit" id="<%= i %>" onclick="participate(<%= i %>)"><i class="icon-pencil"></i>Blurb
+											</button>
+										<% } %>
+									</td>	
+									
+								</tr>						
+								<%}%>			<!-- row -->
+							</tbody>
+						</table>
+					</div> <!-- </end table> -->
+
+
+
+				</div> <!-- end row- fluid -->
+			</div>  <!-- end page-content -->
+		</div> <!-- end main-content -->
+	</div> <!-- end container-fluid -->
+	
+
+
+	<% include feedback.ejs%>
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../js/topbar.js"></script>
+	<script src="../js/accept.js"></script>
+
+
+
+	<script type="text/javascript">
+
+
+
+
+		var brands = <% if(locals.brands){ %>
+					 <%- JSON.stringify(brands) %>
+					 <% } %>;
+
+		console.log(brands.length);	
+
+		for(var i=0; i<brands.length; i++){
+			if($('.disabled'+i).is(':disabled') == true){
+				$('.tr'+i).attr( "disabled", "disabled").css( "background-color", "#ddd" );
+			}
+		}		 
+
+		function participate(i ){
+				
+			var brandId = brands[i].id;
+			var brandName = brands[i].profileInfo.company;
+
+		  	window.location = '/users/writeblurbs?settag='+brandName+'&brandId='+brandId;
+		  
+		}
+
+
+
+
+		function requestToWrite(element){
+			//console.log(brands);
+
+			var button= $(element);
+			button.html('Pending');
+			/*button.addClass('icon-spinner bigger-110');*/
+			button.addClass('btn btn-warning btn-small');
+			button.prop('disabled','disabled');
+			var address= './browseClients';
+			if(button.val()!='Pending'){
+				$.ajax({
+					type: "POST",
+					url: address,
+					data: {id: brands[element.id].id},
+					success: function(data)
+					{
+						button.val('Pending');
+					}
+				});
+			}
+			
+		}
+	</script>
+
+
+	<script type="text/javascript">
+
+		$('.info').tooltip({
+	    'show': true,
+	        'placement': 'top',
+	        'title': "Percentage of acceptance over submission (e.g, 5 Blurb accepted over 10 submitted blurb gives 50% acceptance ratio.)"
+		});
+
+		function client_or_not(){
+
+		
+			if($("#clients input[type='radio']:checked").val()=="my_clients"){
+				$("#table1").hide();
+				$("#table2").show();
+				
+			}
+			else{
+				$("#table2").hide();
+				$("#table1").show();
+			}
+		}
+
+	</script>
+
+</body>
+</html>

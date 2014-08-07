@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Brand CallOut</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<link  rel="stylesheet" href="../assets/css/jquery.timepicker.css"/>
+</head>
+<body>
+	<% var req_len; %> 
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				<% include topbar.ejs %>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+	<div class="container-fluid" id="main-container">
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+		<div id="sidebar" style="margin-top: 25px">
+			<% include sidebar.ejs %>
+		</div>
+		<div id="main-content" class="clearfix">
+			<div id="modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						&nbsp
+						<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="description">
+					</p>  
+				</div>  
+			</div>
+
+
+			<!-- start delete confirm modal -->
+
+
+			<div id="confirm_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2  style="font-size: 15px" >
+						<text id="header">Confirm !!</text>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="description">
+						Are you sure you want to delete this Call Action.<text id="blurb_price"> </text>
+					</p> 
+					<br>
+					<button style="margin-left: 60px; width: 90px" data-dismiss="modal" id="yes" class="btn btn-success btn-small">Yes</button>
+					<button style="margin-left: 10px; width: 90px"   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+				</div>  
+			</div>
+
+
+			<!-- end delete confirm modal -->
+
+
+
+
+
+			<div id="page-content" class="clearfix">
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<div class="row-fluid">
+					<div class="boxwidth4" id="showLess" style="width: 45%" >
+						<div class="widget-box">
+							<div class="widget-header" >
+								<%if(historyCallAction.length >0){%>
+								<h4>Current & Past Message Marketers</h4>
+								<%}else {%>
+								<h4>No Current & Past Message Marketers</h4>
+								<%}%>
+								<span class="widget-toolbar">
+								</span>
+							</div>
+							<div class="widget-body">
+								<div class="row-fluid ">
+									<table id="table_bug_report" class="table table-hover">
+										<thead>
+											<tr>
+												<th class="green center">Title</th>
+												<th class="center green">Spent</th>
+												<!--<th class="hidden-480">SI</th>-->
+												<th class="center green">FameRate</th>
+												<th class="center green">Type</th>
+												<th class="center green"  class="center">Ends</th>
+												<th class="center green">Update</th>
+											</tr>
+										</thead>
+										<tbody>
+										<%
+										var count = 0;
+										historyCallAction.sort(function(a,b){
+											var dateA=new Date(a.date); 
+											var dateB=new Date(b.date);
+											return dateB - dateA;
+										}) 
+										%>
+										<% count = historyCallAction.length;
+											limit = 0;
+										for(var i=0 ; i<historyCallAction.length ; i++) {
+
+											if(historyCallAction[i].deleteStatus != 'deleted'){
+
+												if(limit==11)
+													break;
+												limit++;	
+												var x = new Date(historyCallAction[i].datepicker);
+												var today = new Date();
+												var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+													"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ]; 
+												if( historyCallAction[i].datepicker == "") {
+													%>
+												<tr>
+													<td>
+														<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+														<% if(historyCallAction[i].title.length>15){ %>
+															<%= historyCallAction[i].title.substring(0,15) %>...
+														<% }else{ %>
+															<%= historyCallAction[i].title %>
+														<% } %>		
+														</a>
+														<% if(historyCallAction[i].filePath){ %>
+															<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+															</a> 
+														<% } %>
+													</td>
+
+													<%
+													var singleCtaSpent = 0;
+													for(var a=0; a<historyWriteBlurb.length; a++){
+														if(historyWriteBlurb[a].ctaId != undefined){
+															if(historyCallAction[i]._id == historyWriteBlurb[a].ctaId){
+																singleCtaSpent = singleCtaSpent + historyWriteBlurb[a].price;
+															}
+														}
+														
+													}
+													%>
+
+													<td class="center">$<%= singleCtaSpent.toFixed(2) %></td>
+
+													
+													<td class="hidden-480 center">0<b class="green"></b></td>
+													<% if(historyCallAction[i].eventType == 'campaign' || historyCallAction[i].eventType == 'event'){ %>
+													<td><%=historyCallAction[i].eventType %></td>
+													<% } else {%>
+													<td>&nbsp;</td>
+													<% } %>
+													<td class="hidden-480 center">No Date</td>
+													<!-- <td class="hidden-phone"></td> -->
+													<td class="center">
+														<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+														<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+													</td>
+												</tr>
+												<% } else if(x > today || x==today) { %>
+												<tr>
+													<td>
+														<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+														<% if(historyCallAction[i].title.length>15){ %>
+															<%= historyCallAction[i].title.substring(0,15) %>...
+														<% }else{ %>
+															<%= historyCallAction[i].title %>
+														<% } %>		
+														</a>
+														<% if(historyCallAction[i].filePath){ %>
+															<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+															</a> 
+														<% } %>
+													</td>
+
+													<%
+													var singleCtaSpent = 0;
+													for(var a=0; a<historyWriteBlurb.length; a++){
+														if(historyWriteBlurb[a].ctaId != undefined){
+															if(historyCallAction[i]._id == historyWriteBlurb[a].ctaId){
+																singleCtaSpent = singleCtaSpent + historyWriteBlurb[a].price;
+															}
+														}
+														
+													}
+													%>
+
+													<td class="center">$<%= singleCtaSpent.toFixed(2) %></td>
+													<!--<td class="hidden-480">3,330</td>-->
+													<td class="hidden-480 center">0<b class="green"></b></td>
+													<% if(historyCallAction[i].eventType == 'campaign' || historyCallAction[i].eventType == 'event'){ %>
+													<td><%=historyCallAction[i].eventType %></td>
+													<% } else {%>
+													<td>&nbsp;</td>
+													<% } %>
+													<td class="hidden-phone center"><%= monthNames[x.getMonth()] + ' ' + x.getDate()  %></td>
+													<td class="center">
+														<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+														<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+													</td>
+												</tr>
+												<% } else { %>
+												<tr>
+													<td>
+														<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+														<% if(historyCallAction[i].title.length>15){ %>
+															<%= historyCallAction[i].title.substring(0,15) %>...
+														<% }else{ %>
+															<%= historyCallAction[i].title %>
+														<% } %>		
+														</a>
+														<% if(historyCallAction[i].filePath){ %>
+															<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+															</a> 
+														<% } %>
+													</td>
+
+													<%
+													var singleCtaSpent = 0;
+													for(var a=0; a<historyWriteBlurb.length; a++){
+														if(historyWriteBlurb[a].ctaId != undefined){
+															if(historyCallAction[i]._id == historyWriteBlurb[a].ctaId){
+																singleCtaSpent = singleCtaSpent + historyWriteBlurb[a].price;
+															}
+														}
+														
+													}
+													%>
+
+													<td class="center">$<%= singleCtaSpent.toFixed(2) %></td>
+
+
+													<!--<td class="hidden-480"><b class="green">6500</b></td>-->
+													<td class="hidden-480">0<b class="green"></b></td>
+													<% if(historyCallAction[i].eventType == 'campaign' || historyCallAction[i].eventType == 'event'){ %>
+													<td><%=historyCallAction[i].eventType %></td>
+													<% } else {%>
+													<td>&nbsp;</td>
+													<% } %>
+													<td class="hidden-480">
+														<span class="label label-warning"><%= "expired" %></span>
+													</td>
+													<td class="center">
+														<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+														<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+													</td>
+												</tr>
+												<% }}} %>
+										</tbody>
+									</table>
+								</div>
+								<div id = "dialg" style="display: none">
+									Coming Soon
+								</div>
+								<ul style="list-style-type:none">
+									<% if(limit>5){%>	
+									<li style="text-align:center;">
+										<a style="color: #5C983B; " onclick="showall()"  href="#">
+											See More...
+											<i class="icon-arrow-right"></i>
+										</a>
+									</li>
+									<%}%>
+								</ul>
+							</div>
+						</div>
+					</div> <!-- end boxwidth 4 -->
+					<!-- start boxwith4 initial display none -->			
+					<div class="boxwidth4" id="showAll" style="display:none; width: 45%" >
+						<div class="widget-box">
+							<div class="widget-header" >
+								<%if(historyCallAction.length >0){%>
+								<h4>Current & Past Message Marketers</h4>
+								<%}else {%>
+								<h4>No Current & Past Message Marketers</h4>
+								<%}%>
+								<span class="widget-toolbar">
+								</span>
+							</div>
+							<div class="widget-body">
+								<div class="row-fluid ">
+									<table id="table_bug_report" class="table table-hover">
+										<thead>
+											<tr>
+												<th class="green center">Title</th>
+												<th class="center green" >Spent</th>
+												<th class="hidden-480 center green">FameRate</th>									
+												<th class="center green">Type</th>
+												<th class="center green" >Ends</th>
+												<th class="span2 center green">Update</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											var count = 0;
+											historyCallAction.sort(function(a,b){
+												var dateA=new Date(a.date); 
+												var dateB=new Date(b.date);
+												return dateB - dateA;
+											}) 
+											%>
+											<% count = historyCallAction.length;
+											for(var i=0 ; i<historyCallAction.length ; i++) {
+												if(historyCallAction[i].deleteStatus != 'deleted'){
+												var x = new Date(historyCallAction[i].datepicker);
+												var today = new Date();
+												var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+													"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ]; 
+													if( historyCallAction[i].datepicker == "") {
+														%>
+														<tr>
+															<td>
+																<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+																<% if(historyCallAction[i].title.length>15){ %>
+																	<%= historyCallAction[i].title.substring(0,15) %>...
+																<% }else{ %>
+																	<%= historyCallAction[i].title %>
+																<% } %>		
+																</a>
+																<% if(historyCallAction[i].filePath){ %>
+																	<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+																	</a> 
+																<% } %>
+															</td>
+															<td>0</td>
+															<td class="hidden-480 center">0<b class="green"></b></td>
+															<td class="center"><%=historyCallAction[i].eventType %></td>
+															<td class="hidden-480" center>No Date</td>
+															<td class="center">
+																<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+																<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+															</td>
+														</tr>
+														<% } else if(x > today || x==today) { %>
+														<tr>
+															<td>
+																<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+																<% if(historyCallAction[i].title.length>15){ %>
+																	<%= historyCallAction[i].title.substring(0,15) %>...
+																<% }else{ %>
+																	<%= historyCallAction[i].title %>
+																<% } %>		
+																</a>
+																<% if(historyCallAction[i].filePath){ %>
+																	<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+																	</a> 
+																<% } %>
+															</td>
+															<td>0</td>
+															<td class="hidden-480 center">0<b class="green"></b></td>
+															<!--<td class="hidden-480">3,330</td>-->
+															<% if(historyCallAction[i].eventType == 'campaign' || historyCallAction[i].eventType == 'event'){ %>
+																<td class="center"><%=historyCallAction[i].eventType %></td>
+																<% } else {%>
+																<td>&nbsp;</td>
+															<% } %>
+															<td class="hidden-phone center"><%= monthNames[x.getMonth()] + ' ' + x.getDate() %>
+															</td>
+															<td class="center">
+																<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+																<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+															</td>
+														</tr>
+														<% } else { %>
+														<tr>
+															<td>
+																<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)">
+																<% if(historyCallAction[i].title.length>15){ %>
+																	<%= historyCallAction[i].title.substring(0,15) %>...
+																<% }else{ %>
+																	<%= historyCallAction[i].title %>
+																<% } %>		
+																</a>
+																<% if(historyCallAction[i].filePath){ %>
+																	<a href="#" onclick="downloadMe(<%=i%>)"><i class="icon-download"></i>
+																	</a> 
+																<% } %>
+															</td>
+															<td>0</td>
+															<!--<td class="hidden-480"><b class="green">6500</b></td>-->
+															<td class="hidden-480">0<b class="green"></b></td>
+															<% if(historyCallAction[i].eventType == 'campaign' || historyCallAction[i].eventType == 'event'){ %>
+																<td><%=historyCallAction[i].eventType %></td>
+																<% } else {%>
+																<td>&nbsp;</td>
+															<% } %>
+															<td class="hidden-480">
+																<span class="label label-warning"><%= "expired" %></span>
+															</td>
+															<td class="center">
+																<button onclick="edit(<%= i %>)" class="btn btn-minier btn-info">Edit</button>
+																<button onclick="del(<%= i %>)" class="btn btn-minier btn-danger">Delete</button>
+															</td>
+														</tr>
+														<% }}} %>
+										</tbody>
+									</table>
+								</div>
+								<div id = "dialg" style="display: none">
+									Coming Soon
+								</div>
+								<ul style="list-style-type:none">
+									<li style="text-align:center;">
+										<a style="color: #5C983B; " onclick="showless()"  href="#">
+											See less...
+											<i class="icon-arrow-right"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div> <!-- end boxwidth 4 -->
+					<!-- Forms Begin /-->
+					<div class="boxwidth3" id="newCta">
+						<div class="widget-box">
+							<div class="widget-header" style="width: 90%">
+								<h4>Message</h4>
+							</div>
+							<form method = "post" id="calltopost" action='./callAction'  enctype="multipart/form-data">
+								<div class="widget-body">
+									<div class="widget-body-inner">
+										<div class="widget-main">
+										
+										<div>
+											<!-- <label style="margin-right:25px; float:left" >per blurb</label> -->
+											<!-- start price per response label -->
+											<!-- <label style="margin-right:25px; float:left" >per response</label> -->
+											<!-- end price per response label -->
+											<label for="event">Type</label>
+										</div>
+
+
+										<div class="row-fluid" >
+											<!-- <input type="text" style="width:40px; margin-right: 5px; color:Black" name="price" id="price" value="<%=  pricePerBlurb %>" placeholder="<%= pricePerBlurb %>">$ -->
+											<!-- start price per response input field -->
+											<!-- <input type="text" style="width:40px; margin-right: 25px; color:Black" name="pricePerResponse" id="price" value=<%=  pricePerResponse %> placeholder=<%= pricePerBlurb %>>$ -->
+											<!-- end price per response input field -->
+											<select id="event" class="updateCoE" name="events" style="width:170px; margin-left:0px">
+												<!-- <option value=""></option> -->
+												<option value="campaign" >Campaign</option>
+												<option value="updateCampaign" >Update Campaign</option>
+												<option value="event">Event</option>
+												<option value="updateEvent">Event Update</option>
+												<option value="generalUpdate" selected="selected">General Update</option>
+											</select><font color="red"><b> * </b> </font>
+										</div>
+										<br>
+
+
+										<!-- start update campaign select box -->
+
+										<div class="row-fluid" id="updateCamps" style="display: none" >
+											<label for="updateCampaign" >Update Campaign</label>
+											<select id="updateCamp" name="updateEC" style="width:265px;">
+												<!-- <option value=""></option -->
+												<option value="selectEventorCampaign" selected="selected">Update Campaign</option>
+												<% for(var i=0; i<historyCallAction.length; i++){ %>
+												<% if((historyCallAction[i].eventType == 'campaign')) { %>
+												<option value="<%= historyCallAction[i].title %>"><%= historyCallAction[i].title %>
+												</option>
+												<% } }%>
+											</select>
+										</div>
+
+										<!-- end update campaign select box -->
+
+
+										<!-- start update event select box -->
+
+										<div class="row-fluid" >
+											<select id="updateEvent" name="updateEC" style="display: none; width:180px;">
+												<!-- <option value=""></option -->
+												<option value="selectEventorCampaign" selected="selected">Update Event</option>
+												<% for(var i=0; i<historyCallAction.length; i++){ %>
+												<% if((historyCallAction[i].eventType == 'event')) { %>
+												<option value=<%= historyCallAction[i].title %>><%= historyCallAction[i].title %>
+												</option>
+												<% } }%>
+											</select>
+										</div>
+
+										<!-- end update event select box -->
+
+
+										<div class="row-fluid">
+											<label for="form-field-8">Title</label>
+											<input type="text" class="span8 name" id="form-field-8" placeholder="Write a title!" name="title" style="color:Black; width:80% " required /><font color="red"><b> * </b> </font>
+										</div>
+
+										<br>
+										<div class="row-fluid">
+											<label for="form-field-11">Description or Project Brief</label>
+											<textarea id="form-field-11" name="description" class="autosize-transition span12" placeholder="Write a description or project brief!" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 58px; width: 80%; color:Black;" required></textarea>
+											<font color="red"><b> * </b> </font>
+										</div>
+										<br>
+
+
+										<!-- start for project brief -->
+
+
+										<!-- <div class="row-fluid">
+											<label for="form-field-12">Project Brief</label>
+											<textarea id="form-field-12" name="projectBrief" class="autosize-transition span12" placeholder="Write your project brief !" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 58px; width: 80%; color:Black;" required></textarea>
+											<font color="red"><b> * </b> </font>
+										</div>
+										<br> -->
+
+										<!-- end projecr brief -->
+
+
+
+										<div class="row-fluid" style="width: 80%">
+											<label for="timepicker1">Date Start</label>
+											<div class="control-group" style="float:left; margin-right: 10px">
+												<div class="row-fluid input-append date">
+													<input type="text" id="datepicker2" autocomplete="off" name="datepicker2"; style="color:Black; width: 120px" >
+													<span class="add-on">
+														<i class="icon-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div id="tm2" class="control-group" style="float:left; display: none">
+												<div class="row-fluid input-append date" style="margin-right:10px" >
+													<input type="text" id="timepicker2" autocomplete="off" name="timepicker2";  style="color:Black;  width: 70px" >
+													<span class="add-on">
+														<i class="icon-time"></i>
+													</span>
+												</div>
+											</div>
+
+										</div>
+
+
+										<div class="row-fluid" style="width: 320px">
+											<label for="timepicker1">Date End</label>
+											<div class="control-group" style="float:left; margin-right: 10px">
+												<div class="row-fluid input-append date">
+													<input type="text" id="datepicker1" autocomplete="off" name="datepicker1"; style="color:Black; width: 120px" >
+													<span  class="add-on">
+														<i class="icon-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div id="tm1" class="control-group" style="float:left; display: none">
+												<div class="row-fluid input-append date" >
+													<input type="text" id="timepicker1" autocomplete="off" name="timepicker1";  style="color:Black;  width: 70px;" >
+													<span class="add-on">
+														<i class="icon-time"></i>
+													</span>
+												</div>
+											</div>
+												<!--<input type="file" id="image" name="image" placeholder="Upload an image.." />
+											</div> -->
+										</div>
+<!-- 
+										<div id="cmpradio"  class="row-fluid camRadioBtn" >
+											<div class="control-group">
+												<div class="controls">
+													<label>
+														<input id="radioinstant" name="form-field-radio"  value = "cmpradio" type="radio" class="ace"  />
+														<span class="lbl" style="z-index: 0"> Select to use campaign funds only</span>
+													</label>
+												</div>
+											</div>
+										</div> -->
+										<br>   <!-- end radio button section -->
+
+
+										<div class="row-fluid" style="display: none;" id="cmpSelect" style="margin-top : -20px">
+											<label for="event" style="margin-left: 25px">Select Campaign</label>
+											<select id="event" name="prevCampaign" style="width:170px; margin-left:0px">
+												<option value=""></option>
+												<option value="selectCampaign" selected="selected">Select Campaign</option>
+												<% for(var i=0; i<historyCallAction.length; i++){ %>
+												<% if(historyCallAction[i].eventType == 'campaign') { %>
+												<option value=<%= historyCallAction[i].title %>><%= historyCallAction[i].title %>
+												</option>
+												<% } }%>
+											</select>
+										</div>
+										<br>  <!-- end dropdown if radio button selected -->
+
+
+
+										<!-- start file uplaod section -->
+
+										<div class="row-fluid" style="margin-top: -38px; margin-bottom: 30px">
+
+											<div style="position: relative" >
+												<input  style="" name="fileData" type="file" id="file" class="file"/>
+											    <span class="new_Btn" style=" position:absolute; left: 0px; top:1px;  background:#fff; padding:4px 21px; border-radius:2px; font-size:10px; text-align:text-center; cursor:pointer; color:#fff; width: 50px; background: #6fb3e0; ">Add File
+											    </span>
+											</div>
+
+										</div>
+
+										<!-- end file upload section -->
+
+
+
+
+
+										<div style="width: 150px">
+											<button class="btn btn-success" type="submit">
+												<i class="icon-ok bigger-110"></i>
+												Submit
+											</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div> <!-- end boxwitdh3 -->
+				</div>		
+
+
+					<!-- start edit cta section -->
+
+
+
+					<div class="boxwidth3" id="editCta" style="display: none" >
+						<div class="widget-box">
+							<div class="widget-header" style="width: 80%">
+								<h4>Edit Message</h4>
+							</div>
+							<form method = "post" id="calltopost" action='./editCallAction'  enctype="multipart/form-data">
+								<div class="widget-body">
+									<div class="widget-body-inner">
+										<div class="widget-main">
+										
+										<div>
+											<!-- <label style="margin-right:25px; float:left" >per blurb</label> -->
+											<!-- start price per response label -->
+											<!-- <label style="margin-right:25px; float:left" >per response</label> -->
+											<!-- end price per response label -->
+											<label for="event">Type</label>
+										</div>
+										<div class="row-fluid" >
+											<!-- <input type="text" style="width:40px; margin-right: 5px; color:Black" name="editPrice" id="editPrice" value="<%=  pricePerBlurb %>" placeholder="<%= pricePerBlurb %>">$
+ -->											<!-- start price per response input field -->
+											<!-- <input type="text" style="width:40px; margin-right: 25px; color:Black" name="pricePerResponse" id="price" value=<%=  pricePerResponse %> placeholder=<%= pricePerBlurb %>>$ -->
+											<!-- end price per response input field -->
+											<select id="eventEdit" class="updateCoE" name="editEvents" style="width:170px; margin-left:0px">
+												<!-- <option value=""></option> -->
+												<option value="campaign" selected="selected">Campaign</option>
+												<option value="updateCampaign" >Update Campaign</option>
+												<option value="event">Event</option>
+												<option value="updateEvent">Event Update</option>
+												<option value="generalUpdate">General Update</option>
+											</select><font color="red"><b> * </b> </font>
+										</div>
+										<br>
+										
+										
+
+
+										<div class="row-fluid">
+											<label for="form-field-8">Title</label>
+											<input type="text" class="span8 name" id="editTitle" name="editTitle" style="color:Black; width:80% " required /><font color="red"><b> * </b> </font>
+										</div>
+										<br>
+										<div class="row-fluid">
+											<label for="form-field-11">Description or Project Brief</label>
+											<textarea id="editDescription" name="editDescription" class="autosize-transition span12"style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 58px; width: 80%; color:Black;" required></textarea>
+											<font color="red"><b> * </b> </font>
+										</div>
+										<br>
+
+										<input type="hidden" name="editCtaId" id="editCtaId" value="">
+
+
+
+
+										<div class="row-fluid" style="width: 80%">
+											<label for="timepicker1">Date Start</label>
+											<div class="control-group" style="float:left; margin-right: 10px">
+												<div class="row-fluid input-append date">
+													<input type="text" id="datepicker3" autocomplete="off" name="datepicker2"; style="color:Black; width: 120px" >
+													<span class="add-on">
+														<i class="icon-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div id="tm3" class="control-group" style="float:left; display: none">
+												<div class="row-fluid input-append date" style="margin-right:10px" >
+													<input type="text" id="timepicker3" autocomplete="off" name="timepicker2";  style="color:Black;  width: 70px" >
+													<span class="add-on">
+														<i class="icon-time"></i>
+													</span>
+												</div>
+											</div>
+
+										</div>
+
+
+										<div class="row-fluid" style="width: 320px">
+											<label for="timepicker1">Date End</label>
+											<div class="control-group" style="float:left; margin-right: 10px">
+												<div class="row-fluid input-append date">
+													<input type="text" id="datepicker4" autocomplete="off" name="datepicker1"; style="color:Black; width: 120px" >
+													<span  class="add-on">
+														<i class="icon-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div id="tm4" class="control-group" style="float:left; display: none">
+												<div class="row-fluid input-append date" >
+													<input type="text" id="timepicker4" autocomplete="off" name="timepicker1";  style="color:Black;  width: 70px;" >
+													<span class="add-on">
+														<i class="icon-time"></i>
+													</span>
+												</div>
+											</div>
+												<!--<input type="file" id="image" name="image" placeholder="Upload an image.." />
+											</div> -->
+										</div>
+<!-- 
+										
+										<br>   <!-- end radio button section -->
+										<div class="row-fluid" style="display: none;" id="cmpSelect" style="margin-top : -20px">
+											<label for="event" style="margin-left: 25px">Select Campaign</label>
+											<select id="event" name="prevCampaign" style="width:170px; margin-left:27px">
+												<option value=""></option>
+												<option value="selectCampaign" selected="selected">Select Campaign</option>
+												<% for(var i=0; i<historyCallAction.length; i++){ %>
+												<% if(historyCallAction[i].eventType == 'campaign') { %>
+												<option value=<%= historyCallAction[i].title %>><%= historyCallAction[i].title %>
+												</option>
+												<% } }%>
+											</select>
+										</div>
+										<br>  <!-- end dropdown if radio button selected -->
+
+
+										<!-- start file uplaod section -->
+
+										<div class="row-fluid" style="margin-top: -19px; margin-bottom: 30px">
+
+											<div style="position: relative" >
+												<input  style="" name="fileData" type="file" id="file" class="file"/>
+											    <span class="new_Btn" style=" position:absolute; left: 0px; top:1px;  background:#fff; padding:4px 21px; border-radius:2px; font-size:10px; text-align:text-center; cursor:pointer; color:#fff; width: 50px; background: #6fb3e0; ">Add File
+											    </span>
+											</div>
+
+										</div>
+
+										<!-- end file upload section -->
+
+
+
+
+
+
+										<div style="width: 150px">
+											<button class="btn btn-success" type="submit">
+												<i class="icon-ok bigger-110"></i>
+												Submit
+											</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div> <!-- end boxwitdh3 -->
+
+
+
+
+
+					<!-- end edit cta section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<% include feedback.ejs%>
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> 
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../assets/js/jquery.ui.widget.js"></script>
+		<script src="../assets/js/jquery.fileupload.js"></script>
+		<script src='../js/topbar.js'></script>
+		<script src="../assets/js/jquery.timepicker.js"></script>
+		<script src="../assets/js/jquery.timepicker.min.js"></script>
+		<!--inline scripts related to this page-->
+		<script>
+			$(document).ready(function(){
+				//$( "#datepicker1").datepicker();
+				$( "#datepicker2").datepicker();
+				$( "#datepicker3").datepicker();
+				$( "#datepicker4").datepicker();
+
+				$( "#datepicker1").datepicker();
+				$('#timepicker1').timepicker();
+				$('#timepicker2').timepicker();
+
+				$('#timepicker3').timepicker();
+				$('#timepicker4').timepicker();
+
+
+
+				$('.new_Btn').bind("click" , function () {
+			        $('#file').click();
+			    });
+
+
+				$('#datepicker2').change(function(){
+					//alert($('#event').val());
+					//alert($('#datepicker2').val());
+					var date = $('#datepicker2').val();
+					if($('#event').val()=='especial' ){
+						$('#datepicker1').val(date);
+					}
+						//alert("works");
+					})
+				$('#event').change(function(){
+					if($('#event').val()=='event' || $('#event').val()=='Update' ){
+						$('#tm1').show();
+						$('#tm2').show();
+						
+
+					}
+					else{
+						$('#tm1').hide();
+						$('#tm2').hide();
+					}
+				})
+
+
+
+				$('#eventEdit').change(function(){
+					if($('#eventEdit').val()=='event' || $('#eventEdit').val()=='Update' ){
+						$('#tm3').show();
+						$('#tm4').show();
+						
+
+					}
+					else{
+						$('#tm3').hide();
+						$('#tm4').hide();
+					}
+				})
+
+
+
+
+
+
+				$('#event').change(function(){
+					if($('#event').val() == 'campaign' || $('#event').val() == 'updateCampaign'){
+						$('#cmpradio').show();
+					}else{
+						$('#cmpradio').hide();
+						$('#cmpSelect').hide();
+						$('#updateEC').hide();
+					}
+				});
+				/*start script for update campaign*/
+				$('.updateCoE').change(function(){
+					if( $('#event').val() == 'updateCampaign' ){
+						$('#updateCamps').show();
+						$('#updateCamp').change(function(){
+							var selectUpdateCamp = $('.name').val()+"( "+ $('#updateCamp').val()+")";
+							//alert(selectUpdateCamp);
+							$('.name').val(selectUpdateCamp);
+						})
+					}else{
+						$('#updateCamps').hide();
+					}
+				})
+				/*end script for update event*/
+				/*check url*/
+			});
+		</script>
+		<script type="text/javascript">
+			var historyCallAction= <% if(locals.historyCallAction){%>
+									<%- JSON.stringify(historyCallAction) %>
+									<%}%>;
+
+
+			function popup_blurb(i){
+			 var blurb = historyCallAction[i].description;
+			//alert(blurb);
+			 document.getElementById('description').innerHTML = blurb ;
+			 $('#modal').modal();
+		    }
+
+
+			function showall(){
+				$('#showLess').css("display","none");
+				$('#showAll').css("display","block");
+			}
+
+
+			function showless(){
+				$('#showAll').css("display","none");
+				$('#showLess').css("display","block");
+			}
+
+
+			var radioChecked = $('#radioinstant').is(':checked');
+			$('#radioinstant').click(function() {
+			    radioChecked = !radioChecked;
+			    $(this).attr('checked', radioChecked);
+			    if(radioChecked){
+			    	$('#cmpSelect').show();
+			    }else{
+			    	$('#cmpSelect').hide();
+			    }
+			});
+
+			/*download files*/
+			function downloadMe(i){
+				window.open(
+                  '../'+historyCallAction[i].filePath,
+                  '_blank' 
+                );
+			}
+
+			function del(i){
+
+
+				$('#confirm_modal').modal();
+
+
+				$('#yes').click(function(){
+
+					var deleteCtaId = historyCallAction[i]._id;
+					/*alert('index : ' + i + 'id :' + deleteCtaId);*/
+
+					$.ajax({
+						method: 'POST',
+						url: '/users/deleteCallToAction',
+						data: {deleteCtaId: deleteCtaId},
+						success: function(result){
+							window.location = '/users/callAction';
+						}
+					});
+
+
+				});
+
+				
+
+			}
+
+
+
+			function edit(i){
+				/*alert(i);*/
+
+				console.log(historyCallAction[i].price);
+				
+				$('#editCta').show();
+				$('#newCta').hide();
+
+				$('#editTitle').val(historyCallAction[i].title);
+				$('#editDescription').val(historyCallAction[i].description);
+				$('#datepicker3').val(historyCallAction[i].startDatepicker.substring(0,15));
+				$('#datepicker4').val(historyCallAction[i].datepicker.substring(0,15));
+				$('#eventEdit').val(historyCallAction[i].eventType);
+				$('#editCtaId').val(historyCallAction[i]._id);
+				/*$('#editPrice').val(historyCallAction[i].price);*/
+
+
+			}
+
+
+
+
+
+
+		</script>
+</body>
+</html>

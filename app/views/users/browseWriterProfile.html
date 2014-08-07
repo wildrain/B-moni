@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Browse Profile Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+             <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				<% include topbar.ejs %>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+	<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+	  <div id="sidebar">
+	   	<% include sidebar.ejs %>
+	  </div>
+	  <div id="main-content" class="clearfix">
+	    <div id="page-content" class="clearfix">
+	      <div class="page-header position-relative">
+	        <!--<h1> Profile <small> <i class="icon-double-angle-right"></i>  </small> </h1>-->
+	      </div>
+	      <!--/.page-header-->
+	      <div class="row-fluid"> 
+	<! -- / PROFILE BEGINS -->
+	<div class="boxwidth1">
+	                <!-- header -->
+        <div class="row-fluid header">
+        		<% if(locals.writerLogoPath) { %>	
+				<div style="width: 150px; height: 150px;">
+					<img src="../<%= writerLogoPath %>"  onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit;"/>
+				</div>
+				<%} else {%>
+				<div style="width: 80px; height: 80px;">
+					<img src="../assets/avatars/default.png" class="avatar img-circle" style="width: inherit; height: inherit; ">
+				</div>
+				<%}%>
+                <h3 class="name"><%=writerProfile.name%></h3>
+            </div>
+            <div class="lcon">
+    			<div class="tysp">
+						<spanty title="acceptance ratio">
+							<div class="infobox infobox-orange2">						
+								<div class="infobox-data">
+									<span class="infobox-data-number" style="color: #3b9852"><%=acceptance%>%</span>
+								</div>
+								<div class="badge badge-success">
+									Accept %
+									<i class="icon-arrow-up"></i>
+								</div>
+							</div>
+						</spanty>
+					</div>
+			</div><br>
+	</div>
+	<div class="boxwidth1"> 
+		<h6 style="color: #3b9852">Age</h6>
+	    <p name="edit1" id="edit1"> <%=writerProfile.Age%>   </p>
+		<h6 style="color: #3b9852">Interests</h6>
+	    <p name="edit2" id="edit2"> <%= writerProfile.interest%></p>
+		<h6 style="color: #3b9852">City</h6>
+	    <p name="edit3" id="edit3"> <%= writerProfile.location%></p>
+		<h6 style="color: #3b9852">Location</h6>
+	    <p name="edit4" id="edit4"> <%= writerProfile.country %></p>
+	</div>
+	<% include feedback.ejs%>
+	<!--basic scripts--> 
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src='../assets/js/bootstrap.min.js'></script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>Blurbi - Home</title>
+			<link href="../assets/css/bootstrap3.css" rel="stylesheet" />
+			<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+			<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+			<link rel="stylesheet" href="../assets/css/font.css" />
+			<!--ace styles-->
+			<link rel="stylesheet" href="../assets/css/ace.min.css" />
+			<link rel="shortcut icon" href="img/favicon.png">
+			<style type="text/css">
+				label {
+					font-size: 14px;
+				    font-weight: normal;
+				    line-height: 20px;
+				    width: 100%;
+				}
+				input {
+					background-color: #FFFFFF;
+				    border-color: #E9322D;
+				    border-radius: 0 !important;
+				    color: #AAAAAA;
+				    transition-duration: 0.1s;
+				    font-size: 14px !important;
+				    line-height: 20px !important;
+				    outline: 0 none !important;
+				}
+				select {
+					background-color: #FFFFFF;
+				    border-color: #E9322D;
+				    border-radius: 0 !important;
+				    color: #AAAAAA;
+				    transition-duration: 0.1s;
+				    font-size: 14px !important;
+				    line-height: 20px !important;
+				    outline: 0 none !important;
+				}
+				input:focus, textarea:focus {
+					border:1px solid #E9322D !important;
+					box-shadow: 0 0 6px #F8B9B7 !important;
+				}
+				select:focus {
+					border:1px solid #E9322D !important;
+					box-shadow: 0 0 6px #F8B9B7 !important;
+				}
+				.nav .open > a,
+				.nav .open > a:hover,
+				.nav .open > a:focus {
+	 				background-color: #ffffff !important;
+	  				border-color: #428bca !important;
+				}
+				.nav > li > a:hover,
+				.nav > li > a:focus {
+				  text-decoration: none;
+				  background-color: #ffffff !important;
+				}
+				.head-1 .nav li .a-1 {
+					height: 50px;
+					padding-top:10px !important;
+				}
+				.step-123 {
+					min-width: 25%;
+					max-width: 25%;
+				}
+				.label-260 {
+					width:260px;
+					color: BLACK;
+				}
+			</style>
+				<script type="text/javascript">
+				if (window.opener) {
+				    window.close();
+				    window.opener.location.reload();
+				} 
+				</script>
+		</head>
+<body>
+	<div class="navbar head-1" >
+	    <div class="col-lg-2 col-md-2 col-sm-2" style="padding: 0 0 0 50px;">
+	        <a href="#">
+	            <img class="logo img-responsive" src="../assets/images/betatoplogo125.png">
+	        </a>
+	    </div>
+	</div>
+	<div class="container-fluid" id="main-container">
+		<div id="main-content" class="clearfix">
+			<div id="page-content" class="clearfix">
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<!--PAGE CONTENT BEGINS HERE-->						
+				<!-- Widget Box Sign Up -->
+
+				<div class="boxwidth1">
+					<div class="widget-header widget-header-blue widget-header-flat wi1dget-header-large">
+						<h4 class="lighter">Sign Up</h4>
+					</div>
+					<br>
+				</div>
+				<form id="signup" method="post" action='/writerSignup1'>
+					<div class="boxwidth12">
+						<div class="form-group">
+							<label>Name </label>
+							<input class="form-control input-sm label-260" type="text" id="company" name="user_name" placeholder="Your Name" required>
+						</div>
+						<div class="form-group">
+							<label>User name </label>
+							<input class="form-control input-sm label-260" type="text"  name="name" placeholder="User Name" required>
+						</div>																
+						<div class="form-group">
+							<label style="clear:right;"> Age</label>
+							<div>
+								<input class="form-control input-sm label-260" type="number" name="Age" placeholder="Age" required />
+							</div>
+						</div>
+						<div class="form-group">
+				            <label style="clear:right;">Interests</label>
+				            <div >
+				              <input type="text"  name="interest" id="interest" class="form-control input-sm label-260 typeahead" required placeholder="your interests" autocomplete="off"/><small>&nbsp;(Maximum&nbsp;5)</small>
+				              </div>
+				         </div>
+						<div class="clearfix visible-lg visible-sm visible-md">
+						</div>
+					</div>		
+					<div class="col-lg-12 col-md-12 col-sm-12 form-group">
+						<label>
+							<input  type="checkbox" required>
+							<span class="lbl"> I agree with the 
+								<a href="/terms" target="_blank" id="terms" style="color: #3b9852">
+									Terms
+								</a> & 
+								<a href="/policy" target="_blank" id="policy" style="color: #3b9852">Privacy Policy.
+								</a>
+							</span>
+						</label>
+					</div>
+					<div class="row wizard-actions" style="clear:both; margin-right: 450px; ">
+						<button class="btn btn-prev" disabled="disabled">
+							<i class="glyphicon glyphicon-arrow-left"></i>
+							Prev
+						</button>
+						<a id="next">
+							<button type="submit" id="submit" class="btn btn-success btn-next" data-last="Finish">
+								Next
+								<i class="glyphicon glyphicon-arrow-right"></i>
+							</button>
+						</a>
+					</div>
+				</form>
+			
+				<script src='../assets/js/jquery-1.9.1.min.js'></script>
+				<script src="../assets/js/bootstrap.min.js"></script>
+				<script type="text/javascript">
+				 function extractor(query) {
+			        var result = /([^,]+)$/.exec(query);
+			        if(result && result[1])
+			            return result[1].trim();
+			        return ' ';
+			    }
+			    $('.typeahead').typeahead({
+			        source: ["Arts & Culture","Automotive","Beauty","Business","Cinema","Community","Crafts & Hobbies","Design","Education",
+			"Environment","Fashion","Finance","Fitness","Food & Drink","Games","Health Care","Health & Wellbeing","Home & Reno","Law","LGBT","Lifestyle","Literature","Music","Spirituality","Nightlife","Outdoors","Pets & Animals","Photography","Politics","Real Estate","Religion","Sales & Marketing","Sport & Rec","Start-up","Technology"],
+			        updater: function(item) {
+			            return this.$element.val().replace(/[^,]*$/,' ')+item+', ';
+			        },
+			        matcher: function (item) {
+			          var tquery = extractor(this.query);
+			          if(!tquery) return false;
+			          return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+			        },
+			        highlighter: function (item) {
+			          var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+			          return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+			            return '<strong>' + match + '</strong>'
+			          })
+			        }
+			    });
+				var brands= <% if(locals.brands){%>
+					<%- JSON.stringify(brands) %>
+				  	<%}%>;
+				function readURL(input) {
+			        if (input.files && input.files[0]) {
+			            var reader = new FileReader();
+			            reader.onload = function (e) {
+			                $('#profile_picture').attr('src', e.target.result);
+			            }
+			            $('#uploaded_picture').show();
+			            reader.readAsDataURL(input.files[0]);
+			            //$('#image_div').show();
+			        }
+			    }
+			    function requestToWrite(element){
+					//console.log(brands);
+					var address= '/users/browseClients'
+					$.ajax({
+				            type: "POST",
+				            url: address,
+				            data: {id: brands[element.id].id},
+				            success: function(data)
+				            {
+				            }
+				      });
+					var button= $(element);
+					button.html('Pending');
+					/*button.addClass('icon-spinner bigger-110');*/
+					button.addClass('btn btn-warning btn-small');
+					button.button();
+				}
+				</script>
+					</body>
+		</html>

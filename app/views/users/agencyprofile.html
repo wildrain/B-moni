@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Profile Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+		<link rel="stylesheet" href="../assets/css/jquery.Jcrop.css" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-lightbox.css" />
+	</head>
+<script type="text/javascript">
+if (window.opener) {
+    window.close();
+    window.opener.location.reload();
+} 
+</script>
+<body>
+<div id="amodal" class="modal hide" style="width: 350px; height: 150px;  left:55%; top: 25%" >  
+			    <div class="modal-header" style="background-color:  #D6E9C0;">  
+			        <h2 >
+			        Brand Selection
+			        <button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        </h2>  
+			    </div>      
+			    <div class="modal-body" style="color: green">  
+			        <p>
+			       	Please Select Your Brand First.
+			        </p>  
+			    </div>  
+			</div> 
+<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                 <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+                 <% include signupTopbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="sidebar">
+   <% include signupSidebar.ejs %>
+  </div>
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+       <h1 style="color: black"> Profile <small>   </small> </h1>
+      </div>
+      <!--/.page-header-->
+      <div class="row-fluid"> 
+<! -- / PROFILE BEGINS -->
+<div class="boxwidth1">
+                <!-- header -->
+                <div class="row-fluid header">
+                <!-- start lightbox-->
+				<div id="demoLightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+					<div class='lightbox-content'>
+						<div class="body" style="color: green">  
+						<% if(locals.logoPath) {%>
+								<div style="text-align: center">
+								<img id="target" src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar center" />
+								<form action="#" id="imageCropSubmit" method="post" onsubmit="return checkCoords();">
+									<input type="hidden" id="x" name="x" />
+									<input type="hidden" id="y" name="y" />
+									<input type="hidden" id="w" name="w" />
+									<input type="hidden" id="h" name="h" />
+									<input type="submit" style="margin-top: 15px" value="Crop Image" class="btn btn-large btn-inverse" />
+								</form>
+								</div>
+								<% } else { %>
+								<div style="width: 80px; height: 80px;">
+								<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+								</div>
+						<%}%>
+						</div>
+					</div>
+				</div
+				<!-- end lightbox -->
+                	<div>
+               			<% if(locals.logoPath) {%>
+								<div style="width: 150px; height: 150px;">
+								<img id="profile_picture" src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit;"/>
+								</div>
+								<% } else { %>
+								<div style="width: 80px; height: 80px;">
+								<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+								</div>
+						<%}%>
+						</div>
+						<div>
+						<a id="change_picture" style="color: #3b9852" href="#">Change profile picture</a>
+						<% if(locals.logoPath){ %>
+						&nbsp;|&nbsp;<a data-toggle="lightbox" href="#demoLightbox">Crop Image</a>
+						<% } %>
+						</div>
+						<div id="upload_picture" style="display: none">
+								<span3>
+                          							<p>Upload Your Image</p>
+                          							<div >
+                            						<input type="file" id="file" name="image" accept="image/*"/>
+                            						<!-- <p>Upload progress</p>
+                            						<div style="width: 50%" id="progress" class="progress progress-success progress-striped">
+                            						<div class="bar"></div>
+                            						</div> -->
+                            						<!--<div id="image" style="display: none">
+                            						Image Successfully Uploaded
+                            						</div>-->
+                         						</span3>
+							</div>
+							   </div>
+                        <h3 class="name"><%=profile.company%></h3>
+                                   </div>
+						<div class="lcon">
+									</div>
+                    <!-- bio, new note & orders column -->
+                            <!-- Description -->
+<div class="boxwidth1"> 
+<form id="editPanel" style="display:none;" method='POST' >
+<h6 style="color: #3b9852">Customer Target Area</h6>
+<p> <select id="fedit4" name="country_" >
+														<option value=""></option>
+														<option value="Canada">Canada</option>
+														<option value="United States">United States</option>
+														<option value="United Kingdom">United Kingdom</option>
+														<option value="Australia">Australia</option>
+														<option value="New Zealand">New Zealand</option>
+													</select></p>
+<button  class="btn btn-success btn-small"> Save </button>
+</form> 
+<div name="profile" id="profile">
+<br>
+<h6 style="color: #3b9852">Customer Target Area</h6>
+                                <p> <%= profile.country%></p>
+                                  <button  class="btn btn-success btn-small" onclick="editProfile()"> Edit Profile</button>
+                </div>
+                </div>
+                <% include feedback.ejs%>
+									<! -- Recent Blurbs Starts !-->	
+	<!--basic scripts--> 
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src='../assets/js/bootstrap.min.js'></script>	
+	<script src="../assets/js/jquery.ui.widget.js"></script>
+	<script src="../assets/js/jquery.fileupload.js"></script>
+	<script src="../js/sign.js"></script>
+	<script src='../assets/js/bootstrap-lightbox.js'></script>
+	<script src='../assets/js/imageCrop.js'></script>	
+	<script src='../assets/js/jquery.Jcrop.min.js'></script>
+<script type = "text/javascript">
+$(document).ready(function(){
+	//var id = user.agencyBrandProfile.length - 1;
+		var facebook= <% if(locals.facebook){%>
+			<%- JSON.stringify(facebook) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+	var twitter= <% if(locals.twitter){%>
+			<%- JSON.stringify(twitter) %>
+		  	<%}else{%>
+		  		null
+		  		<%}%>;
+		$('#file').change(function(){
+		 readURL(this);
+	})	
+	$('#change_picture').click(function(e){
+		$('#upload_picture').show();
+	})  
+	$('#facebook_').click(function(e){
+		e.preventDefault();
+		var url = user.facebook.link;
+		myWindow=window.open(url,'','width=500,height=500');
+		myWindow.focus();
+	});
+	$('#twitter_').click(function(e){
+		e.preventDefault();
+		var url = 'https://www.twitter.com/' + user.twitter.screen_name;
+		//console.log(user.twitter);
+		myWindow=window.open(url,'','width=500,height=500');
+		myWindow.focus();
+	});
+});
+</script>
+<script type="text/javascript">
+var profile= <% if(locals.profile){%>
+			<%- JSON.stringify(profile) %>
+		  	<%}%>;
+ function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#profile_picture').attr('src', e.target.result);
+                $('#profile_picture1').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            //$('#image_div').show();
+        }
+    }
+function editProfile()
+{
+	//var value = $('#edit1').val();
+	$('#profile').hide();
+	//alert(profile.country);
+	$('#fedit4').val(profile.country);
+	$('#editPanel').show();
+}
+</script>
+</body>
+</html>

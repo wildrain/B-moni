@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>Blurbi - User Validation</title>
+		<link rel="shortcut icon" href="img/favicon.png">
+		<link href="../assets/css/bootstrap3.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<link rel="stylesheet" href="../assets/css/core-ace3.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+</head>
+<script type="text/javascript">
+if (window.opener) {
+    window.close();
+    window.opener.location.reload();
+}
+</script>
+<body>
+<!--<div id="modal" class="modal" style="width: 350px; height: 150px;  left:55%; top: 25%" >
+    <div class="modal-header" style="background-color:  #D6E9C0;">
+        <h2>
+        </h2>
+    </div>
+    <div class="modal-body" style="color: green">
+        <p>
+        </p>
+    </div>
+</div>-->
+<div class="modal fade" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title">Password Missmatch
+        	<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h5>
+      </div>
+      <div class="modal-body">
+        <p>Password didn't match.</p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--header-->
+<div class="navbar">
+    <div class="col-xs-5 col-sm-3 col-md-2" style="padding: 0 0 0 50px;">
+        <a href="">
+            <img class="logo img-responsive" src="../assets/images/betatoplogo125.png">
+        </a>
+    </div>
+</div>
+<!--header-->
+<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-3" style="padding-top:150px;">
+	<div class="col-sm-12 col-md-10">
+		<div class="alert alert-block alert-success">
+			<!-- <button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button> -->
+			<p>
+				Your activation link has been sent to your email address. Please activate your account by your actiavation link.
+			</p>
+		</div>
+	</div>
+	<!-- <div class="col-sm-6">
+		<form method="post" action="" id="approve">
+			<div class="form-group">
+				<label for="form-field-8">Password</label>
+				<input class="form-control" type="password" id="password" required />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success btn-sm" id="pass_submit"> Submit</button>
+			</div>
+		 </form>
+	</div> -->
+</div>
+<script src='assets/js/jquery-1.9.1.min.js'></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+			$(document).ready(function(){
+				//$('#modal').style.left = screen.width/2 - 150;
+				//$('#modal').style.top = screen.height/2 - 75;
+				$('#pass_submit').click(function(){
+					var address= '/waitingValidation';
+					var pass= $('#password').val();
+					$.ajax({
+						  type: "POST",
+				          url: address,
+				          data: {'pass': pass},
+				          success: function(data){
+				          	if(data!='missmatch')
+				          	window.location='/users/home';
+				          	else
+				          		$('#modal').modal();
+				          }
+					})
+					return false;
+				})
+				$('#approve').submit(function(){
+					if(false){
+						return false;
+					}
+					else
+					{
+						return false;
+					}
+				})
+			});
+</script>
+</body>
+</html>

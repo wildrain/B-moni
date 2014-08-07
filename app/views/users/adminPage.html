@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blurbi - Admin Page</title>
+  <link rel="shortcut icon" href="../img/favicon.png">
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+  <link rel="stylesheet" href="../assets/css/font.css" />
+  <!--ace styles-->
+  <link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+
+
+
+<!-- start top bar section -->
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+        
+      <ul class="nav ace-nav pull-right">
+        <li class="light-blue user-profile">
+          <a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+            
+            <img src="../assets/avatars/derekblurb.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+            
+            <span id="user_info">
+              <small>Welcome,</small>Blurbi
+            </span>
+
+            <i class="icon-caret-down"></i>
+          </a>
+
+          <ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+
+            <li>
+              <a href="/signout">
+                <i class="icon-off"></i>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+
+      </ul><!--/.ace-nav-->
+    </div>
+  </div><!--/.container-fluid-->
+</div><!--/.navbar-inner-->
+
+
+<!-- end top bar section -->
+
+
+
+
+<div class="container-fluid" id="main-container">
+
+      <a id="menu-toggler" href="#">
+        <span></span>
+      </a>
+
+
+
+      <!-- start side bar section -->
+
+      <div id="sidebar">
+
+        <% include sidebar.ejs %>
+
+
+        
+      </div>
+
+      <!-- end sidebar section -->
+
+
+
+
+      <div id="main-content" class="clearfix">
+        
+        <div id="page-content" class="clearfix">
+        
+        
+        
+          <div class="page-header position-relative">
+            
+          </div><!--/.page-header-->
+
+          <div class="row-fluid table" id="table2" >
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="span4 sortable">
+                    <span class="line"></span> Writer
+                  </th>
+                  <th class="span4 sortable">
+                    <span class="line"></span> Emails
+                  </th>
+                  <th class="span4 sortable">
+                    <span class="line"></span> Interests
+                  </th>
+                  <th class="span3 sortable">
+                    <span class="line"></span>Age 
+                  </th>
+                  <th class="span4 sortable">
+                    <span class="line"></span>Twitter Name
+                  </th>
+                  <th class="span4 sortable">
+                    <span class="line"></span>Linkedin Profile
+                  </th>
+                  <th class="span5 sortable">
+                    <span class="line"></span> Status
+                  </th>
+               </tr>
+               
+              </thead>
+              <tbody>
+               <% for (var i=0;i< user.admin.writerRequest.length;i++) {
+                if(locals.user.admin.writerRequest[i].writerProfile ){%>
+                <tr>
+                  <!-- row -->
+                  <td>
+                    <%= user.admin.writerRequest[i].writerProfile.name%></a>
+                  </td>
+                  <td>
+                    <%= user.admin.writerRequest[i].email%></a>
+                  </td>
+                  <td>
+                    <%= user.admin.writerRequest[i].writerProfile.interest.replace(/,(?=[^,]*$)/, '') %>
+                  </td>
+                  <td>
+                    <%= user.admin.writerRequest[i].writerProfile.Age%>
+                  </td>
+                  <td>
+                    <%= user.admin.writerRequest[i].writerProfile.twitter_name%>
+                  </td>
+                  <td>
+                    <%= user.admin.writerRequest[i].writerProfile.linkedin_name%>
+                  </td>
+                  <td>
+                   <button class="btn btn-info btn-small"  id="<%=i%>" onclick="requestToWrite(this)">
+                     <i class="icon-edit bigger-110"></i>
+                     Accept
+                   </button>
+                  </td>
+               </tr>
+               <%}}%>
+               <!-- row -->
+             </tbody>
+            </table>
+          </div>  <!-- end row-fluid -->
+
+
+
+        </div> <!-- end page content -->
+
+      </div><!--/#main-content-->
+    </div><!--/.fluid-container#main-container-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+         <! -- Recent Blurbs Starts !-->  
+         <!--basic scripts--> 
+         <script src='../assets/js/jquery-1.9.1.min.js'></script>
+         <script src="../assets/js/bootstrap.min.js"></script>
+         <script type="text/javascript">
+          var user= <% if(locals.user){%>
+           <%- JSON.stringify(user) %>
+           <%}%>;
+           function requestToWrite(element){
+             var button=$(element);
+             button.html('Accepted');
+             button.prop('disabled','disabled');
+             console.log(element.id);
+             var id = element.id;
+             var address = '/users/writerRegistrationAccept';
+             console.log(user.admin.writerRequest[id]);
+             $.ajax({
+               type: "POST",
+               url: address,
+               data: {'id': element.id},
+               success: function(data){
+                 location.reload();
+               }
+             })
+           }
+         </script>
+    </body>
+  </html>

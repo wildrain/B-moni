@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blurbi - Admin Page</title>
+  <link rel="shortcut icon" href="../img/favicon.png">
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+  <link rel="stylesheet" href="../assets/css/font.css" />
+  <!--ace styles-->
+  <link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+
+
+
+<!-- start top bar section -->
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+        
+      <ul class="nav ace-nav pull-right">
+        <li class="light-blue user-profile">
+          <a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+            
+            <img src="../assets/avatars/derekblurb.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+            
+            <span id="user_info">
+              <small>Welcome,</small>Blurbi
+            </span>
+
+            <i class="icon-caret-down"></i>
+          </a>
+
+          <ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+            <!-- <li>
+              <a href="/users/settings">
+                <i class="icon-cog"></i>
+                Settings
+              </a>
+            </li>
+            
+            <li>
+              <a href="/users/profile">
+                <i class="icon-user"></i>
+                Profile
+              </a>
+            </li>
+            
+            <li class="divider"></li> -->
+
+            <li>
+              <a href="/signout">
+                <i class="icon-off"></i>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+
+      </ul><!--/.ace-nav-->
+    </div>
+  </div><!--/.container-fluid-->
+</div><!--/.navbar-inner-->
+
+
+<!-- end top bar section -->
+
+
+
+
+<div class="container-fluid" id="main-container">
+
+      <a id="menu-toggler" href="#">
+        <span></span>
+      </a>
+
+
+
+      <!-- start side bar section -->
+
+      <div id="sidebar">
+       
+        <% include sidebar.ejs %>
+        
+      </div>
+
+      <!-- end sidebar section -->
+
+
+
+
+      <div id="main-content" class="clearfix">
+        
+        <div id="page-content" class="clearfix">
+        
+        
+        
+          <div class="page-header position-relative">
+            
+          </div><!--/.page-header-->
+
+          <div class="row-fluid table" id="table2" >
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="span4 sortable">
+                    <span class="line"></span> Buyers
+                  </th>
+                  <th class="span4 sortable">
+                    <span class="line"></span> Interests
+                  </th>
+                  <th class="span2 center sortable">
+                    <span class="line"></span>Age 
+                  </th>
+                  <th class="span4 sortable center">
+                    <span class="line"></span>Acceptance Ratio
+                  </th>
+                  <th class="span3 sortable center">
+                    <span class="line"></span>Per Blurbs
+                  </th>
+                  <th class="span3 sortable center">
+                    <span class="line"></span>Last Login
+                  </th>
+                  <th class="span3 sortable center">
+                    <span class="line"></span>Email
+                  </th>
+                  <th class="span2">Send Email</th>
+               </tr>
+               
+              </thead>
+              <tbody>
+
+              <% for(var i=0; i<allBrands.length; i++){ %>
+                <tr>
+                <td>
+                  <% if(locals.allBrands[i].logoPath) {%>
+                  <div style="width: 36px; height: 36px;">
+                   <img alt="Tyler's Avatar" src="../<%=allBrands[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit; height: inherit;" />
+                 </div>
+                 <% } else { %>
+                 <div style="width: 36px; height: 36px;">
+                  <img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+                </div>
+                <%}%>
+                <a style="color: #3b9852; " href="/users/seeProfile?id=<%= allBrands[i].id %>&acceptance=<%=allBrands[i].acceptance%>"  class="name"><%= allBrands[i].profileInfo.company%></a>
+              </td>
+
+              <td>
+               <% if(locals.allBrands[i].profileInfo.interest){ %>
+               <%= allBrands[i].profileInfo.interest %>
+               <%}%>
+             </td>
+             <td class="center">
+               <%= allBrands[i].profileInfo.range1%> to <%= allBrands[i].profileInfo.range2%>
+             </td>
+
+             <td class="center">
+                <%=allBrands[i].acceptance %> %
+              </td>
+
+              <td class="center">
+                <%=allBrands[i].pricePerBlurb %>
+              </td>
+
+              <%if (allBrands[i].lastLogin){%>
+                <td class="center"><%= allBrands[i].lastLogin.toString().substring(4,16) %></td>
+              <%}else{%>
+                <td class="center"> <%= allBrands[i].joiningDate %>  </td>
+              <% } %>
+
+
+              <%if (allBrands[i].email){%>
+                <td class="center"><%= allBrands[i].email %></td>
+              <%}else{%>
+                <td class="center"> &nbsp;  </td>
+              <% } %>
+
+
+              <td class="center">
+                <button class="btn btn-success btn-small" disabled>                 
+                 Email
+                </button>
+               
+              </td>
+
+
+
+            </tr>
+
+
+
+
+              <% } %>
+
+
+                <!-- row -->
+              </tbody>
+            </table>
+          </div>  <!-- end row-fluid -->
+
+
+
+        </div> <!-- end page content -->
+
+      </div><!--/#main-content-->
+    </div><!--/.fluid-container#main-container-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+         <! -- Recent Blurbs Starts !-->  
+         <!--basic scripts--> 
+         <script src='../assets/js/jquery-1.9.1.min.js'></script>
+         <script src="../assets/js/bootstrap.min.js"></script>
+        
+    </body>
+  </html>

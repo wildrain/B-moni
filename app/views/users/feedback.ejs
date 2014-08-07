@@ -1,0 +1,40 @@
+
+<div style="background: #FFFFFF; width: 100%; height: 25px; position:fixed; bottom:0%; left:1%; ">
+	<ul style="list-style:none;">
+		<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a href="/users/FAQuser" style="cursor: pointer; color: #5C983B;" >FAQ</a></li>
+		<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a  style="cursor: pointer; color: #5C983B;" href="/policy"  target="_blank" >Privacy</a></li>
+		<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/terms" target="_blank">TOS</a></li>
+		<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="http://blog.blurbi.ca/" target="_blank">Blog</a></li>
+		<li style="display:inline-block; margin:0 10px; vertical-align: middle;  font-size: 13px;"><a style="cursor: pointer; color: #5C983B;" href="/users/Feedback" >Feedback</a></li>
+	</ul>
+</div>
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script>
+var fg;
+$(document).ready(function(){
+		fg=0;
+		$('#feedback').click(function(){
+		//alert("djfdjf");
+		$('#feedback_modal').modal();
+		})
+		$('#feedback_form').submit(function(){
+			if(false){
+				return false;
+			}
+			else{
+				fg=1;
+				return false;
+			}
+		})
+		$('#feedback_submit').click(function(){
+			if(fg==1){
+				$.ajax({
+				type: 'POST',
+				url: '/users/Feedback',
+				data: $('#feedback_form').serialize(),
+			});
+			location.reload();
+			}
+		})
+})
+</script>

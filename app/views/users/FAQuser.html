@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>Blurb - FAQ</title>
+		<!--basic styles-->
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+	<%
+										var amount = accountBalance;
+										var target;
+										var x;
+										var percentege;
+										if (amount < 10 || amount ==10)
+										{
+											percentege = (amount/10)*100;
+											target = 10;
+										} 
+										else  if((amount<25 && amount > 10) || amount==25)
+											{
+												percentege = (amount/25)*100;
+												target = 25;
+											}
+										else if((amount>25 && amount<100) || amount==100)
+											{
+												percentege = (amount/100)*100;
+												target = 100;
+										}
+										percentege=Math.floor(percentege);
+	%>
+<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                  <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					<ul class="nav ace-nav pull-right">
+						<% include topbar.ejs %>
+					</ul><!--/.ace-nav-->
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="sidebar">
+    <ul class="nav nav-list">
+					<% include sidebar.ejs %>
+				</ul><!--/.nav-list-->
+    <!--/.nav-list-->
+  </div>
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+        <h1 style="color: #3b9852"> FAQ <small>   </small> </h1>
+      </div>
+      <!--/.page-header-->
+      <div class="row-fluid"> 
+<! -- / PROFILE BEGINS -->
+<div class="boxwidth1">
+                <!-- header -->
+              	<div class="tabbable">
+									<ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
+										<li class="active">
+											<a class="green" data-toggle="tab" href="#faq-tab-1">
+												<i class="green icon-question-sign bigger-120"></i>
+												General
+											</a>
+										</li>
+										<li>
+											<a data-toggle="tab" href="#faq-tab-2">
+												<i class="green icon-user bigger-120"></i>
+												Content
+											</a>
+										</li>
+										<li>
+											<a data-toggle="tab" href="#faq-tab-3">
+												<i class="orange icon-credit-card bigger-120"></i>
+												Payment
+											</a>
+										</li>
+									</ul>
+									<div class="tab-content no-border padding-24">
+										<div id="faq-tab-1" class="tab-pane fade in active">
+											<h4 class="blue">
+												<i class="blue icon-question-sign bigger-110"></i>
+												General Questions
+											</h4>
+											<div class="space-8"></div>
+											<div id="faq-list-1" class="panel-group accordion-style1 accordion-style2">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-1-1" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+														<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp; What is a Blurb?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-1-1" style="height: 0px;">
+														<div class="panel-body">
+															<br>A “Blurb” is a short and shareable piece of social media content that provides value to fans. Think of a Facebook post about something your friends would be interested in or an interesting Tweet. Have a gander at our blog post on how we’re re-defining the Blurb for the social era.<br><br>
+														</div>
+													</div>
+												</div>
+
+
+
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-1-2" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+														<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp; What is a FameRate?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-1-2" style="height: 0px;">
+														<div class="panel-body">
+															<br>FameRate is both a score given to an indivual Blurb and a cumulative score given to a Blurber or Buyer. It defines their effeciveness in engaging and reaching followers. It consists of differing weights given to social media actions conducted on a Blurb and the reach produced by such actions.  The higher the score, the visible the blurb.<br><br>
+														</div>
+													</div>
+												</div>
+
+
+
+
+
+
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-1-3" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															<i class="icon-sort-by-attributes-alt"></i>
+															&nbsp; How many buyers can I write for?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-1-3" style="height: 0px;">
+														<div class="panel-body">
+															<br>As many as we automatically match you up with.  Hint: Adjusting your "interests" will match you up with different buyers.<br><br>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="faq-tab-2" class="tab-pane fade">
+											<h4 class="blue">
+												<i class="green icon-user bigger-110"></i>
+												Content
+											</h4>
+											<div class="space-8"></div>
+											<div id="faq-list-2" class="panel-group accordion-style1 accordion-style2">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-2-1" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+Do I own the copyright to the content I write?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-2-1">
+														<div class="panel-body">
+															<br>Yes, but only until it is accepted and posted by the buyer, at which point the copyrite is transferred to them.<br><br>
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-2-2" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+					 Can’t buyers just steal content?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-2-2">
+														<div class="panel-body">
+														<br>	Well they could, but that wouldn’t be very nice of them.  We give you the ability to flag content that you think has been copied or too closely copied.  We look into the flagged content and make a decision from there.  Three strikes and we boot them off the platform.<br><br>  
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-2-3" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+					  How many Blurbs can I write per day?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-2-3">
+														<div class="panel-body">
+															<br>As many as you want.  However, we do give the buyers the ability to flag content that they feel is spammy.  If you spam three times we boot you off the site! Sorry! ...but not really.  <br><br>
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-2-4" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+					  What happens to all of the hard work I put into content that wasn’t accepted?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-2-4">
+														<div class="panel-body">
+															<br>We give you the option of writing each Blurb at up to 5 different clients, thus giving your blurbs a higher chance of being selected.  Once one client accepts the blurb it disappears from the other buyers' feeds.  You can always re-purpose the same content in the future by adding a different title/hashtags, then submitting it to a different buyer.<br><br>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="faq-tab-3" class="tab-pane fade">
+											<h4 class="blue">
+												<i class="orange icon-credit-card bigger-110"></i>
+												Payment 
+											</h4>
+											<div class="space-8"></div>
+											<div id="faq-list-3" class="panel-group accordion-style1 accordion-style2">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-3-1" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+						How much money can I make?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-3-1">
+														<div class="panel-body">
+															<br>This depends on how often you post.  You'll make from 75c-80c per blurb at the moment.  A blurb should take you anywhere from 2-5 minutes.  You can spend an hour a day and make around $15-20.  <br><br>
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-3-2" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+						How does payment work?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-3-2">
+														<div class="panel-body">
+															<br>1. In the top right you can see how much you've earned since your last deposit. <br> <br>
+2. You select a deposit threshold, or in other words how much money you need to make before payment is deposited in your account. A $10 deposit threshold requires a 0.37c transaction fee.  The lowest deposit threshold without a transaction fee is $20. <br><br>
+3. At the end of every month we'll send you a notification (the little bell) informing you that you can now deposit your money.   <br><br>
+4.  Go to your deposits page and follow the instructions to deposit your earnings via Paypal <br><br>
+5. You can view your deposit progress by hovering over the credit card icon in the top right.<br><br>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="faq-tab-4" class="tab-pane fade">
+											<h4 class="green">
+												<i class="purple icon-magic bigger-110"></i>
+												Miscellaneous Questions
+											</h4>
+											<div class="space-8"></div>
+											<div id="faq-list-4" class="panel-group accordion-style1 accordion-style2">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-4-1" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-hand-right" data-icon-hide="icon-hand-down" data-icon-show="icon-hand-right"></i>
+															&nbsp;
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-4-1">
+														<div class="panel-body">
+															Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-4-2" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-frown bigger-120" data-icon-hide="icon-smile" data-icon-show="icon-frown"></i>
+															&nbsp;
+					  Single-origin coffee nulla assumenda shoreditch et?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-4-2">
+														<div class="panel-body">
+															Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-4-3" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+					  Sunt aliqua put a bird on it squid?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-4-3">
+														<div class="panel-body">
+															Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+														</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<a href="#faq-4-4" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+															<i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+															&nbsp;
+					  Brunch 3 wolf moon tempor sunt aliqua put?
+														</a>
+													</div>
+													<div class="panel-collapse collapse" id="faq-4-4">
+														<div class="panel-body">
+															Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+										</div>
+										<% include feedback.ejs%>
+									<! -- Recent Blurbs Starts !-->	
+	<!--basic scripts--> 
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,959 @@
+<% 
+var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+								 				"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+if(userType=='agency'){%>
+	<ul class="nav ace-nav pull-right">
+	<li class="light-blue user-profile">
+		<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+			<% if(locals.brandLogoPath){ %>
+			<img src="../<%= brandLogoPath %>" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;"/>
+			<% } else {%>
+			<img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width:36px;height:36px;" />
+			<%}%>
+			<span id="user_info" style="overflow:visible !important;">
+				<%=profile.company%>
+			</span>
+			<i class="icon-caret-down"></i>
+		</a>
+		<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+			<li>
+				<a href="/users/agencyBrandLinkTo">
+					<i class="icon-globe"></i>
+					LinkTo
+				</a>
+			</li>
+			<li>
+				<a href="/users/agencyBrandProfile">
+					<i class="icon-user"></i>
+					Profile
+				</a>
+			</li>
+		</ul>
+	</li>
+	<li class="pink1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<span> Select a brand<i class="icon-caret-down"></i></span>
+		</a>
+		<ul class="pull-right  dropdown-navbar  dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-envelope"></i>
+				<% if(brands.length>1) {%>
+				<%=brands.length%> Brand
+				<% } else { %>
+				<%=brands.length%> Brands
+				<%}%>
+			</li>
+			<% for(i=0;i<brands.length;i++) {%>
+			<li>
+				<a href="#">
+					<% if(brands[i].logoPath) {%>
+					<img src="../<%=brands[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" class="msg-photo" alt="Alex's Avatar" style="width: 36px; height: 36px;" />
+					<%} else {%>
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's Avatar" style="width: 36px; height: 36px;" />
+					<%}%>
+					<span class="msg-body">
+						<span class="msg-title">
+							<button class="btn  btn-small" id='brand<%= i%>' onclick="selectBrand(<%=i%>)"> <%=brands[i].company%></button>
+						</span>
+					</span>
+				</a>
+			</li>
+			<% }%>
+			<li>
+			</li>
+		</ul>
+	</li>
+	<!-- start Campaign Balance -->
+	<li class="pink1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<i class="icon-sitemap"></i>
+			<span>$<%=parseFloat(campaignBalance).toFixed(2)%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				campaigns
+			</li>
+			<% var a=0; for(var i=0;i<historyCallAction.length;i++) { %>
+			<% if(historyCallAction[i].eventType == 'campaign') { 
+				if(a == 20)
+					break;
+				a++;	
+			%>
+			<li style="overflow: hidden;">
+				<a href="#">
+					<span  class="campaign-body">
+						<span style="font-weight:bold" class="campaign-title">
+							<% if(historyCallAction[i].title.length>18){ %>
+							<%= historyCallAction[i].title.substring(0,15) %>...
+							<% } else{ %>
+							<%= historyCallAction[i].title %>
+							<% } %>
+						</span>
+						<span style="color: #5C983B;">&nbsp;<%= historyCallAction[i].perCampaignAmount %> remaining</span>
+					</span>
+				</a>
+			</li>
+			<% }} %>
+			<li><!--
+				<a style="color: #3b9852; " href="#">
+					See all campaigns
+					<i class="icon-arrow-right"></i>
+				</a>
+				-->
+			</li>
+		</ul>
+	</li>
+	<!-- end Campaign Balance -->
+	<li class="green1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<i id="tour3" class="icon-credit-card"></i>
+			<span>$<%=parseFloat(accountBalance).toFixed(2)%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-yellow dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-ok"></i>
+				Account
+			</li>
+			<li>
+				<a href="./TopUpAccount">
+					<div class="clearfix">
+						<span style="color: #3b9852; "  class="pull-left">Top up Account</span>
+					</div>
+				</a>
+			</li>
+			<!-- <li>
+				<a href="/users/changePricing">
+					<div class="clearfix">
+						<span style="color: #3b9852; " class="pull-left">Change Pricing</span>
+					</div>
+				</a>
+			</li> -->
+		</ul>
+	</li>
+
+
+	<!-- <li class="blue1">
+		<a onclick=notificationSeen(<%=RequestRecieve.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<% for(var i=0, l=0;i<RequestRecieve.length;i++){
+				if(RequestRecieve[i].seen=='unseen'){
+				l++;
+			}}%>
+			<% if(l>1 || l==1) {%>
+			<i class="icon-bell-alt icon-only icon-animated-vertical"></i>
+			<%} else { %>
+			<i class="icon-bell-alt icon-only "></i>
+			<% } %>
+			<span id="req1"><%= l %></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header" id="req2">
+				<i class="icon-bell"></i>
+				<% if(RequestRecieve.length>1) {%>
+				<%=RequestRecieve.length%> Requests
+				<% } else { %>
+				<%=RequestRecieve.length%> Request
+				<%}%>
+			</li>
+			<% for(i=RequestRecieve.length-1;i>=0 ;i--) {%>
+			<li>
+				<div id="vanish<%=i%>">
+					<% if(locals.RequestRecieve[i].logoPath) { %>
+					<div style="width: 36px; height: 36px;">
+					<img  src="../<%=RequestRecieve[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" alt="Jason's Photo" style="width: inherit; height: inherit;" />
+					</div>
+					<%}else {%>
+					 <div style="width: 36px; height: 36px;">
+					<img  src="../assets/avatars/default.png"  alt="Alex's Avatar" style="width: inherit;"/>
+					</div>
+					<%}%>
+					<span class="msg-body">
+						<span class="msg-title">
+							<label><a style="padding: 0%; color: #3b9852;" href="/users/seeProfile?id=<%= RequestRecieve[i].id%>"><%=RequestRecieve[i].name%></a> wants to write for you...</label>
+						</span>
+						<span class="buttons">
+							<button id="<%=i%>" class="btn btn-success btn-small" onclick="accept(this)">Accept</button>
+							<button id="<%=i%>" class="btn  btn-danger btn-small" onclick="deny(this)">Deny</button>
+						</span>
+					</span>
+					</div>
+				<br>
+			</li>
+			<% }%>
+			
+		</ul>
+	</li> -->
+
+
+
+	<!--
+	<li class="pink1">
+		<a  onclick=messageSeen(<%=historyWriteBlurb.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+		<%var len=0; len2=0; for(var i=0;i<historyWriteBlurb.length;i++){ %>
+			<% if(clients.indexOf(historyWriteBlurb[i].id)!=-1 && historyWriteBlurb[i].seen=='unseen'){
+			%>
+			<% len++;%>
+			<%} if(clients.indexOf(historyWriteBlurb[i].id)!=-1){%>
+			<% len2++; %>
+			<%}}%>
+			<%if(len>1 || len==1){%>
+			<i class="icon-envelope-alt icon-only icon-animated-vertical"></i>
+			<% }else{%>
+			<i class="icon-envelope-alt icon-only "></i>
+			<% } %>
+			<span><%= len %></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-envelope"></i>
+				<% if(len2>1) {%>
+				<%=len2%> Messages
+				<% } else { %>
+				<%=len2%> Message
+				<%}%>
+			</li>
+			<% for(i=historyWriteBlurb.length-1;i>=0;i--) {
+			if(clients.indexOf(historyWriteBlurb[i].id)!=-1 ){%>
+				<% if((historyWriteBlurb.length-i)==4) {%>
+					<% break; %>
+					<%}%>
+			<li style="overflow: hidden;">
+				<a href="#">
+					<% if(locals.historyWriteBlurb[i].path) {%>
+					<div style="width: 36px; height: 36px;">
+					<img src="../<%=historyWriteBlurb[i].path%>" onerror="this.src='../assets/avatars/default.png';" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;"/>
+					</div>
+					<%} else {%>
+					 <div style="width: 36px; height: 36px;">
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;" />
+					</div>
+					<%}%>
+					<span class="msg-body" style="max-width: 100%;">
+						<span class="msg-title">
+							<span class="green"><%=historyWriteBlurb[i].writer.name%></span>
+							<% if(historyWriteBlurb[i].description.length > 25){ %>
+								<%=historyWriteBlurb[i].description.substring(0,25)+'...'%>
+							<% }else{  %>
+								<%=historyWriteBlurb[i].description %>
+							<% } %>
+						</span>
+							<% var x = new Date(historyWriteBlurb[i].date) %>
+							<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() + ',' +  ' ' + x.getHours() + ':' + x.getMinutes() %></span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<% }}%>
+			<li>
+				<a style="color: #3b9852; " href="./brandMessage">
+					See all messages
+					<i class="icon-arrow-right"></i>
+				</a>
+			</li>
+		</ul>
+	</li>
+	-->
+	<li class="light-blue user-profile">
+		<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+			<% if(locals.logoPath) {%>
+			<img src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;"/>
+			<% }else {%>
+			<img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width:36px;height:36px;" />
+			<%}%>
+			<span id="user_info">
+				<small>Welcome,</small>
+				<% if(locals.name) {%>
+				<%= name%>
+				<%}%>
+			</span>
+			<i class="icon-caret-down"></i>
+		</a>
+		<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+			<li>
+				<a href="/users/settings">
+					<i class="icon-cog"></i>
+					Settings
+				</a>
+			</li>
+			<li>
+				<a href="/users/profile">
+					<i class="icon-user"></i>
+					Profile
+				</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="/signout">
+					<i class="icon-off"></i>
+					Logout
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul><!--/.ace-nav-->
+<%} else if(userType=='brand'){%>
+<ul class="nav ace-nav pull-right">
+	<li class="pink1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<i class="icon-sitemap"></i>
+			<span>$<%=parseFloat(campaignBalance).toFixed(2)%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				campaigns
+			</li>
+			<% var a=0; for(var i=0;i<historyCallAction.length;i++) { %>
+			<% if(historyCallAction[i].eventType == 'campaign') { 
+				if(a == 20)
+					break;
+				a++;	
+			%>
+			<li style="overflow: hidden;">
+				<a href="#">
+					<span  class="campaign-body">
+						<span style="font-weight:bold" class="campaign-title">
+							<% if(historyCallAction[i].title.length>18){ %>
+							<%= historyCallAction[i].title.substring(0,15) %>...
+							<% } else{ %>
+							<%= historyCallAction[i].title %>
+							<% } %>
+						</span>
+						<span style="color: #5C983B;">&nbsp;<%= historyCallAction[i].perCampaignAmount %> remaining</span>
+					</span>
+				</a>
+			</li>
+			<% }} %>
+			<li><!--
+				<a style="color: #3b9852; " href="#">
+					See all campaigns
+					<i class="icon-arrow-right"></i>
+				</a>
+				-->
+			</li>
+		</ul>
+	</li>
+	<li class="green1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<i id="tour3" class="icon-credit-card"></i>
+			<span>$<%=parseFloat(accountBalance).toFixed(2)%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-yellow dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-ok"></i>
+				Account
+			</li>
+				<li>
+				<a href="./TopUpAccount">
+					<div class="clearfix">
+						<span style="color: #3b9852; "  class="pull-left">Top up Account</span>
+					</div>
+				</a>
+			</li>
+			<!-- <li>
+				<a href="/users/changePricing">
+					<div class="clearfix">
+						<span style="color: #3b9852; " class="pull-left">Change Pricing</span>
+					</div>
+				</a>
+			</li> -->
+		</ul>
+	</li>
+
+
+	<!-- <li class="blue1">
+		<a onclick=notificationSeen(<%=RequestRecieve.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+		<% for(var i=0, l=0;i<RequestRecieve.length;i++){
+				if(RequestRecieve[i].seen=='unseen'){
+				l++;
+			}}%>
+			<% if(l>1 || l==1) {%>
+			<i class="icon-bell-alt icon-only icon-animated-vertical"></i>
+			<%} else { %>
+			<i class="icon-bell-alt icon-only "></i>
+			<% } %>
+			<span id="req1"><%= l %></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header" id="req2">
+				<i class="icon-bell"></i>
+				<% if(RequestRecieve.length>1) {%>
+				<%=RequestRecieve.length%> Requests
+				<% } else { %>
+				<%=RequestRecieve.length%> Request
+				<%}%>
+			</li>
+			<% for(i=RequestRecieve.length-1;i>=0 ;i--) {%>
+			<li>
+				<div id="vanish<%=i%>">
+					<% if(locals.RequestRecieve[i].logoPath) { %>
+					<div style="width: 36px; height: 36px;">
+					<img  src="../<%=RequestRecieve[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" alt="Photo" style="width: inherit" />
+					</div>
+					<%}else {%>
+					 <div style="width: 36px; height: 36px;">
+					<img  src="../assets/avatars/default.png"  alt="Photo" style="width: inherit;"/>
+					</div>
+					<%}%>
+					<span class="msg-body">
+						<span class="msg-title">
+							<label><a style="padding: 0%; color: #3b9852;" href="/users/seeProfile?id=<%= RequestRecieve[i].id%>"><%=RequestRecieve[i].name%></a> wants to write for you...</label>
+						</span>
+						<span class="buttons">
+							<button id="<%=i%>" class="btn btn-success btn-small" onclick="accept(this)">Accept</button>
+							<button id="<%=i%>" class="btn  btn-danger btn-small" onclick="deny(this)">Deny</button>
+						</span>
+					</span>
+					</div>
+					<br>
+			</li>
+			<% }%>
+			
+		</ul>
+	</li> -->
+
+
+	<!--
+	<li class="pink1">
+		<a onclick=messageSeen(<%=historyWriteBlurb.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+		<%var len=0, len2=0; for(var i=0;i<historyWriteBlurb.length;i++){ %>
+			<% if(clients.indexOf(historyWriteBlurb[i].id)!=-1 && historyWriteBlurb[i].seen=='unseen'){
+			%>
+			<% len++;%>
+			<%} if(clients.indexOf(historyWriteBlurb[i].id)!=-1){%>
+			<% len2++;%>
+			<%}}%>
+			<%if(len>1 || len==1){%>
+			<i class="icon-envelope-alt icon-only icon-animated-vertical"></i>
+			<% }else{%>
+			<i class="icon-envelope-alt icon-only "></i>
+			<% } %>
+			<span><%= len %></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-envelope"></i>
+				<% if(len2>1) {%>
+				<%=len2%> Messages
+				<% } else { %>
+				<%=len2%> Message
+				<%}%>
+			</li>
+			<% for(i=historyWriteBlurb.length-1;i>=0;i--) {
+			if(clients.indexOf(historyWriteBlurb[i].id)!=-1 ){%>
+				<% if((historyWriteBlurb.length-i)==4) {%>
+					<% break; %>
+					<%}%>
+			<li style="overflow: hidden;">
+				<a href="#">
+					<% if(locals.historyWriteBlurb[i].path) {%>
+					<div style="width: 36px; height: 36px;">
+					<img src="../<%=historyWriteBlurb[i].path%>" onerror="this.src='../assets/avatars/default.png';" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;"/>
+					</div>
+					<%} else {%>
+					 <div style="width: 36px; height: 36px;">
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;" />
+					</div>
+					<%}%>
+					<span class="msg-body" style="max-width: 100%;">
+						<span class="msg-title">
+							<span class="green"><%=historyWriteBlurb[i].writer.name%></span>
+							<% if(historyWriteBlurb[i].description.length > 25){ %>
+								<%=historyWriteBlurb[i].description.substring(0,25)+'...'%>
+							<% }else{  %>
+								<%=historyWriteBlurb[i].description %>
+							<% } %>
+						</span>
+						<span class="msg-time">
+							<i class="icon-time"></i>
+							<% var x = new Date(historyWriteBlurb[i].date) %>
+							<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() + ',' +  ' ' + x.getHours() + ':' + x.getMinutes() %></span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<% }}%>
+			<li>
+				<a style="color: #3b9852; " href="./brandMessage">
+					See all messages
+					<i class="icon-arrow-right"></i>
+				</a>
+			</li>
+		</ul>
+	</li>
+	-->
+	<li class="light-blue user-profile">
+		<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+			<% if(locals.logoPath) {%>
+			<img src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;"/>
+			<% }else {%>
+			<img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width:36px;height:36px;" />
+			<%}%>
+			<span id="user_info">
+				<small>Welcome,</small>
+				<% if(locals.name) {%>
+				<%= name%>
+				<%}%>
+			</span>
+			<i class="icon-caret-down"></i>
+		</a>
+		<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+			<li>
+				<a href="/users/settings">
+					<i class="icon-cog"></i>
+					Settings
+				</a>
+			</li>
+			<li>
+				<a href="/users/profile">
+					<i class="icon-user"></i>
+					Profile
+				</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="/signout">
+					<i class="icon-off"></i>
+					Logout
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul><!--/.ace-nav-->
+<% } else if(userType=='writer'){ %>
+<ul class="nav ace-nav pull-right">
+	<li class="green1">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<i class="icon-money"></i>
+			<span>$<%=parseFloat(accountBalance).toFixed(2)%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-ok"></i>
+				Account
+			</li>
+			<li>
+				<a href="/users/TopUpAccount">
+					<div class="clearfix">
+						<span class="pull-left">Deposit Progress</span>
+						<span class="pull-right"><%=percentege%>%</span>
+					</div>
+					<div class="progress progress-mini progress-success">
+						<div style="width:<%=percentege%>%" class="bar"></div>
+					</div>
+				</a>
+				</a>
+			</li>
+		</ul>
+	</li>
+	<li class="blue1">
+		<a onclick=notificationSeen(<%=RequestRecieve.length%>,<%=historyCallAction.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+			<% var a=0 ,b=0, c=0, d=0; var editLen=new Array(); for(var i=0, l=0;i<RequestRecieve.length;i++){
+					if(RequestRecieve[i].seen=='unseen'){
+					l++;
+					c = l;
+					}
+				}
+
+				for(var j=0, len=0, editCallLen=0;j<historyCallAction.length; j++){
+					if((historyCallAction[j].seen == 'unseen') || (historyCallAction[j].editStatus == 'Yes') ){
+						if(historyCallAction[j].seen == 'unseen'){
+							len++;
+							b = len;
+						}
+
+						if(historyCallAction[j].editStatus == 'Yes'){
+							editCallLen++;
+							d = editCallLen;
+							editLen.push(j);
+						}
+						
+					}
+				}
+
+				a = c+b+d;
+
+			%>
+
+			<% if(a>1 || a==1) {%>
+			<i class="icon-bell-alt icon-only icon-animated-vertical"></i>
+			<%} else { %>
+			<i class="icon-bell-alt icon-only "></i>
+			<% } %>
+			<span id="req1"><%= a %></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer" style="width: 285px">
+			<!-- <li class="nav-header" id="req2">
+				<i class="icon-bell"></i>
+				<% if(RequestRecieve.length>1) {%>
+				<%=a%> Request
+				<% } else { %>
+				<%=RequestRecieve.length%> Request
+				<%}%>
+			</li>
+			<% for(i=RequestRecieve.length-1;i>=0;i--) {%>
+			<li>
+				<div id="vanish<%=i%>">
+					<% if(locals.RequestRecieve[i].logoPath) { %>
+					<div style="width: 36px; height: 36px; margin-right: 12px; float: left;">
+					<img src="../<%=RequestRecieve[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';"  class="msg-photo" alt="Alex'sa Avatar" style="width:inherit;" />
+					</div>
+					<%}else {%>
+					<div style="width: 36px; height: 36px; margin-left: 12px; float: left;">
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex'ss Avatar" style="width: inherit;"/>
+					</div>
+					<%}%>
+					<span class="msg-body">
+						<span class="msg-title">
+							<label><a style="padding: 0%; color: #3b9852;" href="/users/seeProfile?id=<%= RequestRecieve[i].id%>"><%=RequestRecieve[i].name%></a> wants you to write for them...</label>
+						</span>
+						<span class="buttons">
+							<button id="<%=i%>" class="btn btn-success btn-small" onclick="accept(this)">Accept</button>
+							<button id="<%=i%>" class="btn btn-danger btn-small" onclick="deny(this)">Deny</button>
+						</span>
+					</span>
+					</div>
+						<br>
+			</li>
+			<% }%> -->
+
+
+			<li class="nav-header">
+				<i class="icon-envelope"></i>
+				<% if(historyCallAction.length>1) {%>
+				<%=b%> New Messages &nbsp; && &nbsp;<%= editLen.length %> [Updates]
+				<% } else { %>
+				<%=historyCallAction.length%> No New Message 
+				<%}%>
+
+			</li>
+
+
+			<% for(i=historyCallAction.length-1;i>=historyCallAction.length-b;i--) {%>
+				
+			<li style="overflow: hidden;">
+				<a href="#">
+					<% if(locals.historyCallAction[i].logoPath) {%>
+					<div style="width: 36px; height: 36px; margin-right: 12px; float: left;">
+					<img src="../<%=historyCallAction[i].logoPath%>" class="msg-photo" onerror="this.src='../assets/avatars/default.png';" alt="Alex'sa Avatar" style="width: inherit; height: inherit;"/>
+					</div>
+					<% } else {%>
+					<div style="width: 36px; height: 36px; margin-right: 12px; float: left;">
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's4 Avatar" style="width: inherit; height: inherit;" />
+					</div>
+					<% } %>
+					<span class="msg-body" style="max-width: 100%;">
+						<span class="msg-title">
+							<span  class="green"><%=historyCallAction[i].brand.company%></span>
+							<% if(historyCallAction[i].description.length > 25){ %>
+								<%=historyCallAction[i].description.substring(0,25)+'...'%>
+							<% }else{  %>
+								<%=historyCallAction[i].description %>
+							<% } %>		
+						</span>
+				  		<% var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+								 				"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+							var x = new Date(historyCallAction[i].date); %>
+						<span class="msg-time">
+							<i class="icon-time"></i>
+							<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() + ',' +  ' ' + x.getHours() + ':' + x.getMinutes() %></span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<div>
+			</div>
+			<% }%>
+
+
+			<!-- start edit call action section -->
+			
+			<% for(var i=0;i<historyCallAction.length;i++) {%>
+
+				<% for(var j=0; j<editLen.length; j++){ %>
+					
+					<% if(i == editLen[j]){ %>
+					
+					<li style="overflow: hidden;">
+						<a href="#">
+							<% if(locals.historyCallAction[i].logoPath) {%>
+							<div style="width: 36px; height: 36px; margin-right: 12px; float: left;">
+							<img src="../<%=historyCallAction[i].logoPath%>" class="msg-photo" onerror="this.src='../assets/avatars/default.png';" alt="Alex'sa Avatar" style="width: inherit; height: inherit;"/>
+							</div>
+							<% } else {%>
+							<div style="width: 36px; height: 36px; margin-right: 12px; float: left;">
+							<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's4 Avatar" style="width: inherit; height: inherit;" />
+							</div>
+							<% } %>
+							<span class="msg-body" style="max-width: 100%;">
+								<span class="msg-title">
+									<span  class="green"><%=historyCallAction[i].brand.company%></span>
+									<% if(historyCallAction[i].description.length > 25){ %>
+										<%=historyCallAction[i].description.substring(0,25)+'...'%>
+									<% }else{  %>
+										<%=historyCallAction[i].description %>
+									<% } %>		
+								</span>
+						  		<% var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+										 				"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+									var x = new Date(historyCallAction[i].date); %>
+								<span class="msg-time">
+									<i class="icon-time"></i>
+									<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() + ',' +  ' ' + x.getHours() + ':' + x.getMinutes() %></span><span style="color: red; margin-left: 5px">[Updated]</span></span>
+								
+							</span>
+						</a>
+					</li>
+			<div>
+			</div>
+			<% }}}%>
+
+
+			<!-- end edit call action section -->
+
+
+
+
+
+			<li>
+				<!--<a style="color: #3b9852; " href="/users/writer-allrequest">
+					See all Requests
+					<i class="icon-arrow-right"></i>
+				</a>-->
+			</li>
+		</ul>
+	</li>
+	<!--
+	<li class="pink1">
+		<a onclick=messageSeen(<%=historyCallAction.length%>); data-toggle="dropdown" class="dropdown-toggle" href="#">
+		<%var len=0; for(var i=0;i<historyCallAction.length;i++){ %>
+			<% if(historyCallAction[i].seen=='unseen'){%>
+			<% len++;%>
+			<%} }%>
+			<% if(len>1 || len==1 ) {%>
+			<i class="icon-envelope-alt icon-only icon-animated-vertical"></i>
+			<%} else{%>
+			<i class="icon-envelope-alt icon-only "></i>
+			<% } %>
+			<span><%= len%></span>
+		</a>
+		<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-envelope"></i>
+				<% if(historyCallAction.length>1) {%>
+				<%=historyCallAction.length%> Messages
+				<% } else { %>
+				<%=historyCallAction.length%> Message
+				<%}%>
+			</li>
+			<% for(i=historyCallAction.length-1;i>=0;i--) {%>
+					<% if((historyCallAction.length-i)==4) {%>
+					<% break; %>
+					<%}%>
+			<li style="overflow: hidden;">
+				<a href="#">
+					<% if(locals.historyCallAction[i].logoPath) {%>
+					<div style="width: 36px; height: 36px;">
+					<img src="../<%=historyCallAction[i].logoPath%>" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;"/>
+					</div>
+					<% } else {%>
+					<div style="width: 36px; height: 36px;">
+					<img src="../assets/avatars/default.png" class="msg-photo" alt="Alex's Avatar" style="width: inherit; height: inherit;" />
+					</div>
+					<% } %>
+					<span class="msg-body" style="max-width: 100%;">
+						<span class="msg-title">
+							<span  class="green"><%=historyCallAction[i].brand.company%></span>
+							<% if(historyCallAction[i].description.length > 25){ %>
+								<%=historyCallAction[i].description.substring(0,25)+'...'%>
+							<% }else{  %>
+								<%=historyCallAction[i].description %>
+							<% } %>		
+						</span>
+				  		<% var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+								 				"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+							var x = new Date(historyCallAction[i].date); %>
+						<span class="msg-time">
+							<i class="icon-time"></i>
+							<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() + ',' +  ' ' + x.getHours() + ':' + x.getMinutes() %></span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<div>
+			</div>
+			<% }%>
+			<li>
+				<a  style="color: #3b9852; "href="./writerMessage">
+					See all messages
+					<i class="icon-arrow-right"></i>
+				</a>
+			</li>
+		</ul>
+	</li>
+	-->
+	<li class="light-blue user-profile">
+		<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+			<%if(locals.logoPath){%>
+			<img src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;"/>
+			<% } else {%>
+			<img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width:36px;height:36px" />
+			<%}%>
+			<span id="user_info">
+				<small>Welcome,</small>
+				<%= name%>
+			</span>
+			<i class="icon-caret-down"></i>
+		</a>
+		<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+		<li>
+				<a href="/users/settings">
+					<i class="icon-cog"></i>
+					Settings
+				</a>
+			</li>
+			<li>
+				<a href="/users/profile">
+					<i class="icon-user"></i>
+					Profile
+				</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="/signout">
+					<i class="icon-off"></i>
+					Logout
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul><!--/.ace-nav-->
+<% } %>
+<script>
+	var brands= <% if(locals.brands){%>
+	<%- JSON.stringify(brands) %>
+  	<%}else{%>
+  	null
+  	<%}%>
+  	;
+	function selectBrand(i){
+	 var id = brands[i].id;
+	 window.location = '/users/brandContent?brandIndex=' + id;
+	}
+</script>
+<script>
+	var historyCallAction= <% if(locals.historyCallAction){%>
+	<%- JSON.stringify(historyCallAction) %>
+  	<%}else{%>
+  		null
+  		<%}%>;
+  	var historyWriteBlurb= <% if(locals.historyWriteBlurb){%>
+	<%- JSON.stringify(historyWriteBlurb) %>
+  	<%}else{%>
+  		null
+  		<%}%>;
+  	var RequestRecieve= <% if(locals.RequestRecieve){%>
+	<%- JSON.stringify(RequestRecieve) %>
+  	<%}else{%>
+  		null
+  		<%}%>;
+  	var userType= <% if(locals.userType)%>
+	<%- JSON.stringify(userType)  %>;
+	function notificationSeen(length,ctaLength){
+		var fg=0;
+		
+		if(length==0){
+		}else{
+			for(var i=length-1;i>=0;i--){
+				if(RequestRecieve[i].seen=='unseen'){
+					fg=1;
+					break;
+				}
+			}
+			if(fg==1){
+				$.ajax({
+	            type: "POST",
+	            url: '/users/notificationSeen',
+	            data: {'length': length},
+	             success: function(data){
+	             	//location.reload();
+	            }
+	          });
+			}
+		}
+
+
+
+		var ctafg = 0;
+			
+		console.log(ctaLength);	
+		if(userType=='writer'){
+			if(ctaLength==0){
+			}else{
+				for(var i=ctaLength-1;i>=0;i--){
+					if((historyCallAction[i].seen=='unseen') || (historyCallAction[i].editStatus == 'No') ){
+						ctafg=1;
+						break;
+					}
+				}
+				if(ctafg==1){
+					$.ajax({
+		            type: "POST",
+		            url: '/users/messageSeen',
+		            data: {'length': ctaLength},
+		             success: function(data){
+		             	//location.reload();
+		            }
+		          });
+				}
+			}
+		}
+
+
+
+	}
+
+
+	function messageSeen(length){
+		 var fg = 0;
+			//alert(length);
+			address='/users/messageSeen';
+			if(userType=='writer'){
+				if(length==0){
+				}
+				else{
+					for(var i=length-1;i>=0;i--){
+						if(historyCallAction[i].seen=='unseen'){
+							fg=1;
+							break;
+						}
+					}
+					if(fg==1){
+						$.ajax({
+			            type: "POST",
+			            url: address,
+			            data: {'length': length},
+			             success: function(data){
+			             	//location.reload();
+			            }
+			          });
+					}
+				}
+			}else{
+				for(var i=length-1;i>=0;i--){
+						if(historyWriteBlurb[i].seen=='unseen'){
+							fg=1;
+							break;
+						}
+					}
+					if(fg==1){
+						$.ajax({
+			            type: "POST",
+			            url: address,
+			            data: {'length': length},
+			             success: function(data){
+			             	//location.reload();
+			            }
+			          });
+					}
+			}
+		}
+</script>

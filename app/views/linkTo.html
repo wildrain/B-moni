@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8" />
+			<title>LinkTo Account - Blurbi</title>
+			<link rel="shortcut icon" href="img/favicon.png">
+			<link href="../assets/css/bootstrap3.css" rel="stylesheet" />
+			<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+			<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+			<link rel="stylesheet" href="../assets/css/font.css" />
+			<link rel="stylesheet" href="../assets/css/core-ace3.css" />
+		</head>
+<body>
+<!--header-->
+<div class="navbar">
+    <div class="col-xs-5 col-md-3 col-md-2" style="padding: 0 0 0 50px;">
+        <a href="">
+            <img class="logo img-responsive" src="../assets/images/betatoplogo125.png">
+        </a>
+    </div>
+</div>
+<!--header-->
+<!-- main content -->
+<div class="col-sm-12" style="padding:50px 0 20px 0;">
+	<h3 class="lighter text-center">
+	 	Which social media accounts do you want content for?
+	</h3>
+</div>
+<div>
+	<div class="col-sm-12">
+		<div class="col-md-2 col-sm-3 col-sm-offset-1 col-md-offset-3 text-center">
+			<a id="facebook_signup">
+               	<img src="../assets/images/icons/facebook.png" style="cursor: pointer;">
+                <p></p>
+               	<% if(locals.facebook) {%>
+               		<img src="../assets/images/icons/tick.png"><br>
+               		<label style="color: limegreen">Connected</label>
+               	<%}%>
+        	</a>
+		</div>
+		<div class="col-md-2 col-sm-4 text-center">
+			<a id="twitter_signup">
+				<img src="../assets/images/icons/twitter.png" style="cursor: pointer;">
+				<p></p>
+				<% if(locals.twitter) {%>
+					<img src="../assets/images/icons/tick.png"><br>
+					<label style="color: limegreen">Connected</label>
+				<%}%>
+			</a>
+		</div>
+		<div class="col-md-2 col-sm-3 text-center">
+			<a id="linkedin_signup">
+		   		<img src="../assets/images/icons/linkedin.png" style="cursor: pointer;">
+		   		<p></p>
+		   		<% if(locals.linkedin) {%>
+		   			<img src="../assets/images/icons/tick.png"><br>
+		   			<label style="color: limegreen">Connected</label>
+		   		<%}%>
+			</a>
+		</div>
+	</div>	
+</div>
+<!-- main content -->
+<!-- finish -->
+<div class="col-md-9 col-sm-11" style="padding-top:50px;">
+	<div class="col-sm-1 pull-right" style="padding:0;">
+		<a href="/brandSignup1">
+			<button id="finishbrand" class="btn btn-success btn-next pull-right" data-last="Finish ">
+				Next<i class="icon-arrow-right icon-on-right"></i>
+			</button>
+		</a>
+	</div>
+</div>
+<!-- finish -->
+<!-- script -->
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="js/auth.js"></script>
+<!-- script -->
+	</html>
+		

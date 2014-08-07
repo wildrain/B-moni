@@ -1,0 +1,128 @@
+
+
+
+	<% if(userType=='brand' || userType=='agency'){%>
+		<ul class="nav nav-list" style="width:192px;">
+			<li  id="one">
+				<a href="./brandContent">
+					<i class="icon-reorder"></i>
+					<span>Content</span>
+				</a>
+			</li>
+			<li id="three">
+				<a href="./callAction" >
+					<i class="icon-sitemap"></i>
+					<span>Message Marketers</span>
+				</a>
+			</li>
+			<li id="five">
+				<a href="./scheduled" >
+					<i class="icon-calendar"></i>
+					<span>Scheduled</span>
+				</a>
+			</li>
+			<li id="four">
+				<a href="./analytics" >
+					<i class="icon-bar-chart"></i>
+					<span>Analytics</span>
+				</a>
+			</li>
+		</ul>
+	<%} else if(userType=='writer') { %>
+	
+		<ul class="nav nav-list">
+			<li id="one" >
+				<a href="./writeBlurbs">
+					<i class="icon-pencil"></i>
+					<span>Write Blurbs</span>
+				</a>
+			</li>
+			<li id="two">
+				<a href="./browseClients">
+					<i class="icon-group"></i>
+					<span>Browse Clients</span>
+				</a>
+			</li>
+			<li id="three">
+				<a href="./writerContent">
+					<i class="icon-sitemap"></i>
+					<span>Messages</span>
+				</a>
+			</li>
+			<li id="four">
+				<a href="./analytics">
+					<i class="icon-bar-chart"></i>
+					<span>Analytics</span>
+				</a>
+			</li>
+		</ul>
+	<%} else if(userType=='admin') {%>
+		<ul class="nav nav-list">
+			<li  id="one">
+	            <a href="/users/brandcontentshow">
+	              <i class="icon-reorder"></i>
+	              <span>Content</span>
+	            </a>
+	      	</li>
+
+	         <li id="two">
+	            <a href="/users/enterprise" >
+	              <i class="icon-group"></i>
+	              <span>Enterprise</span>
+	            </a>
+	        </li>
+
+	        <li id="two">
+	            <a href="/users/adminBrowseBrands" >
+	              <i class="icon-group"></i>
+	              <span>All Brands</span>
+	            </a>
+	        </li>
+
+	        <li id="two">
+	            <a href="/users/browseWriters" >
+	              <i class="icon-group"></i>
+	              <span>All Writers</span>
+	            </a>
+	        </li>
+
+
+	        <li id="three">
+	            <a href="/users/transactions" >
+	              <i id="tour3" class="icon-credit-card"></i>
+	              <span>Transactions</span>
+	            </a>
+	        </li>
+
+	        <li id="four">
+	            <a href="/users/sitestats" >
+	              <i class="icon-bar-chart"></i>
+	              <span>Site Stats</span>
+	            </a>
+	        </li>
+
+	        <li id="five">
+	            <a href="/users/writeDefaultBlurbs" >
+	              <i class="icon-edit"></i>
+	              <span>Write Blurbs</span>
+	            </a>
+	        </li>
+
+	        <li id="six">
+	            <a href="/users/adminAutoClients" >
+	              <i class="icon-ok"></i>
+	              <span>Auto Clients</span>
+	            </a>
+	        </li>
+
+	        <li id="seven">
+	            <a href="/users/addPromoCode" >
+	              <i class="icon-edit"></i>
+	              <span>Add PromoCode</span>
+	            </a>
+	        </li>
+
+        </ul>
+	<% } %>
+
+			

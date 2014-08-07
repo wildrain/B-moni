@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Profile Page</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<link rel="stylesheet" href="../assets/css/jquery.Jcrop.css" />
+	<link rel="stylesheet" href="../assets/css/bootstrap-lightbox.css" />
+	<link rel="stylesheet" href="../assets/css/flag-icon.css" />
+
+
+	<style>
+		h6{
+			color: #333;
+		}
+		p{
+			color: #747474;
+		}
+	</style>
+
+</head>
+<body>
+	<%
+	var amount = accountBalance;
+	var target;
+	var x;
+	var percentege;
+	if (amount < 10 || amount ==10)
+		{
+			percentege = (amount/10)*100;
+			target = 10;
+		} 
+	else  if((amount<25 && amount > 10) || amount==25)
+		{
+			percentege = (amount/25)*100;
+			target = 25;
+		}
+	else if((amount>25 && amount<100) || amount==100)
+		{
+			percentege = (amount/100)*100;
+			target = 100;
+		}
+		percentege=Math.floor(percentege);
+	%>
+
+
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				<% include topbar.ejs %>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+
+
+
+	<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+		<div id="sidebar">
+	   		<% include sidebar.ejs %>
+	    </div>
+
+
+	  	<div id="main-content" class="clearfix">
+
+	    	<div id="page-content" class="clearfix" style="background: #E9E9E9;margin-right: 20px;margin-top: 18px;padding-left: 0px;padding-right: 0px;  margin-left: 20px; background-repeat:no-repeat; background-size:cover;">
+	    		<!-- <img src="../<%= writerLogoPath %>"> -->
+	      		<div class="page-header position-relative" >
+	       			   
+	      		</div>
+
+
+	      		<div class="row-fluid" style="background: white;border-left: 2px solid rgb(238, 235, 235);border-right: 2px solid rgb(250, 248, 248);border-bottom: 2px solid rgb(219, 217, 217); padding-bottom: 20px; margin-left: -1px">
+
+	      			<div class="span12">
+	      				<p style="margin-left: 97%; margin-top: 6px;"><a class="editProfile" href="#">Edit</a></p>
+
+	      				<div class="doneEdit" style="float: right; margin-right: 18px; display:none">
+  							<i style="margin-right: 5px; font-size: 22px; color: #08c;" class="icon-edit"></i>
+  							<a href="" id="doneEdit">Done Editing</a>      							
+      					</div>
+
+	      				<!-- start first profile column -->
+	      				
+	      				<div class="span3 firstProfileColumn" style="border-right: 2px dotted rgb(196, 191, 191); text-align: center ">
+	      					<div>
+		               			<% if(locals.writerLogoPath) {%>
+								<div style="width: 150px; height: 150px;">
+								<img id="targets" src="../<%= writerLogoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit; margin-left: 46px;"/>
+								</div>
+								<% } else { %>
+								<div style="width: 150px; height: 150px;">
+								<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; margin-left: 46px; " />
+								</div>
+								<%}%>
+							</div>
+
+							<h2  style="color: #3b9852"><%=writerProfile.name %></h2>							
+							<div class="country">
+								<p><%= writerProfile.country%><span style="margin-left: 6px" class=" countryFlag flag-icon flag-icon-<%= writerProfile.countryFlag %>"></span></p>
+							</div>
+
+	      				</div>
+
+
+	      				<!-- end first profile column -->
+
+
+
+
+	      				<!-- start first profile column edit -->
+
+
+	      				<div class="span3 editFirstProfileColumn"  style="border-right: 2px dotted rgb(196, 191, 191); text-align: center; display: none ">
+	      					<div style="margin-bottom: 26px">
+	      						<!-- <a  style="float: right; margin-right: 7px; margin-top: -16px; margin-bottom: 12px;" href="#">change profile picture</a> -->
+		               			<% if(locals.writerLogoPath) {%>
+								<div style="width: 150px; height: 150px;">
+								<img id="targets" src="../<%= writerLogoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit; margin-left: 46px;"/>
+								</div>
+								<% } else { %>
+								<div style="width: 150px; height: 150px;">
+								<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; margin-left: 46px; " />
+								</div>
+								<%}%>
+							</div>
+
+
+
+							<!-- start lightbox-->
+							<div id="demoLightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+								<div class='lightbox-content'>
+									<div class="body" style="color: green">
+									<% if(locals.writerLogoPath) {%>
+									<div style="text-align: center">
+										<img id="target" src="../<%= writerLogoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar center" />
+										<form action="#" id="imageCropSubmit" method="post" onsubmit="return checkCoords();">
+											<input type="hidden" id="x" name="x" />
+											<input type="hidden" id="y" name="y" />
+											<input type="hidden" id="w" name="w" />
+											<input type="hidden" id="h" name="h" />
+											<input type="submit" style="margin-top: 15px" value="Crop Image" class="btn btn-large btn-inverse" />
+										</form>
+									</div>
+									<% }else{ %>
+											<div style="width: 80px; height: 80px;">
+											<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+											</div>
+									<%}%>
+									</div>
+								</div>
+							</div>
+							<!-- end lightbox -->
+
+
+							<!-- start change profile section -->
+
+							<div style="margin-top: -11px; margin-bottom: 11px;">
+								<a id="change_picture" style="color: #3b9852" href="#">Change profile picture</a>
+								<% if(locals.writerLogoPath){ %>
+								&nbsp;|&nbsp;<a style="color: #008000" data-toggle="lightbox" href="#demoLightbox">Crop Image</a>
+								<% } %>
+							</div>
+
+							<div id="upload_picture" style="display: none; margin-left: 22px; margin-bottom: 10px">
+								<span3>      							  							
+	        						<input type="file" id="file" name="image" accept="image/*"/>
+	     						</span3>
+							</div>
+
+							<!-- end change profile section -->
+
+
+							<div class="writerName">
+								<% if(writerProfile.name == undefined) { %>
+								<input type="text" name="name" id="name" value="" placeholder="Writer name" >
+								<% } else{ %>
+								<input type="text" name="name" id="name" value="<%= writerProfile.name %>" placeholder="Writer name" >
+								<% } %>
+							</div>
+
+												
+
+							
+							<div class="country">
+								<p> Location : 
+								    <select id="country" name="country" style="width: 68%" >
+										  <option value="<%= writerProfile.countryFlag %>"><%= writerProfile.country %></option>
+										  <option value='ad'>Andorra</option>
+										  <option value='ae'>United Arab Emirates</option>
+										  <option value='af'>Afghanistan</option>
+										  <option value='ag'>Antigua and Barbuda</option>
+										  <option value='ai'>Anguilla</option>
+										  <option value='al'>Albania</option>
+										  <option value='am'>Armenia</option>
+										  <option value='an'>Netherlands Antilles</option>
+										  <option value='ao'>Angola</option>
+										  <option value='aq'>Antarctica</option>
+										  <option value='ar'>Argentina</option>
+										  <option value='as'>American Samoa</option>
+										  <option value='at'>Austria</option>
+										  <option value='au'>Australia</option>
+										  <option value='aw'>Aruba</option>
+										  <option value='ax'>Aland Islands</option>
+										  <option value='az'>Azerbaijan</option>
+										  <option value='ba'>Bosnia and Herzegovina</option>
+										  <option value='bb' >Barbados</option>
+										  <option value='bd'>Bangladesh</option>
+										  <option value='be'>Belgium</option>
+										  <option value='bf'>Burkina Faso</option>
+										  <option value='bg'>Bulgaria</option>
+										  <option value='bh'>Bahrain</option>
+										  <option value='bi'>Burundi</option>
+										  <option value='bj'>Benin</option>
+										  <option value='bm'>Bermuda</option>
+										  <option value='bn'>Brunei Darussalam</option>
+										  <option value='bo'>Bolivia</option>
+										  <option value='br'>Brazil</option>
+										  <option value='bs'>Bahamas</option>
+										  <option value='bt'>Bhutan</option>
+										  <option value='bv'>Bouvet Island</option>
+										  <option value='bw'>Botswana</option>
+										  <option value='by'>Belarus</option>
+										  <option value='bz'>Belize</option>
+										  <option value='ca'>Canada</option>
+										  <option value='cc'>Cocos (Keeling) Islands</option>
+										  <option value='cd'>Democratic Republic of the Congo</option>
+										  <option value='cf'>Central African Republic</option>
+										  <option value='cg'>Congo</option>
+										  <option value='ch'>Switzerland</option>
+										  <option value='ci'>Cote D'Ivoire (Ivory Coast)</option>
+										  <option value='ck'>Cook Islands</option>
+										  <option value='cl'>Chile</option>
+										  <option value='cm'>Cameroon</option>
+										  <option value='cn'>China</option>
+										  <option value='co' >Colombia</option>
+										  <option value='cr'>Costa Rica</option>
+										  <option value='cs'>Serbia and Montenegro</option>
+										  <option value='cu'>Cuba</option>
+										  <option value='cv'>Cape Verde</option>
+										  <option value='cx'>Christmas Island</option>
+										  <option value='cy'>Cyprus</option>
+										  <option value='cz'>Czech Republic</option>
+										  <option value='de'>Germany</option>
+										  <option value='dj'>Djibouti</option>
+										  <option value='dk'>Denmark</option>
+										  <option value='dm'>Dominica</option>
+										  <option value='do'>Dominican Republic</option>
+										  <option value='dz'>Algeria</option>
+										  <option value='ec'>Ecuador</option>
+										  <option value='ee'>Estonia</option>
+										  <option value='eg'>Egypt</option>
+										  <option value='eh'>Western Sahara</option>
+										  <option value='er'>Eritrea</option>
+										  <option value='es'>Spain</option>
+										  <option value='et'>Ethiopia</option>
+										  <option value='fi'>Finland</option>
+										  <option value='fj'>Fiji</option>
+										  <option value='fk'>Falkland Islands (Malvinas)</option>
+										  <option value='fm'>Federated States of Micronesia</option>
+										  <option value='fo'>Faroe Islands</option>
+										  <option value='fr'>France</option>
+										  <option value='fx'>France, Metropolitan</option>
+										  <option value='ga'>Gabon</option>
+										  <option value='gb'>Great Britain (UK)</option>
+										  <option value='gd'>Grenada</option>
+										  <option value='ge'>Georgia</option>
+										  <option value='gf'>French Guiana</option>
+										  <option value='gh'>Ghana</option>
+										  <option value='gi'>Gibraltar</option>
+										  <option value='gl'>Greenland</option>
+										  <option value='gm'>Gambia</option>
+										  <option value='gn'>Guinea</option>
+										  <option value='gp'>Guadeloupe</option>
+										  <option value='gq'>Equatorial Guinea</option>
+										  <option value='gr'>Greece</option>
+										  <option value='gs'>S. Georgia and S. Sandwich Islands</option>
+										  <option value='gt'>Guatemala</option>
+										  <option value='gu'>Guam</option>
+										  <option value='gw'>Guinea-Bissau</option>
+										  <option value='gy'>Guyana</option>
+										  <option value='hk'>Hong Kong</option>
+										  <option value='hm'>Heard Island and McDonald Islands</option>
+										  <option value='hn'>Honduras</option>
+										  <option value='hr'>Croatia (Hrvatska)</option>
+										  <option value='ht'>Haiti</option>
+										  <option value='hu'>Hungary</option>
+										  <option value='id'>Indonesia</option>
+										  <option value='ie'>Ireland</option>
+										  <option value='il'>Israel</option>
+										  <option value='in'>India</option>
+										  <option value='io'>British Indian Ocean Territory</option>
+										  <option value='iq'>Iraq</option>
+										  <option value='ir'>Iran</option>
+										  <option value='is'>Iceland</option>
+										  <option value='it'>Italy</option>
+										  <option value='jm'>Jamaica</option>
+										  <option value='jo'>Jordan</option>
+										  <option value='jp'>Japan</option>
+										  <option value='ke'>Kenya</option>
+										  <option value='kg'>Kyrgyzstan</option>
+										  <option value='kh'>Cambodia</option>
+										  <option value='ki'>Kiribati</option>
+										  <option value='km'>Comoros</option>
+										  <option value='kn'>Saint Kitts and Nevis</option>
+										  <option value='kp'>Korea (North)</option>
+										  <option value='kr'>Korea (South)</option>
+										  <option value='kw'>Kuwait</option>
+										  <option value='ky'>Cayman Islands</option>
+										  <option value='kz'>Kazakhstan</option>
+										  <option value='la'>Laos</option>
+										  <option value='lb'>Lebanon</option>
+										  <option value='lc'>Saint Lucia</option>
+										  <option value='li'>Liechtenstein</option>
+										  <option value='lk'>Sri Lanka</option>
+										  <option value='lr'>Liberia</option>
+										  <option value='ls'>Lesotho</option>
+										  <option value='lt'>Lithuania</option>
+										  <option value='lu'>Luxembourg</option>
+										  <option value='lv'>Latvia</option>
+										  <option value='ly'>Libya</option>
+										  <option value='ma'>Morocco</option>
+										  <option value='mc'>Monaco</option>
+										  <option value='md'>Moldova</option>
+										  <option value='mg'>Madagascar</option>
+										  <option value='mh' >Marshall Islands</option>
+										  <option value='mk'>Macedonia</option>
+										  <option value='ml'>Mali</option>
+										  <option value='mm'>Myanmar</option>
+										  <option value='mn'>Mongolia</option>
+										  <option value='mo'>Macao</option>
+										  <option value='mp'>Northern Mariana Islands</option>
+										  <option value='mq'>Martinique</option>
+										  <option value='mr'>Mauritania</option>
+										  <option value='ms'>Montserrat</option>
+										  <option value='mt'>Malta</option>
+										  <option value='mu'>Mauritius</option>
+										  <option value='mv'>Maldives</option>
+										  <option value='mw'>Malawi</option>
+										  <option value='mx'>Mexico</option>
+										  <option value='my'>Malaysia</option>
+										  <option value='mz' >Mozambique</option>
+										  <option value='na'>Namibia</option>
+										  <option value='nc'>New Caledonia</option>
+										  <option value='ne'>Niger</option>
+										  <option value='nf'>Norfolk Island</option>
+										  <option value='ng'>Nigeria</option>
+										  <option value='ni'>Nicaragua</option>
+										  <option value='nl'>Netherlands</option>
+										  <option value='no'>Norway</option>
+										  <option value='np'>Nepal</option>
+										  <option value='nr'>Nauru</option>
+										  <option value='nu'>Niue</option>
+										  <option value='nz'>New Zealand (Aotearoa)</option>
+										  <option value='om'>Oman</option>
+										  <option value='pa'>Panama</option>
+										  <option value='pe'>Peru</option>
+										  <option value='pf'>French Polynesia</option>
+										  <option value='pg'>Papua New Guinea</option>
+										  <option value='ph'>Philippines</option>
+										  <option value='pk'>Pakistan</option>
+										  <option value='pl'>Poland</option>
+										  <option value='pm' >Saint Pierre and Miquelon</option>
+										  <option value='pn'>Pitcairn</option>
+										  <option value='pr'>Puerto Rico</option>
+										  <option value='ps'>Palestinian Territory</option>
+										  <option value='pt'>Portugal</option>
+										  <option value='pw'>Palau</option>
+										  <option value='py'>Paraguay</option>
+										  <option value='qa'>Qatar</option>
+										  <option value='re'>Reunion</option>
+										  <option value='ro'>Romania</option>
+										  <option value='ru'>Russian Federation</option>
+										  <option value='rw'>Rwanda</option>
+										  <option value='sa'>Saudi Arabia</option>
+										  <option value='sb'>Solomon Islands</option>
+										  <option value='sc'>Seychelles</option>
+										  <option value='sd'>Sudan</option>
+										  <option value='se'>Sweden</option>
+										  <option value='sg'>Singapore</option>
+										  <option value='sh'>Saint Helena</option>
+										  <option value='si'>Slovenia</option>
+										  <option value='sj'>Svalbard and Jan Mayen</option>
+										  <option value='sk'>Slovakia</option>
+										  <option value='sl'>Sierra Leone</option>
+										  <option value='sm'>San Marino</option>
+										  <option value='sn'>Senegal</option>
+										  <option value='so'>Somalia</option>
+										  <option value='sr'>Suriname</option>
+										  <option value='st'>Sao Tome and Principe</option>
+										  <option value='su'>USSR (former)</option>
+										  <option value='sv'>El Salvador</option>
+										  <option value='sy'>Syria</option>
+										  <option value='sz'>Swaziland</option>
+										  <option value='tc'>Turks and Caicos Islands</option>
+										  <option value='td'>Chad</option>
+										  <option value='tf'>French Southern Territories</option>
+										  <option value='tg'>Togo</option>
+										  <option value='th'>Thailand</option>
+										  <option value='tj'>Tajikistan</option>
+										  <option value='tk'>Tokelau</option>
+										  <option value='tl'>Timor-Leste</option>
+										  <option value='tm'>Turkmenistan</option>
+										  <option value='tn'>Tunisia</option>
+										  <option value='to'>Tonga</option>
+										  <option value='tp'>East Timor</option>
+										  <option value='tr'>Turkey</option>
+										  <option value='tt'>Trinidad and Tobago</option>
+										  <option value='tv' >Tuvalu</option>
+										  <option value='tw'>Taiwan</option>
+										  <option value='tz'>Tanzania</option>
+										  <option value='ua'>Ukraine</option>
+										  <option value='ug'>Uganda</option>
+										  <option value='uk'>United Kingdom</option>
+										  <option value='um'>United States Minor Outlying Islands</option>
+										  <option value='us'>United States</option>
+										  <option value='uy'>Uruguay</option>
+										  <option value='uz'>Uzbekistan</option>
+										  <option value='va'>Vatican City State (Holy See)</option>
+										  <option value='vc'>Saint Vincent and the Grenadines</option>
+										  <option value='ve'>Venezuela</option>
+										  <option value='vg'>Virgin Islands (British)</option>
+										  <option value='vi'>Virgin Islands (U.S.)</option>
+										  <option value='vn'>Viet Nam</option>
+										  <option value='vu'>Vanuatu</option>
+										  <option value='wf'>Wallis and Futuna</option>
+										  <option value='ws'>Samoa</option>
+										  <option value='ye'>Yemen</option>
+										  <option value='yt'>Mayotte</option>
+										  <option value='yu'>Yugoslavia (former)</option>
+										  <option value='za'>South Africa</option>
+										  <option value='zm'>Zambia</option>
+										  <option value='zr'>Zaire (former)</option>
+										  <option value='zw'>Zimbabwe</option>
+									</select>
+								</p>
+							</div>
+
+							
+	      				</div>
+
+
+	      				<!-- end first profile column edit -->
+
+
+
+
+
+
+
+
+	      				<div class="span7">
+
+	      					<div class="row-fluid">
+
+	      						<!-- start middle profile section -->
+
+	      						<div class="span5 middleProfile" style="border-right: 2px dotted rgb(196, 191, 191);">
+	      							<!-- <div class="socialInfluence">
+	      								<i class="icon-bullhorn icon-2x" style="color: #5C983B; font-size: 60px;"></i>
+	      								<span style="font-size: 35px; margin-left: 15px; font-weight: bold;" >28.2</span><span style="font-weight: bold; margin-left: 5px;" >/avg</span>
+	      							</div> -->
+	      							<div class="interest">
+	      								<h6 style="font-weight: bold"> <%= writerProfile.name %> Knows : </h6>
+	      								<% 
+	      									var a = writerProfile.interest ;
+	      									var ar = new Array();	
+	      									var b = a.split(",");	
+
+	  									    for(var i=0; i<b.length; i++){
+	  									  		ar.push(b[i]);
+	  									    }  	
+	      								%>
+	      								<% for(var j=0; j<ar.length; j++){ %>
+	      								<p style="margin-bottom: -2px"><%= ar[j] %></p>
+	      								<% } %>
+	      							</div>
+	      						</div>
+
+	      						<!-- end middle profile section -->
+
+
+	      						<!-- start middle profile edit section -->
+
+	      						<div class="span5 eidtMiddleProfile" style="border-right: 2px dotted rgb(196, 191, 191); display: none">
+
+	      							<div class="socialInfluence">
+	      								<i class="icon-bullhorn icon-2x" style="color: #5C983B; font-size: 60px;"></i>
+	      								<span style="font-size: 35px; margin-left: 15px; font-weight: bold;" >28.2</span><span style="font-weight: bold; margin-left: 5px;" >/avg</span>
+	      							</div>
+
+	      							<div class="interest">
+	      								<h6 style="font-weight: bold"> <%= writerProfile.name %> Knows : </h6>
+	      								
+	      								<% if(writerProfile.interest == undefined) {%>
+	      								<input type="text" name="interest" class="typeahead" id="interest" style="width: 85%" value="" placeholder="You are interested in"><br>
+	      								<% } else{%>
+	      								<input type="text" name="interest" class="typeahead" id="interest" style="width: 85%" value="<%= writerProfile.interest %>" ><br>
+	      								<% } %>
+	      							</div>
+
+	      						</div>
+
+	      						<!-- end middle profile edit section -->
+
+
+
+
+
+
+
+
+	      						<div class="span4 lastColumn" style="margin-left: 35px;">
+
+	      							<div class="joiningDate">
+		      							<h6 style="font-weight: bold">Joined : </h6>
+		      							<p><%= joiningDate %></p>
+	      							</div>
+
+	      							<div class="earned">
+	      								<h6 style="font-weight: bold">Earned : </h6>
+	      								
+	      								<h5 class="green"> $<%=parseFloat(accountBalance).toFixed(2)%> </h5>
+	      							</div>	
+
+
+	      						</div>
+
+	      						
+	      					</div>
+	      					
+	      				</div>
+	      				<!-- <div class="span1">
+	      					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, laborum, vitae incidunt nesciunt dolor dolores debitis. Enim, nam, incidunt, quasi, laborum adipisci et iure excepturi quam iusto qui voluptatibus ipsum.
+	      					
+	      				</div> -->
+	      			</div>
+	      			
+	      		</div>
+
+
+
+	      		<!-- start recent activity section -->
+
+	      		<div class="row-fluid "  >
+
+	      			<div class="span12" style="background: white; margin: 30px 20px 28px 20px; padding: 20px; width: 65%; margin-left: 18%;">
+	      				<div class="recentActivity" >
+	      					<div class="span12 recentBlurbs" style="padding-right: 25px; padding-left: 15px;">
+	      						<div class="heading center" style="margin-bottom: 25px; ">
+	      							<h6 style="font-weight: bold; font-size: 16px">Recent Blurbs</h6>
+	      						</div>
+	      						<div class="blurbs">
+	      							<ul style="color: #3b9852; list-style-type: none; font-size: 13px;font-weight: 500">
+	      								
+	      								<% var limit=0; for(var i=historyWriteBlurb.length-1; i>=0; i--) {%>
+
+	      									<% if(limit == 5) break; %>
+
+	      									<% if(historyWriteBlurb[i].status == 'Accepted') { %>
+	      									<% limit++ %>
+		      								<li style="margin-bottom: 20px; line-height: 18px"><%= historyWriteBlurb[i].description %></li>
+		      							<% } }%>
+		      							
+		      						</ul>
+	      						</div>
+	      						
+	      					</div>
+	      					
+	      				</div>
+	      				
+	      			</div>
+	      			
+
+	      		</div>
+
+
+
+
+	      		
+
+
+	      		<!-- end recent activity section -->
+
+	      		
+			</div>
+		</div>
+
+
+
+	</div>	
+
+
+
+						
+	<% include feedback.ejs%>
+
+				
+	<!--basic scripts--> 
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src='../assets/js/bootstrap.min.js'></script>
+	
+	<script src="../assets/js/jquery.ui.widget.js"></script>
+	<script src="../assets/js/jquery.fileupload.js"></script>
+	<script src="../js/sign.js"></script>
+	<script src='../assets/js/bootstrap-lightbox.js'></script>
+	<script src='../assets/js/imageCrop.js'></script>	
+	<script src='../assets/js/jquery.Jcrop.min.js'></script>
+	<script src='../assets/js/flags.js'></script>
+	<!--inline scripts related to this page--> 
+
+
+
+	<script type="text/javascript">
+
+
+		var href= location.href;
+		var seeProfile = new Array();
+
+		seeProfile = href.split('/');
+
+		for(var i=0; i<seeProfile.length; i++){
+			
+			if(seeProfile[i].substring(0,13) == 'seeProfile?id'){
+				$('.editProfile').hide();
+				$('.firstProfileColumn').css('margin-top','30px');
+				$('.lastColumn').css('margin-top','30px');
+				$('.middleProfile').css('margin-top','30px');
+			}
+		}
+
+		
+
+		/*start undefined country flag*/
+
+
+		var countryList = new Array();		
+		var countryFlagList = new Array();
+		
+
+		$("#country option").each(function(){
+
+		    countryList.push($(this).html());
+		    countryFlagList.push($(this).val());
+			    
+		});
+
+		console.log(countryList[0]);
+		console.log(countryFlagList.length);
+
+
+		var countryFlagName = $('#country').val();
+		var countryName = $("#country option:selected").html();
+
+		console.log(countryFlagName + countryName);
+
+		if(countryFlagName == 'undefined'){
+			console.log('enter');
+			for(var i=0; i<countryList.length; i++){
+
+				if( countryList[i] == countryName ){
+					console.log(countryFlagList[i]);
+					$('.countryFlag').addClass('flag-icon-'+countryFlagList[i]);
+				}
+			}
+		}
+
+
+
+		/*end undefined country flag*/
+
+
+
+
+		$('.editProfile').click(function(e){
+
+			$('.firstProfileColumn').hide();
+			$('.editFirstProfileColumn').show();
+			$('.middleProfile').hide();
+			$('.eidtMiddleProfile').show();
+			$('.editProfile').hide();
+			$('.doneEdit').show();
+
+			$('.lastColumn').css('margin-top','33px');
+			$('.editFirstProfileColumn').css('margin-top','33px');
+			$('.eidtMiddleProfile').css('margin-top','33px');
+
+
+			e.preventDefault();
+		});
+
+
+		$('.doneEdit').click(function(e){
+			
+
+			var name = $('#name').val(),
+				countryFlag = $('#country').val(),
+				country = $("#country option:selected").html(),
+				interest = $('#interest').val();
+
+
+		    console.log(name + country + interest + countryFlag);	
+
+		    $.ajax({
+				type: "POST",
+				url: '/users/improveProfile',
+				data: {'name': name, 'country': country, 'countryFlag': countryFlag, 'interest': interest},
+				success: function(data){
+					window.location = '/users/profile';
+				}
+			});	
+
+
+
+			e.preventDefault();
+		})
+
+
+	</script>
+
+
+
+
+	<script type = "text/javascript">
+		$(document).ready(function(){
+
+			var profile= <% if(locals.writerProfile){%>
+				<%- JSON.stringify(writerProfile) %>
+				<%}else{%>
+					null
+				<%}%>;
+
+			var flag = $('#countryF').val();	
+
+			console.log(profile.countryFlag);	
+			console.log(flag);
+
+			$('#file').change(function(){
+				readURL(this);
+			})	  		
+			$('#change_picture').click(function(e){
+				$('#upload_picture').show();
+			})
+			$('#twitter_').click(function(e){
+				e.preventDefault();
+				var url = profile.twitter_name;
+				//console.log(user.twitter);
+				myWindow=window.open(url);
+				myWindow.focus();
+			});
+			$('#linkedin_').click(function(e){
+				var url = profile.linkedin_name;
+				myWindow=window.open(url);
+				myWindow.focus();
+			})
+		});
+	</script>
+
+	<script type="text/javascript">
+
+		
+		
+		/*$('#page-content').css('background','url(../profile_pictures/53609b9099251f381400001cChrysanthemum.jpg)';	*/		   		
+		var interests = [];	
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#profile_picture').attr('src', e.target.result);
+					$('#profile_picture1').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+	           
+	        }
+	    }
+
+	    $.get('../interests_mapping.txt', function(data) {
+	       var lines = data.split("\n");
+	       for(var i=0;i<lines.length;i++){
+	       		// console.log(lines[i]);
+	       		interests.push(lines[i]);
+	       }
+	    });
+
+	   
+	    /*start typeahead section*/
+
+	    function extractor(query) {
+	        var result = /([^,]+)$/.exec(query);
+	        if(result && result[1])
+	            return result[1].trim();
+	        return ' ';
+	    }
+
+
+	    $('.typeahead').typeahead({
+
+	        source: interests,
+
+	        updater: function(item) {
+	            return this.$element.val().replace(/[^,]*$/,' ')+item+', ';
+	        },
+
+	        matcher: function (item) {
+	          var tquery = extractor(this.query);
+	          if(!tquery) return false;
+	          return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+	        },
+
+	        highlighter: function (item) {
+	          var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+	          return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+	            return '<strong>' + match + '</strong>'
+	          })
+	        }
+	    });
+
+	    /*end typeahead section*/
+	    
+	</script>
+
+</body>
+</html>

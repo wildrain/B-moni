@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Settings Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+	
+	<div id="deactive_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+	    <div class="modal-header" style="background-color:  #D6E9C0;">  
+	        <h2 >
+	        <text id="header"> </text>
+	        </h2>  
+	    </div>      
+	    <div class="modal-body" style="color: green">  
+	        <p id="description">
+	        	Are you sure to deactivate your account? <!-- sss $<text id="blurb_price"> </text>-->
+	        </p> 
+	        <br>
+	         <button  data-dismiss="modal" id="yes" class="btn btn-success btn-small">Yes</button>
+	         <button   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+	    </div>  
+	</div>
+	<div id="amodal" class="modal hide" style="width: 350px; height: 150px;  left:55%; top: 25%" >  
+	    <div class="modal-header" style="background-color:  #D6E9C0;">  
+	        <h2 >
+	        Brand Selection
+	        <button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        </h2>  
+	    </div>      
+	    <div class="modal-body" style="color: green">  
+	        <p>
+	       	Please Select Your Brand First.
+	        </p>  
+	    </div>  
+	</div> 
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+             <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				 <% include signupTopbar.ejs %>				
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+<div class="container-fluid" id="main-container"> 
+	<a id="menu-toggler" href="#"> 
+		<span></span>
+	 </a>
+	 <div id="sidebar">
+	     <% include signupSidebar.ejs %>
+	    <!--/.nav-list-->
+	 </div>
+  <div id="main-content" class="clearfix" >
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+      </div>
+      <!--/.page-header-->
+      <div id="palert" style="display: none" class="alert alert-block alert-success">
+		<button type="button" class="close" data-dismiss="alert">
+			<i class="icon-remove"></i>
+		</button>
+			Your password has been changed. 
+		</div>
+		<div id="salert" style="display: none" class="alert alert-block alert-success">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+				Your email settings has been changed. 
+		</div>
+    	<ul class="nav nav-list" style="width: 50%">
+	    	<li>
+	    		<a href="/users/addBrands"><label style="color: #3b9852">Add Brands</label></a>
+	    		<br>
+	    	</li>
+	    	<li onclick="change_email_settings()">
+	    		<a href="#"><label style="color: #3b9852">Change Email Settings</label></a>
+		    	<div style="padding-left: 5%">
+		    		<form style="display:none;" id="email_div" action="/users/changeSettings"  method="POST">	
+			    		<br>
+			    		<label>Get Notifications in Your E-mail For</label>
+			    		<%
+			    		var action =0;
+			    		var news =0;
+			    		var stuff =0;
+			    		 for(var i=0;i<emailSettings.length;i++){
+			       			if(emailSettings[i]=="SiteActions")
+			       			action=1;
+			       			if(emailSettings[i]=="SiteNews")
+			       			news=1;
+			       			if(emailSettings[i]=="HelpfulStuff")
+			       			stuff=1;
+			     		 }%>			
+						<spanty>
+							<label>
+								<% if(action==1) {%>
+								<input name="emailSettings" value="SiteActions" id="SiteActions" type="checkbox" checked>
+								<%} else{ %>
+								<input name="emailSettings" value="SiteActions" id="SiteActions" type="checkbox" >
+								<% }%>
+								<span class="lbl"> Site Actions </span>
+							</label>
+							<label>
+								<% if(news==1) {%>
+								<input name="emailSettings" value="SiteNews"  id="SiteNews" type="checkbox" checked>
+								<%} else{ %>
+								<input name="emailSettings" value="SiteNews"  id="SiteNews" type="checkbox">
+								<% }%>
+								<span class="lbl"> Site News </span>
+							</label>
+							<label>
+								<% if(stuff==1) {%>
+								<input name="emailSettings" value="HelpfulStuff" id="HelpfulStuff" type="checkbox" checked>
+								<%} else{ %>
+								<input name="emailSettings" value="HelpfulStuff" id="HelpfulStuff" type="checkbox">
+								<% }%>
+								<span class="lbl"> Helpful Stuff </span>
+							</label>
+							</spanty><br>
+							<button class="btn btn-success btn-small" id="submit2"> Submit </button>
+					</form>
+				</div><br>
+	    	</li>
+	    	<li onclick="change_password()">
+		    	<a href="#" ><label style="color: #3b9852">Change password</label></a>
+		    	<p></p>
+		    	<div >
+			    	<div style="display:none;padding-left: 5%" id="pass_form" >
+				    	<div class="row-fluid">
+				    	<label >Type Your New Password</label>
+				    	<input type="password" id="new_pass1" style="float:left; margin-right: 5px"/>
+				    	</div>
+				    	<div class="row-fluid">
+				    	<label for="form-field-8">Re-Type Your New Password</label>
+				    	 <input type="password" id="new_pass2"/>
+				    	 <label style="display:none;color:RED;" id="missmatch2">Password doesn't match</label>
+				    	</div>
+			    		<button  class="btn btn-success btn-small" disabled onclick="match_pass()" id="submit"> 
+			    			Submit 
+			    		</button>
+			    	</div>
+		    	</div>
+		    	<br>
+	    	</li>
+    		<a href="/users/deactivate" ><label style="color: #3b9852"><small>Cancel Subscription</small></label></a>
+    	</ul>
+    </div>
+    </div>
+    <% include feedback.ejs%>
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script src='../assets/js/bootstrap.min.js'></script>
+<!--inline scripts related to this page--> 
+<script type="text/javascript">
+	$(document).ready(function(){
+		var location = window.location.hash;
+		if(location.indexOf('unsbuscribe')!=-1){
+			//$('#Helpful_Stuff').prop('disabled','disabled');
+			//$('#Site_Actions').prop('disabled','disabled');
+			//$('#Site_News').prop('disabled','disabled');
+			$('#link_div').hide();
+			$('#email_div').show();
+			$('#pass_form').hide();
+			//$('#submit2').html('unsbuscribe');
+		}
+		if(location.indexOf('change_password')!=-1)
+		{
+			//$('#link_div').hide();
+			$('#email_div').hide();
+			$('#pass_form').show();
+		}
+		$('#submit2').click(function(){
+			$('#salert').show();
+			setTimeout(function(){$('#salert').fadeOut()},3000);
+		})
+	});
+</script>
+<script type="text/javascript">
+	function change_password(){
+		//alert("works");
+		$('#email_div').hide();
+		$('#pass_form').show();
+		var i =0;
+		$('#old_pass').on('focusout',function(e){
+			var pass = $('#old_pass').val();
+			 var address = '/users/check-password';
+			$.ajax({
+				type: "POST",
+				url: address,
+				data: {'pass' : pass},
+				success: function(res){
+					//console.log(res);
+					if(res=='invalid')
+						 $('#missmatch1').show();
+						else
+						{
+							$('#missmatch1').hide();
+							i=1;
+						}
+				}
+			})
+		})
+		$('#new_pass2').on('keyup',function(){
+			if($('#new_pass1').val() == $('#new_pass2').val()){
+				console.log("match");
+				document.getElementById("submit").disabled = false;
+			}
+		})
+	}
+	function match_pass(){
+		if($('#new_pass1').val() == $('#new_pass2').val() ){
+			$('#missmatch2').hide();
+			var pass = $('#new_pass1').val();
+			console.log(pass);
+			 var address = '/users/changePassword';
+			$.ajax({
+				type: "POST",
+				url: address,
+				data: {'pass' : pass},
+				success: function(res){
+					console.log(res);
+					$('#pass_form').hide();
+					$('#palert').show();
+					setTimeout(function(){$('#palert').fadeOut()},3000);
+				}
+			})
+		}
+		else
+		{
+			//$('#passdiv').show();
+			//alert("doesn't match");
+			$('#missmatch2').show();
+		}
+	}
+	function change_email_settings(){
+		$('#pass_form').hide();
+		$('#email_div').show();
+	}
+</script>
+</body>
+</html>

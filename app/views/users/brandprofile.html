@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Profile Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+		<link rel="stylesheet" href="../assets/css/jquery.Jcrop.css" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-lightbox.css" />
+
+
+		<style>
+			a:hover{
+				text-decoration: none;
+			}
+			.facebook-hover:hover{
+				color: black !important;
+			}
+			.twitter-hover:hover{
+				color: black !important;
+			}
+			.linkedin-hover:hover{
+				color: black !important;
+			}
+
+		</style>
+
+
+
+
+	</head>
+<body>
+<% var req_len; %>
+<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                 <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					<% include topbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="sidebar">
+   <% include sidebar.ejs %>
+  </div>
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+       <h1 style="color: black"> Profile <small>   </small> </h1>
+        <!--<h1> Profile <small> <i class="icon-double-angle-right"></i>  </small> </h1>-->
+      </div>
+      <!--/.page-header-->
+      <div class="row-fluid">
+<! -- / PROFILE BEGINS -->
+			<div class="boxwidth4" style="width: 425px">
+				<div class="widget-box">
+					<div class="widget-header"  >
+					<%if(historyCallAction.length >0){%>
+						<h4>Current & Past Calls to Action</h4>
+					<%}else {%>
+						<h4>No Current & Past Calls to Action</h4>
+					<%}%>
+					<span class="widget-toolbar">
+					</span>
+					</div>
+					<div class="widget-body">
+				  		<div class="row-fluid ">
+							<table id="table_bug_report" class="table table-hover">
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Spent</th>
+										<th >Ends</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+										historyCallAction.sort(function(a,b){
+									 		var dateA=new Date(a.date);
+									 		var dateB=new Date(b.date);
+									 		return dateB - dateA;
+										})
+									%>
+									<% for(var i=0 ; i<historyCallAction.length ; i++) {
+										var x = new Date(historyCallAction[i].datepicker);
+			  							var today = new Date();
+			  							var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+							 				"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+							 			if( historyCallAction[i].datepicker == "") {%>
+											<tr>
+												<td>
+													<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)"><%= historyCallAction[i].title %></a>
+												</td>
+												<td>
+													0
+												</td>
+												<td class="hidden-480">
+													No Date
+												</td>
+												<td class="hidden-phone">
+												</td>
+											</tr>
+										<% } else if(x > today) { %>
+											<tr>
+												<td>
+													<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)"><%= historyCallAction[i].title %></a>
+												</td>
+												<td>
+													0
+												</td>
+											<!--<td class="hidden-480">3,330</td>-->
+												<td class="hidden-phone">
+													<%= monthNames[x.getMonth()] + ' ' + x.getDate() %>
+												</td>
+											</tr>
+										<% } else { %>
+											<tr>
+												<td>
+													<a href="#" style="color: #3b9852;" onclick="popup_blurb(<%=i%>)"><%= historyCallAction[i].title %></a>
+												</td>
+												<td>
+													0
+												</td>
+												<!--<td class="hidden-480"><b class="green">6500</b></td>-->
+												<td class="hidden-480">
+													<span class="label label-warning">expired</span>
+												</td>
+											</tr>
+										<% }} %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div> <!-- end boxwidth 4 -->
+
+
+			<div class="boxwidth1" style="width:600px">
+				<div class="row-fluid header">
+						<!-- start lightbox-->
+						<div id="demoLightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+							<div class='lightbox-content'>
+								<div class="body" style="color: green">
+								<% if(locals.logoPath) {%>
+										<div style="text-align: center">
+											<img id="target" src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar center" />
+											<form action="#" id="imageCropSubmit" method="post" onsubmit="return checkCoords();">
+												<input type="hidden" id="x" name="x" />
+												<input type="hidden" id="y" name="y" />
+												<input type="hidden" id="w" name="w" />
+												<input type="hidden" id="h" name="h" />
+												<input type="submit" style="margin-top: 15px" value="Crop Image" class="btn btn-large btn-inverse" />
+											</form>
+										</div>
+								<% } else { %>
+										<div style="width: 80px; height: 80px;">
+										<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+										</div>
+								<%}%>
+								</div>
+							</div>
+						</div>
+							<!-- end lightbox -->
+	                	<div>
+	               			<% if(locals.logoPath) {%>
+									<div style="width: 150px; height: 150px;">
+									<img id="targets" src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit;"/>
+									</div>
+									<% } else { %>
+									<div style="width: 80px; height: 80px;">
+									<img id="profile_picture1" class="avatar img-circle"  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+									</div>
+							<%}%>
+						</div>
+						<div>
+							<a id="change_picture" style="color: #3b9852" href="#">Change profile picture</a>
+							<% if(locals.logoPath){ %>
+							&nbsp;|&nbsp;<a style="color: #008000" data-toggle="lightbox" href="#demoLightbox">Crop Image</a>
+							<% } %>
+						</div>
+						<div id="upload_picture" style="display: none">
+								<span3>
+          							<p>Upload Your Image</p>
+          							<div >
+            						<input type="file" id="file" name="image" accept="image/*"/>
+         						</span3>
+						</div>
+					</div>
+			        <h3 class="name"><%=profile.company%></h3>
+			 </div>
+			<div class="lcon" style="width: 100%">
+				<div class="tysp">
+					<% if (locals.facebook) { %>
+					<spanty id="facebook_"><a href="#"><i style="font-size:50px;" class="icon-facebook-sign fb-color facebook-hover icon-only "></i></a></spanty>
+					<%} %>
+					<% if (locals.twitter){ %>
+	                <spanty id="twitter_"> <a href="#"><i style="font-size:50px;" class="icon-twitter-sign twitter-color twitter-hover icon-only "></i></a></spanty>
+	                <% } %>
+	                <% if(locals.linkedin){%>
+	                <spanty id="linkedin_"> <a href="#"><i style="font-size:50px;" class="icon-linkedin-sign linkedin-color linkedin-hover icon-only "></i></a></spanty>
+	                <%} %>
+					<spanty title="acceptance ratio">
+						<div class="infobox infobox-orange2" style="margin-top: -24px;">
+								<div class="infobox-data">
+									<span class="infobox-data-number" style="color: #3b9852"><%=acceptance%>%</span>
+								</div>
+								<div class="badge badge-success">
+									Accept %
+									<i class="icon-arrow-up"></i>
+								</div>
+						</div>
+					</spanty>
+					<spanty><button style="margin-top: -27px;  overflow: hidden; padding: 7px 5px 8px 5px;" class="btn btn-info btn-small improveProfile">Improve profile, get better content</button></spanty>	
+					
+				</div>
+				
+			</div>
+<div class="boxwidth1">
+
+
+	<form id="editPanel" style="display: none; width: 35%; float: left;" method="Post">
+		<h6 style="color: #3b9852">Description</h6>
+		<p> 
+			<textarea style="color: black"  id="fedit1" name="description" rows="1"></textarea>
+		</p>
+		<h6 style="color: #3b9852">Target Audience Age Range</h6>
+		<input  type="text" size="50" style="width:80px; float:left; margin-right:5px;color: black" id="range1" name="range1">
+			<label style=" float:left; margin-right:5px;"> to </label>
+		<input  type="text" size="50" style="width:80px;color: black " id="range2" name="range2" placeholder="Age" >
+		<h6 style="color: #3b9852">Voice</h6>
+		<p> 
+			<input style="color: black" type= "text"  id="fedit2" name="voice" rows="1"/>
+		</p>
+		<h6 style="color: #3b9852">Target Audience Interests</h6>
+		<p> 
+			<input style="color: black" type= "text"  id="fedit3" name="interest" rows="1"/>
+		</p>
+		<h6 style="color: #3b9852">Company Located</h6>
+		<p>
+		    <select id="fedit4" name="country" >
+				<option value=""></option>
+				<option value="Canada">Canada</option>
+				<option value="United States">United States</option>
+				<option value="United Kingdom">United Kingdom</option>
+				<option value="Australia">Australia</option>
+				<option value="New Zealand">New Zealand</option>
+				<option value="WorldWide">WorldWide</option>
+				<option value="Afghanistan">Afghanistan</option>
+			    <option value="Albania">Albania</option>
+			    <option value="Algeria">Algeria</option>
+			    <option value="Andorra">Andorra</option>
+			    <option value="Angola">Angola</option>
+			    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+			    <option value="Argentina">Argentina</option>
+			    <option value="Armenia">Armenia</option>
+			    <option value="Aruba">Aruba</option>
+			    <option value="Austria">Austria</option>
+			    <option value="Azerbaijan">Azerbaijan</option>
+			    <option value="Bahamas, The">Bahamas, The</option>
+			    <option value="Bahrain">Bahrain</option>
+			    <option value="Bangladesh">Bangladesh</option>
+			    <option value="Barbados">Barbados</option>
+			    <option value="Belarus">Belarus</option>
+			    <option value="Belgium">Belgium</option>
+			    <option value="Belize">Belize</option>
+			    <option value="Benin">Benin</option>
+			    <option value="Bhutan">Bhutan</option>
+			    <option value="Bolivia">Bolivia</option>
+			    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+			    <option value="Botswana">Botswana</option>
+			    <option value="Brazil">Brazil</option>
+			    <option value="Brunei">Brunei</option>
+			    <option value="Bulgaria">Bulgaria</option>
+			    <option value="Burkina Faso">Burkina Faso</option>
+			    <option value="Burma">Burma</option>
+			    <option value="Burundi">Burundi</option>
+			    <option value="Cambodia">Cambodia</option>
+			    <option value="Cameroon">Cameroon</option>
+			    <option value="Cape Verde">Cape Verde</option>
+			    <option value="Central African Republic">Central African Republic</option>
+			    <option value="Chad">Chad</option>
+			    <option value="Chile">Chile</option>
+			    <option value="China">China</option>
+			    <option value="Colombia">Colombia</option>
+			    <option value="Comoros">Comoros</option>
+			    <option value="Congo, Democratic Republic of the">Congo, Democratic Republic of the</option>
+			    <option value="Congo, Republic of the">Congo, Republic of the</option>
+			    <option value="Costa Rica">Costa Rica</option>
+			    <option value="Cote d'Ivoire">Cote d'Ivoire</option>
+			    <option value="Croatia">Croatia</option>
+			    <option value="Cuba">Cuba</option>
+			    <option value="Curacao">Curacao</option>
+			    <option value="Cyprus">Cyprus</option>
+			    <option value="Czech Republic">Czech Republic</option>
+			    <option value="East Timor (see Timor-Leste)">East Timor (see Timor-Leste)</option>
+			    <option value="Ecuador">Ecuador</option>
+			    <option value="Egypt">Egypt</option>
+			    <option value="El Salvador">El Salvador</option>
+			    <option value="Equatorial Guinea">Equatorial Guinea</option>
+			    <option value="Eritrea">Eritrea</option>
+			    <option value="Estonia">Estonia</option>
+			    <option value="Ethiopia">Ethiopia</option>
+			    <option value="Fiji">Fiji</option>
+			    <option value="Finland">Finland</option>
+			    <option value="France">France</option>
+			    <option value="Gabon">Gabon</option>
+			    <option value="Gambia ">Gambia, The</option>
+			    <option value="Georgia">Georgia</option>
+			    <option value="Germany">Germany</option>
+			    <option value="Ghana">Ghana</option>
+			    <option value="Greece">Greece</option>
+			    <option value="Grenada">Grenada</option>
+			    <option value="Guatemala">Guatemala</option>
+			    <option value="Guinea">Guinea</option>
+			    <option value="Guinea-Bissau">Guinea-Bissau</option>
+			    <option value="Guyana">Guyana</option>
+				<option value="Haiti">Haiti</option>
+				<option value="Holy See">Holy See</option>
+				<option value="Honduras">Honduras</option>
+				<option value="Hong Kong">Hong Kong</option>
+				<option value="Iceland">Iceland</option>
+				<option value="India">India</option>
+				<option value="Indonesia">Indonesia</option>
+				<option value="Iran">Iran</option>
+				<option value="Iraq">Iraq</option>
+				<option value="Ireland">Ireland</option>
+				<option value="Israel">Israel</option>
+				<option value="Italy">Italy</option>
+				<option value="Jamaica">Jamaica</option>
+				<option value="Japan">Japan</option>
+				<option value="Jordan">Jordan</option>
+				<option value="Kazakhstan">Kazakhstan</option>
+				<option value="Kenya">Kenya</option>
+				<option value="Kiribati">Kiribati</option>
+				<option value="Korea, North">Korea, North</option>
+				<option value="Korea, South">Korea, South</option>
+				<option value="Kosovo">Kosovo</option>
+				<option value="Kuwait">Kuwait</option>
+				<option value="Kyrgyzstan">Kyrgyzstan</option>
+				<option value="Laos">Laos</option>
+				<option value="Latvia">Latvia</option>
+				<option value="Lebanon">Lebanon</option>
+				<option value="Lesotho">Lesotho</option>
+				<option value="Liberia">Liberia</option>
+				<option value=">Libya">Libya</option>
+				<option value="Liechtenstein">Liechtenstein</option>
+				<option value="Lithuania">Lithuania</option>
+				<option value="Luxembourg">Luxembourg</option>
+				<option value="Macau">Macau</option>
+				<option value="Macedonia">Macedonia</option>
+				<option value="Madagascar">Madagascar</option>
+				<option value="Malawi">Malawi</option>
+				<option value="Malaysia">Malaysia</option>
+				<option value="Maldives">Maldives</option>
+				<option value="Mali">Mali</option>
+				<option value="Malta">Malta</option>
+				<option value="Marshall Islands">Marshall Islands</option>
+				<option value="Mauritania">Mauritania</option>
+				<option value="Mauritius">Mauritius</option>
+				<option value="Mexico">Mexico</option>
+				<option value="Micronesia">Micronesia</option>
+				<option value="Moldova">Moldova</option>
+				<option value="Monaco">Monaco</option>
+				<option value="Mongolia">Mongolia</option>
+				<option value="Montenegro">Montenegro</option>
+				<option value="Morocco">Morocco</option>
+				<option value="Mozambique">Mozambique</option>
+				<option value="Namibia">Namibia</option>
+				<option value="Nauru">Nauru</option>
+				<option value="Nepal">Nepal</option>
+				<option value="Netherlands">Netherlands</option>
+				<option value="Netherlands Antilles">Netherlands Antilles</option>
+				<option value="Nicaragua">Nicaragua</option>
+				<option value="Niger">Niger</option>
+				<option value="Nigeria">Nigeria</option>
+				<option value="North Korea">North Korea</option>
+				<option value="Norway">Norway</option>
+				<option value="Oman">Oman</option>
+				<option value="Pakistan">Pakistan</option>
+				<option value="Palau">Palau</option>
+				<option value="Palestinian Territories">Palestinian Territories</option>
+				<option value="Panama">Panama</option>
+				<option value="Papua New Guinea">Papua New Guinea</option>
+				<option value="Paraguay">Paraguay</option>
+				<option value="Peru">Peru</option>
+				<option value="Philippines">Philippines</option>
+				<option value="Poland">Poland</option>
+				<option value="Portugal">Portugal</option>
+				<option value="Qatar">Qatar</option>
+				<option value="Romania">Romania</option>
+				<option value="Russia">Russia</option>
+				<option value="Rwanda">Rwanda</option>
+				<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+				<option value="Saint Lucia">Saint Lucia</option>
+				<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+				<option value="Samoa">Samoa</option>
+				<option value="San Marino">San Marino</option>
+				<option value="Sao Tome and Principe">Sao Tome and Principe</option>
+				<option value="Saudi Arabia">Saudi Arabia</option>
+				
+				<option value="Serbia">Serbia</option>
+				<option value="Seychelles">Seychelles</option>
+				<option value="Sierra Leone">Sierra Leone</option>
+				<option value="Singapore">Singapore</option>
+				<option value="Sint Maarten">Sint Maarten</option>
+				<option value="Slovakia">Slovakia</option>
+				<option value="Slovenia">Slovenia</option>
+				<option value="Solomon Islands">Solomon Islands</option>
+				<option value="Somalia">Somalia</option>
+				<option value="South Africa">South Africa</option>
+				<option value="South Korea">South Korea</option>
+				<option value="South Sudan">South Sudan</option>
+				<option value="Spain">Spain</option>
+				<option value="Sri Lanka">Sri Lanka</option>
+				<option value="Sudan">Sudan</option>
+				<option value="Suriname">Suriname</option>
+				<option value="Swaziland">Swaziland</option>
+				<option value="Sweden">Sweden</option>
+				<option value="Switzerland">Switzerland</option>
+				<option value="Syria">Syria</option>
+				<option value="Taiwan">Taiwan</option>
+				<option value="Tajikistan">Tajikistan</option>
+				<option value="Tanzania">Tanzania</option>
+				<option value="Thailand">Thailand</option>
+				<option value="Timor-Leste">Timor-Leste</option>
+				<option value="Togo">Togo</option>
+				<option value="Tonga">Tonga</option>
+				<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+				<option value="Tunisia">Tunisia</option>
+				<option value="Turkey">Turkey</option>
+				<option value="Turkmenistan">Turkmenistan</option>
+				<option value="Tuvalu">Tuvalu</option>
+				<option value="Uganda">Uganda</option>
+				<option value="Ukraine">Ukraine</option>
+				<option value="United Arab Emirates">United Arab Emirates</option>
+				<option value="Uruguay">Uruguay</option>
+				<option value="Uzbekistan">Uzbekistan</option>
+				<option value="Vanuatu">Vanuatu</option>
+				<option value="Venezuela">Venezuela</option>
+				<option value="Vietnam">Vietnam</option>
+				<option value="Yemen">Yemen</option>
+				<option value="Zambia">Zambia</option>
+				<option value="Zimbabwe">Zimbabwe</option>
+			</select>
+		</p>
+
+		<h6 style="color: #3b9852">Target Customer Area</h6>
+		<p>
+		    <select id="fedit7" name="customerCountry" >
+				<option value=""></option>
+				<option value="Canada">Canada</option>
+				<option value="United States">United States</option>
+				<option value="United Kingdom">United Kingdom</option>
+				<option value="Australia">Australia</option>
+				<option value="New Zealand">New Zealand</option>
+				<option value="WorldWide">WorldWide</option>
+				<option value="Afghanistan">Afghanistan</option>
+			    <option value="Albania">Albania</option>
+			    <option value="Algeria">Algeria</option>
+			    <option value="Andorra">Andorra</option>
+			    <option value="Angola">Angola</option>
+			    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+			    <option value="Argentina">Argentina</option>
+			    <option value="Armenia">Armenia</option>
+			    <option value="Aruba">Aruba</option>
+			    <option value="Austria">Austria</option>
+			    <option value="Azerbaijan">Azerbaijan</option>
+			    <option value="Bahamas, The">Bahamas, The</option>
+			    <option value="Bahrain">Bahrain</option>
+			    <option value="Bangladesh">Bangladesh</option>
+			    <option value="Barbados">Barbados</option>
+			    <option value="Belarus">Belarus</option>
+			    <option value="Belgium">Belgium</option>
+			    <option value="Belize">Belize</option>
+			    <option value="Benin">Benin</option>
+			    <option value="Bhutan">Bhutan</option>
+			    <option value="Bolivia">Bolivia</option>
+			    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+			    <option value="Botswana">Botswana</option>
+			    <option value="Brazil">Brazil</option>
+			    <option value="Brunei">Brunei</option>
+			    <option value="Bulgaria">Bulgaria</option>
+			    <option value="Burkina Faso">Burkina Faso</option>
+			    <option value="Burma">Burma</option>
+			    <option value="Burundi">Burundi</option>
+			    <option value="Cambodia">Cambodia</option>
+			    <option value="Cameroon">Cameroon</option>
+			    <option value="Cape Verde">Cape Verde</option>
+			    <option value="Central African Republic">Central African Republic</option>
+			    <option value="Chad">Chad</option>
+			    <option value="Chile">Chile</option>
+			    <option value="China">China</option>
+			    <option value="Colombia">Colombia</option>
+			    <option value="Comoros">Comoros</option>
+			    <option value="Congo, Democratic Republic of the">Congo, Democratic Republic of the</option>
+			    <option value="Congo, Republic of the">Congo, Republic of the</option>
+			    <option value="Costa Rica">Costa Rica</option>
+			    <option value="Cote d'Ivoire">Cote d'Ivoire</option>
+			    <option value="Croatia">Croatia</option>
+			    <option value="Cuba">Cuba</option>
+			    <option value="Curacao">Curacao</option>
+			    <option value="Cyprus">Cyprus</option>
+			    <option value="Czech Republic">Czech Republic</option>
+			    <option value="East Timor (see Timor-Leste)">East Timor (see Timor-Leste)</option>
+			    <option value="Ecuador">Ecuador</option>
+			    <option value="Egypt">Egypt</option>
+			    <option value="El Salvador">El Salvador</option>
+			    <option value="Equatorial Guinea">Equatorial Guinea</option>
+			    <option value="Eritrea">Eritrea</option>
+			    <option value="Estonia">Estonia</option>
+			    <option value="Ethiopia">Ethiopia</option>
+			    <option value="Fiji">Fiji</option>
+			    <option value="Finland">Finland</option>
+			    <option value="France">France</option>
+			    <option value="Gabon">Gabon</option>
+			    <option value="Gambia ">Gambia, The</option>
+			    <option value="Georgia">Georgia</option>
+			    <option value="Germany">Germany</option>
+			    <option value="Ghana">Ghana</option>
+			    <option value="Greece">Greece</option>
+			    <option value="Grenada">Grenada</option>
+			    <option value="Guatemala">Guatemala</option>
+			    <option value="Guinea">Guinea</option>
+			    <option value="Guinea-Bissau">Guinea-Bissau</option>
+			    <option value="Guyana">Guyana</option>
+				<option value="Haiti">Haiti</option>
+				<option value="Holy See">Holy See</option>
+				<option value="Honduras">Honduras</option>
+				<option value="Hong Kong">Hong Kong</option>
+				<option value="Iceland">Iceland</option>
+				<option value="India">India</option>
+				<option value="Indonesia">Indonesia</option>
+				<option value="Iran">Iran</option>
+				<option value="Iraq">Iraq</option>
+				<option value="Ireland">Ireland</option>
+				<option value="Israel">Israel</option>
+				<option value="Italy">Italy</option>
+				<option value="Jamaica">Jamaica</option>
+				<option value="Japan">Japan</option>
+				<option value="Jordan">Jordan</option>
+				<option value="Kazakhstan">Kazakhstan</option>
+				<option value="Kenya">Kenya</option>
+				<option value="Kiribati">Kiribati</option>
+				<option value="Korea, North">Korea, North</option>
+				<option value="Korea, South">Korea, South</option>
+				<option value="Kosovo">Kosovo</option>
+				<option value="Kuwait">Kuwait</option>
+				<option value="Kyrgyzstan">Kyrgyzstan</option>
+				<option value="Laos">Laos</option>
+				<option value="Latvia">Latvia</option>
+				<option value="Lebanon">Lebanon</option>
+				<option value="Lesotho">Lesotho</option>
+				<option value="Liberia">Liberia</option>
+				<option value=">Libya">Libya</option>
+				<option value="Liechtenstein">Liechtenstein</option>
+				<option value="Lithuania">Lithuania</option>
+				<option value="Luxembourg">Luxembourg</option>
+				<option value="Macau">Macau</option>
+				<option value="Macedonia">Macedonia</option>
+				<option value="Madagascar">Madagascar</option>
+				<option value="Malawi">Malawi</option>
+				<option value="Malaysia">Malaysia</option>
+				<option value="Maldives">Maldives</option>
+				<option value="Mali">Mali</option>
+				<option value="Malta">Malta</option>
+				<option value="Marshall Islands">Marshall Islands</option>
+				<option value="Mauritania">Mauritania</option>
+				<option value="Mauritius">Mauritius</option>
+				<option value="Mexico">Mexico</option>
+				<option value="Micronesia">Micronesia</option>
+				<option value="Moldova">Moldova</option>
+				<option value="Monaco">Monaco</option>
+				<option value="Mongolia">Mongolia</option>
+				<option value="Montenegro">Montenegro</option>
+				<option value="Morocco">Morocco</option>
+				<option value="Mozambique">Mozambique</option>
+				<option value="Namibia">Namibia</option>
+				<option value="Nauru">Nauru</option>
+				<option value="Nepal">Nepal</option>
+				<option value="Netherlands">Netherlands</option>
+				<option value="Netherlands Antilles">Netherlands Antilles</option>
+				<option value="Nicaragua">Nicaragua</option>
+				<option value="Niger">Niger</option>
+				<option value="Nigeria">Nigeria</option>
+				<option value="North Korea">North Korea</option>
+				<option value="Norway">Norway</option>
+				<option value="Oman">Oman</option>
+				<option value="Pakistan">Pakistan</option>
+				<option value="Palau">Palau</option>
+				<option value="Palestinian Territories">Palestinian Territories</option>
+				<option value="Panama">Panama</option>
+				<option value="Papua New Guinea">Papua New Guinea</option>
+				<option value="Paraguay">Paraguay</option>
+				<option value="Peru">Peru</option>
+				<option value="Philippines">Philippines</option>
+				<option value="Poland">Poland</option>
+				<option value="Portugal">Portugal</option>
+				<option value="Qatar">Qatar</option>
+				<option value="Romania">Romania</option>
+				<option value="Russia">Russia</option>
+				<option value="Rwanda">Rwanda</option>
+				<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+				<option value="Saint Lucia">Saint Lucia</option>
+				<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+				<option value="Samoa">Samoa</option>
+				<option value="San Marino">San Marino</option>
+				<option value="Sao Tome and Principe">Sao Tome and Principe</option>
+				<option value="Saudi Arabia">Saudi Arabia</option>
+				
+				<option value="Serbia">Serbia</option>
+				<option value="Seychelles">Seychelles</option>
+				<option value="Sierra Leone">Sierra Leone</option>
+				<option value="Singapore">Singapore</option>
+				<option value="Sint Maarten">Sint Maarten</option>
+				<option value="Slovakia">Slovakia</option>
+				<option value="Slovenia">Slovenia</option>
+				<option value="Solomon Islands">Solomon Islands</option>
+				<option value="Somalia">Somalia</option>
+				<option value="South Africa">South Africa</option>
+				<option value="South Korea">South Korea</option>
+				<option value="South Sudan">South Sudan</option>
+				<option value="Spain">Spain</option>
+				<option value="Sri Lanka">Sri Lanka</option>
+				<option value="Sudan">Sudan</option>
+				<option value="Suriname">Suriname</option>
+				<option value="Swaziland">Swaziland</option>
+				<option value="Sweden">Sweden</option>
+				<option value="Switzerland">Switzerland</option>
+				<option value="Syria">Syria</option>
+				<option value="Taiwan">Taiwan</option>
+				<option value="Tajikistan">Tajikistan</option>
+				<option value="Tanzania">Tanzania</option>
+				<option value="Thailand">Thailand</option>
+				<option value="Timor-Leste">Timor-Leste</option>
+				<option value="Togo">Togo</option>
+				<option value="Tonga">Tonga</option>
+				<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+				<option value="Tunisia">Tunisia</option>
+				<option value="Turkey">Turkey</option>
+				<option value="Turkmenistan">Turkmenistan</option>
+				<option value="Tuvalu">Tuvalu</option>
+				<option value="Uganda">Uganda</option>
+				<option value="Ukraine">Ukraine</option>
+				<option value="United Arab Emirates">United Arab Emirates</option>
+				<option value="Uruguay">Uruguay</option>
+				<option value="Uzbekistan">Uzbekistan</option>
+				<option value="Vanuatu">Vanuatu</option>
+				<option value="Venezuela">Venezuela</option>
+				<option value="Vietnam">Vietnam</option>
+				<option value="Yemen">Yemen</option>
+				<option value="Zambia">Zambia</option>
+				<option value="Zimbabwe">Zimbabwe</option>
+			</select>
+		</p>
+		<h6 style="color: #3b9852">Company URL</h6>
+		<p> 
+			<input style="color: black" type= "text"  id="fedit5" name="companyUrl" rows="1"/>
+		</p>
+		<h6 style="color: #3b9852">Local City</h6>
+		<p> 
+			<input style="color: black" type= "text"  id="fedit6" name="localCity" rows="1"/>
+		</p>
+		<button type="submit" id="submit_button" class="btn btn-success btn-small"> Save </button>
+	</form>
+
+
+	<div name="profile" id="profile" style="float: left;">
+		<h6 style="color: #3b9852">Description</h6>
+		<p><%= profile.description %></p>
+		<!-- <h6 style="color: #3b9852">Target Audience Age Range</h6>
+		<p><%= profile.range1%> To <%= profile.range2%> </p> -->
+		<!-- <h6 style="color: #3b9852">Voice</h6>
+		<p><%= profile.voice %></p> -->
+		<h6 style="color: #3b9852">Target Audience Interests</h6>
+		<p><%= profile.interest %></p>
+
+		<h6 style="color: #3b9852">Company Location</h6>
+		<p> <%= profile.country%></p>
+
+		<h6 style="color: #3b9852">Target Customer Area</h6>
+		<p> <%= profile.customerCountry%></p>
+		<!-- <h6 style="color: #3b9852">Company URL</h6>
+		<p> 
+			<a href="<%= profile.companyUrl%>" target="_blank"><%= profile.companyUrl %></a> 
+		</p> -->
+		<h6 style="color: #3b9852">Local City</h6>
+		<p> <%= profile.localCity%></p>
+		<button  class="btn btn-success btn-small" onclick="edit_profile()"> Edit Profile</button>
+	</div>
+
+
+
+	<!-- start imporve profile add section -->
+
+	<div class="addImproveProfile" style="display: none; margin-left: 190px;">
+		<form action="./improveProfile" method="POST" >
+		
+			<section class="facebook">
+				<h6 style="color: #3b9852">Competition Facebook Page : </h6>
+				<div id="facebookPage">
+
+					<div><input type="text" name="fbPage1" id="fbPage" placeholder="Enter your facebook page link" value="" style="width: 75%"><a href="#" class="fbRemovecClass">×</a></div>
+
+				</div>
+				<span class="small"><a href="#" id="fbAddMore" class="btn btn-info btn-small">Add More</a></span>
+			</section>
+
+
+
+			<section class="twitter">
+				<h6 style="color: #3b9852">75 Twitter Page : </h6>
+				<div id="twitterPage">
+
+					<div><input type="text" name="twtPage1" id="twtPage" placeholder="Enter your twitter page link" value="" style="width: 75%;"><a href="#" class="twtRemoveClass">×</a></div>
+
+				</div>
+				<span class="small"><a href="#" id="twitterAddMore" class="btn btn-info btn-small">Add More</a></span>
+			</section>
+
+
+			<section class="emulate">
+				<h6 style="color: #3b9852">Competition Twitter Page : </h6>
+				<div id="emulatePage">
+
+					<div><input type="text" name="emulatePage1" id="emulatePage" placeholder="Enter your emulate page link " style="width: 75%" value=""><a href="#" class="emulateRemoveClass">×</a></div>
+
+				</div>
+				<span class="small"><a href="#" id="emulateAddMore" class="btn btn-info btn-small">Add More</a></span>
+			</section>
+
+
+			<section style="margin-top: 25px">
+				<div class="form-group float-label-control">
+		            <label style="color: #3b9852" for="voice">What would you like your tone of voice to be (e.g., Funny, Intelligent, etc.)?</label>
+		            <input id="voice" name="voice" style="width: 75%" type="text" class="form-control input-sm" placeholder="What would you like your tone of voice to be?" required>
+		        </div>
+			</section>
+
+
+			<section style="margin-top: 15px">
+				<div class="form-group float-label-control">
+		            <label style="color: #3b9852" for="companyUrl">What is your company website address?</label>
+		            <input id="companyUrl" style="width: 75%" name="companyUrl" type="text" class="form-control input-sm" placeholder="What is your company website address?" required>
+		        </div>
+			</section>
+
+
+			<section style="margin-top: 15px">
+				<div class="form-horizontal">
+					<div class="form-group">
+		                <label style="color: #3b9852;float: left;margin-right: 16px;margin-top: 27px;" for="" class="col-sm-8" style="padding-top:10px; width=300px">
+		                	What is the age-range of your audience?
+		                </label>
+		                <div class="col-sm-2  float-label-control" style="float: left;margin-right: 25px;">
+		                	<label style="color: #3b9852" for="aa" styhle="padding-left:20px;">From</label>
+		                	<input id="aa" name="range1" style="width: 50px" type="text" class="input-sm" placeholder="From" required>
+		                </div>
+		                 <div class="col-sm-2  float-label-control" style="padding-left:0;">
+		                	<label style="color: #3b9852" for="dd">To</label>
+		                	<input id="dd" style="width: 50px" name="range2" type="text"  class="form-control input-sm" placeholder="To"  required>
+		                </div>
+					</div>
+				</div>
+			</section>
+
+
+
+
+			<button class="btn btn-success btn-small"  style="margin-top: 25px;"> Improve Profile</button>
+
+		</form>
+	</div>
+
+	<!-- end improve profile add section -->
+
+
+
+	<!-- start imporve profile show section -->
+
+	<div class="showImproveProfile" style="margin-left: 190px">
+		
+		<h6 style="color: #3b9852">Competition Facebook Page : </h6>
+
+		<% for(var key in improveProfile) { %>
+
+			<% for(var i=0; i<20; i++) { %>
+
+				<% if((key == 'fbPage'+i) ){ %>
+					<a href="<%= improveProfile[key] %>" target="_blank"><%= improveProfile[key] %></a><br>
+				<% } %>				
+			<% } %>
+
+		<% } %>
+
+		
+		<h6 style="color: #3b9852">Competition Twitter Page : </h6>	
+
+		<% for(var key in improveProfile) { %>
+
+			<% for(var i=0; i<20; i++) { %>
+
+				<% if((key == 'twtPage'+i) ){ %>
+					<a href="<%= improveProfile[key] %>" target="_blank"><%= improveProfile[key] %></a><br>
+				<% } %>				
+			<% } %>
+
+		<% } %>
+		
+		<h6 style="color: #3b9852">Competition Emulate Page : </h6>
+
+		<% for(var key in improveProfile) { %>
+
+			<% for(var i=0; i<20; i++) { %>
+
+				<% if((key == 'emulatePage'+i) ){ %>
+					<a href="<%= improveProfile[key] %>" target="_blank"><%= improveProfile[key] %></a><br>
+				<% } %>				
+			<% } %>
+
+		<% } %>
+
+
+		<h6 style="color: #3b9852">Target Audience Age Range</h6>
+		<p><%= improveProfile.range1%> To <%= improveProfile.range2%> </p>
+
+		<h6 style="color: #3b9852">Voice</h6>
+		<p><%= improveProfile.voice %></p>
+
+		<h6 style="color: #3b9852">Company URL</h6>
+		<p> 
+			<a href="<%= profile.companyUrl%>" target="_blank"><%= improveProfile.companyUrl %></a> 
+		</p>
+
+
+
+
+		<button style="margin-top: 30px" class="btn btn-success btn-small editProfile"> Edit Improve Profile</button>
+		
+	</div>
+
+
+	
+
+	<!-- end improve profile show section -->
+
+
+
+	<!-- start imporve profile edit section -->
+
+
+	<div class="editImproveProfile" style="display: none; margin-left: 190px">
+		<form action="./improveProfile" method="POST" >
+		
+			<section class="facebook">
+				<h6 style="color: #3b9852">Competition Facebook Page : </h6>
+				<div id="facebookPage">
+
+
+					<% for(var key in improveProfile) { %>
+
+						<% for(var i=0; i<20; i++) { %>
+
+							<% if((key == 'fbPage'+i) ){ %>
+								<div><input type="text" name="<%= key %>" id="fbPage" style="width: 75%" value="<%= improveProfile[key] %>"></div><br>
+							<% } %>				
+						<% } %>
+
+					<% } %>
+
+					
+
+				</div>
+				
+			</section>
+
+
+
+			<section class="twitter">
+				<h6 style="color: #3b9852">Competition Twitter Page : </h6>
+				<div id="twitterPage">
+
+					<% for(var key in improveProfile) { %>
+
+						<% for(var i=0; i<20; i++) { %>
+
+							<% if((key == 'twtPage'+i) ){ %>
+								<div><input type="text" name="<%= key %>" id="twtPage" style="width: 75%" value="<%= improveProfile[key] %>"></div><br>
+							<% } %>				
+						<% } %>
+
+					<% } %>
+				</div>
+				
+			</section>
+
+
+			<section class="emulate">
+				<h6 style="color: #3b9852">Competition Emulate Page : </h6>
+				<div id="emulatePage">
+
+					<% for(var key in improveProfile) { %>
+
+						<% for(var i=0; i<20; i++) { %>
+
+							<% if((key == 'emulatePage'+i) ){ %>
+								<div><input type="text" name="<%= key %>" id="emulatePage" style="width: 75%" value="<%= improveProfile[key] %>"></div><br>
+							<% } %>				
+						<% } %>
+
+					<% } %>
+
+				</div>
+				
+			</section>
+
+
+
+			<section>
+				<div class="form-group float-label-control">
+		            <label style="color: #3b9852" for="voice">What would you like your tone of voice to be (e.g., Funny, Intelligent, etc.)?</label>
+		            <input id="voice" style="width: 75%" name="voice" type="text" value="<%= improveProfile.voice %>" class="form-control input-sm" placeholder="What would you like your tone of voice to be?" required>
+		        </div>
+			</section>
+
+
+			<section>
+				<div class="form-group float-label-control">
+		            <label style="color: #3b9852" for="companyUrl">What is your company website address?</label>
+		            <input id="companyUrl" style="width: 75%" name="companyUrl" type="text" value="<%= improveProfile.companyUrl %>" class="form-control input-sm" placeholder="What is your company website address?" required>
+		        </div>
+			</section>
+
+
+			<section style="margin-top: 15px">
+				<div class="form-horizontal">
+					<div class="form-group">
+		                <label style="color: #3b9852;float: left;margin-right: 16px;margin-top: 27px;" for="" class="col-sm-8" style="padding-top:10px; width=300px">
+		                	What is the age-range of your audience?
+		                </label>
+		                <div class="col-sm-2  float-label-control" style="float: left;margin-right: 25px;">
+		                	<label style="color: #3b9852" for="aa" styhle="padding-left:20px;">From</label>
+		                	<input id="aa" value="<%= improveProfile.range1 %>" name="range1" style="width: 50px" type="text" class="input-sm" placeholder="From" required>
+		                </div>
+		                 <div class="col-sm-2  float-label-control" style="padding-left:0;">
+		                	<label style="color: #3b9852" for="dd">To</label>
+		                	<input id="dd" value="<%= improveProfile.range2 %>" style="width: 50px" name="range2" type="text"  class="form-control input-sm" placeholder="To"  required>
+		                </div>
+					</div>
+				</div>
+			</section>
+
+
+
+			<button class="btn btn-success btn-small"  style="margin-top: 25px;"> Update Profile</button>
+
+		</form>
+	</div>
+
+
+	
+
+	<!-- end improve profile edit section -->
+
+
+	
+
+
+
+
+
+</div>
+    <% include feedback.ejs%>
+	<!--basic scripts-->
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src='../assets/js/bootstrap.min.js'></script>
+	<script src='../assets/js/bootstrap-lightbox.js'></script>
+	<script src='../assets/js/jquery.ui.widget.js'></script>
+	<script src='../assets/js/jquery.fileupload.js'></script>
+	<script src='../js/sign.js'></script>
+	<script src='../assets/js/imageCrop.js'></script>
+	<script src='../assets/js/jquery.Jcrop.min.js'></script>
+
+
+
+	<script>
+
+	var improveProfile = <% if(locals.improveProfile){ %>
+						 <%- JSON.stringify(improveProfile) %>
+						 <% } %>	
+
+	/*alert(improveProfile);*/
+
+
+		
+
+	$('.improveProfile').click(function(){
+		/*if(jQuery.isEmptyObject(improveProfile)){*/
+			$('.addImproveProfile').show();
+			$('.showImproveProfile').hide();
+		/*}else{*/
+			$('.editImproveProfile').hide();
+			
+			
+
+		
+	})
+
+	$('.editProfile').click(function(){
+		$('.editImproveProfile').show();
+		$('.addImproveProfile').hide();
+		$('.showImproveProfile').hide();
+
+	})
+
+
+	if(jQuery.isEmptyObject(improveProfile)){
+		$('.showImproveProfile').hide();
+	}				 
+
+	</script>
+	
+
+
+	<script>
+
+		$(document).ready(function() {
+
+
+			var MaxInputs       = 8; 
+
+			/*start facebook page section*/
+
+			var facebookPage   = $('#facebookPage'); 
+			var fbAddMore       = $('#fbAddMore'); 
+
+			var x = facebookPage.length;
+			var fbFieldCount=1;
+
+
+			$(fbAddMore).click(function (e){ 
+		        if(x <= MaxInputs){
+
+		            fbFieldCount++;           
+		            $(facebookPage).append('<div><input type="text" name="fbPage'+fbFieldCount+'" id="field_'+ fbFieldCount +'" placeholder="Enter your another facebook page link" style="width: 75%" /><a href="#" class="fbRemovecClass">&times;</a></div>');
+		            x++; 
+		        }
+				return false;
+			});
+
+			$("body").on("click",".fbRemovecClass", function(e){
+		        if( x > 1 ) {
+	                $(this).parent('div').remove(); 
+	                x--; 
+		        }
+		       
+				return false;
+			}) ;
+
+			/*end facebook page section*/
+
+
+			/*start twitter page section*/
+
+			var twitterPage = $('#twitterPage');
+			var twitterAddMore = $('#twitterAddMore');
+			var twitterFieldCount = 1;
+
+
+			var y = twitterPage.length;
+			
+			$(twitterAddMore).click(function(e){
+				
+				if(y <= MaxInputs){
+					
+					twitterFieldCount++;
+					$(twitterPage).append('<div><input type="text" name="twtPage'+twitterFieldCount+'" id="field_'+ twitterFieldCount +'" placeholder="Enter your another twitter page link" style="width: 75%"/><a href="#" class="twtRemovecClass">&times;</a></div>');
+					y++;
+
+				}
+
+				return false;
+			});
+
+			$("body").on("click",".twtRemovecClass", function(e){
+		        if( y > 1 ) {
+	                $(this).parent('div').remove(); 
+	                y--; 
+		        }
+		       
+				return false;
+			}) ;
+
+			/*end twitter page section*/
+
+
+
+
+			/*start semulate page seciton*/
+
+			var emulatePage = $('#emulatePage');
+			var emulateAddMore = $('#emulateAddMore');
+			var emulateFieldCount = 1;
+
+
+			var z = emulatePage.length;
+			
+			$(emulateAddMore).click(function(e){
+				
+				if(z <= MaxInputs){
+					
+					emulateFieldCount++;
+					$(emulatePage).append('<div><input type="text" name="emulatePage'+emulateFieldCount+'" id="field_'+ emulateFieldCount +'" placeholder="Enter your another emulate page link" style="width: 75%"/><a href="#" class="emulateRemovecClass">&times;</a></div>');
+					z++;
+
+				}
+
+				return false;
+			});
+
+			$("body").on("click",".emulateRemovecClass", function(e){
+		        if( z > 1 ) {
+	                $(this).parent('div').remove(); 
+	                z--; 
+		        }
+		       
+				return false;
+			}) ;
+
+
+			/*end semulate page seciton*/
+
+
+
+
+			
+
+		});
+
+
+
+
+	</script>
+
+
+
+
+
+<script type = "text/javascript">
+$(document).ready(function(){
+	var facebook= <% if(locals.facebook){%>
+				<%- JSON.stringify(facebook) %>
+		  	<%}else{%>
+		  		null
+		  	<%}%>;
+	var twitter= <% if(locals.twitter){%>
+				<%- JSON.stringify(twitter) %>
+			  	<%}else{%>
+			  		null
+			  	<%}%>;
+	var linkedin= <% if(locals.linkedin){%>
+					<%- JSON.stringify(linkedin) %>
+		  		<%}else{%>
+		  			null
+		  		<%}%>;
+	
+
+	$('#file').change(function(){
+		 readURL(this);
+	})
+	$('#change_picture').click(function(e){
+		$('#upload_picture').show();
+	})
+	$('#facebook_').click(function(e){
+			e.preventDefault();
+			var url = facebook;
+			myWindow=window.open(url);
+			myWindow.focus();
+	});
+	$('#twitter_').click(function(e){
+			e.preventDefault();
+			var url = 'https://www.twitter.com/' + twitter;
+			//console.log(user.twitter);
+			myWindow=window.open(url);
+			myWindow.focus();
+	});
+	$('#linkedin_').click(function(e){
+			e.preventDefault();
+			var url = linkedin;
+			myWindow=window.open(url);
+			myWindow.focus();
+	})
+
+
+
+});
+</script>
+<script type="text/javascript">
+	var profile= <% if(locals.profile){%>
+			<%- JSON.stringify(profile) %>
+		  	<%}%>;
+	function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#targets').attr('src', e.target.result);
+                $('#profile_picture1').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            //$('#image_div').show();
+        }
+    }
+	function edit_profile()
+	{
+		//var value = $('#edit1').val();
+		$('#profile').hide();
+		$('#fedit1').val(profile.description);
+		$('#fedit2').val(profile.voice);
+		$('#fedit3').val(profile.interest);
+		$('#fedit4').val(profile.country);
+		$('#range1').val(profile.range1);
+		$('#range2').val(profile.range2);
+		$('#fedit5').val(profile.companyUrl);
+		$('#fedit6').val(profile.localCity);
+		$('#fedit7').val(profile.customerCountry);
+		$('#editPanel').show();
+	}
+</script>
+</body>
+</html>

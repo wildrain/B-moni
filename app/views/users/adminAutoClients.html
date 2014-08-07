@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Write Blurbs</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<!-- <link rel="stylesheet" href="../assets/css/link-preview.css" /> -->
+	<link rel="stylesheet" href="../assets/css/preview.css" />
+	<link rel="stylesheet"  href="../assets/css/dd.css" />
+</head>
+<body>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+                <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					
+				<ul class="nav ace-nav pull-right">
+					<li class="light-blue user-profile">
+						<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+							
+							<img src="../assets/avatars/default.png" onerror="this.src='../assets/avatars/default.png';" class="nav-user-photo" style="width: 36px; height: 36px;">
+							
+							<span id="user_info">
+								<small>Welcome,</small>Blurbi
+							</span>
+
+							<i class="icon-caret-down"></i>
+						</a>
+
+						<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+							
+
+							<li>
+								<a href="/signout">
+									<i class="icon-off"></i>
+									Logout
+								</a>
+							</li>
+						</ul>
+					</li>
+
+				</ul><!--/.ace-nav-->
+			</div>
+		</div><!--/.container-fluid-->
+	</div><!--/.navbar-inner-->
+	
+	<div class="container-fluid" id="main-container">
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+		<div id="sidebar">
+			<% include sidebar.ejs %>
+		</div>
+		<div id="main-content" class="clearfix">
+			<div id="page-content" class="clearfix">
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<div class="row-fluid">
+			
+					<form id="makeClients" type="Post" action="/users/autoClientsPost">
+						<div style="float: left; margin-right: 20px; ">
+							<label> All Brands </label>
+							<select name="brand" id="all_brands" > 
+								<% for(var i=0; i<brands.length; i++){%>
+									<%if(brands[i].logoPath){%>
+										<option value="<%=brands[i]._id%>" data-image="../<%= brands[i].logoPath %>" ><%=brands[i].brand.profileInfo.company%></option>
+									<%}else{%>
+										<option value="<%=brands[i]._id%>" data-image="../assets/avatars/default.png" ><%=brands[i].brand.profileInfo.company%></option>
+									<%}%>
+								<% } %>
+							</select>
+						</div>
+						<div>
+							<label> All writers</label>
+						
+							<select name="writer" id="all_writers" > 
+								<% for(var i=0; i<writers.length; i++){%>
+									<%if(writers[i].logoPath){%>
+										<option value="<%=writers[i]._id%>" data-image="../<%= writers[i].logoPath %>" ><%=writers[i].writer.profileInfo.name%></option>
+									<%}else{%>
+										<option value="<%=writers[i]._id%>" data-image="../assets/avatars/default.png" ><%=writers[i].writer.profileInfo.name%></option>
+									<%}%>
+								<% } %>
+							</select>
+						
+						</div>
+						<div style="margin-top: 10px;">
+							<button class="btn-small btn-success" type="submit">Make Clients</button>
+						</div>
+					</form>
+				</div> <!-- end row-fluid -->
+			</div>
+		</div>
+		<% include feedback.ejs%>
+	</div>
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/jquery.dd.min.js"></script>
+	<script src="../js/topbar.js"></script>
+
+	<script>
+		var brands= <% if(locals.brands){%>
+			<%- JSON.stringify(brands) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var writers= <% if(locals.writers){%>
+			<%- JSON.stringify(writers) %>
+		<%}else{%>
+			null
+		<%}%>;
+
+		$(document).ready(function(e) {
+		
+			$("body select").msDropDown();
+			
+		});
+
+		$('#makeClients').submit(function(){
+			var address = '/users/autoClientsPost';
+			var formdata = $('#makeClients').serialize();
+			$.ajax({
+				type: 'POST',
+				url: address,
+				data: formdata,
+				success: function(data){
+					// console.log(data);
+					location.reload();
+				}
+
+			})
+			return false;
+
+
+		})
+
+	</script>
+
+
+	
+
+
+</body>
+</html>

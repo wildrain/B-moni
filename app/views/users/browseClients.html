@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blurbi - Browse Clients</title>
+  <link rel="shortcut icon" href="../img/favicon.png">
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+  <link rel="stylesheet" href="../assets/css/font.css" />
+  <!--ace styles-->
+  <link rel="stylesheet" href="../assets/css/ace.min.css" />
+  <style type="text/css">
+    .row:before, .row:after {
+      display: table;
+      line-height: 0;
+      content: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar navbar-inverse">
+   <div class="navbar-inner">
+    <div class="container-fluid" id="topbar">
+      <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+      <% include topbar.ejs %>
+    </div><!--/.container-fluid-->
+  </div><!--/.navbar-inner-->
+</div>
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="sidebar">
+    <% include sidebar.ejs %>
+  </div>
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+      </div>
+      <!--/.page-header-->
+      <div class="row-fluid"> 
+        <div class="controls" id="clients">
+          <label style="float: left; margin-right: 5px">
+           <input name="form-field-radio" type="radio" checked value="all_clients" onclick="client_or_not()" id="all_clients" checked>
+           <span class="lbl"> All Writers </span>
+         </label>
+         <label>
+           <input name="form-field-radio" type="radio" value="my_clients" id="my_clients" onclick="client_or_not()" >
+           <span class="lbl"> Your Writers </span>
+         </label>
+         <% if (locals.brandType && brandType=='enterprise'){%>
+         <label style="float: left; margin-right: 5px">
+          <input name="form-field-radio" type="radio"  value="internal_clients" onclick="client_or_not()" >
+          <span class="lbl"> Internal </span>
+        </label>
+        <%}%>
+      </div>
+      <% if (locals.brandType && brandType=='enterprise'){%>
+      <button class="btn btn-info btn-small" onclick="add_writers()"> Add Internal Writers</button>
+      <%}%>
+      <br><div id="emailAvailable" style="color: white;
+      display : none;
+      width: 25%;
+      border: 1px solid #3b9852;
+      background: #3b9852;
+      text-align: center;
+      font-size: 15px;
+      padding-top: 7px;
+      margin-bottom: 10;
+      margin-bottom: 10px;">
+      <p>The writer is already a member of Blurbi. Please add from all writers.</p>
+    </div>
+    <div class="row-fluid" id="add_writer" style="display: none">
+      <ul  style="width: 20%;" id="added_emails">
+      </ul>
+      <form id="email_form">
+        <input id="writers_email" name="email" type="email" placeholder="Enter writer's email address" />
+        <button class="btn btn-info btn-small" type='submit' required>Add</button>
+      </form>
+    </div>
+    <%if(brandType == 'enterprise') {%>
+    <div class="table" id="table3" style="display: none">
+      <table class="table table-hover">
+        <thead>
+          <tr class="row">
+            <th class="span2 sortable">
+              <span class="line"></span> Writer
+            </th>
+            <th class="span4 sortable center">
+              <span class="line"></span> Interest
+            </th>
+            <th class="span2 sortable center">
+              <span class="line"></span>Age 
+            </th>
+            <th class="span2 sortable center">
+              <span class="line"></span>Acceptance Ratio <span style="float: right"><i id="tour3" class="icon-info-sign info"></i></span>
+            </th>
+            <th class="span4 sortable center">Last Login</th>
+                <th class="span2 sortable align-right">
+                  <span class="line"></span>Total FameRate
+                </th>
+                <th class="span4 sortable center">
+                  <span class="line"></span> Status 
+                </th>
+                <div class="row">
+                </thead>
+                <tbody>
+                  <% for(var i=0; i<writer.length; i++) {
+                    if(clients.indexOf(writer[i].id)!=-1) {%>
+                    <tr>
+                      <td>
+                        <% if(locals.writer[i].logoPath) {%>
+                        <div style="width: 36px; height: 36px;">
+                         <img alt="Tyler's Avatar" src="../<%=writer[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit; height: inherit;" />
+                       </div>
+                       <% } else { %>
+                       <div style="width: 36px; height: 36px;">
+                        <img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+                      </div>
+                      <%}%>
+                      <a style="color: #3b9852; " href="/users/seeProfile?id=<%= writer[i].id %>&acceptance=<%=writer[i].acceptance%>"  class="name"><%= writer[i].profileInfo.name%></a>
+                    </td>
+                    <td>
+                     <% if(locals.writer[i].profileInfo.interest){ %>
+                     <%= writer[i].profileInfo.interest %>
+                     <%}%>
+                   </td>
+                   <td class="center">
+                     <%= writer[i].profileInfo.Age%>
+                   </td>
+                   <td class="center">
+                    <%=writer[i].acceptance %> %
+                  </td>
+                  <%if (writer[i].lastLogin){%>
+                    <td class="center"><%= writer[i].lastLogin.toString().substring(4,16) %></td>
+                  <%}else{%>
+                    <td class="center"> &nbsp;  </td>
+                  <% } %>
+                  <td class="center">
+                    <%=writer[i].si %> %
+                  </td>
+                  <td>
+                    <button class="btn btn-success btn-small" disabled>
+                      <i class="icon-edit bigger-110"></i>
+                      Writing for you
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-danger btn-small" id="<%=i%>" onclick="delete_client(this)">
+                      <i class="icon-trash bigger-110"></i>
+                      Drop
+                    </button>
+                  </td>
+                </tr>
+                <%}}%>
+                <!-- row -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%}%>
+
+        <div class="table" id="table2" style="display: none">
+          <table class="table table-hover">
+            <thead>
+              <tr class="row">
+                <th class="span2 sortable">
+                  <span class="line"></span> Writer
+                </th>
+                <th class="span4 sortable center">
+                  <span class="line"></span> Interest
+                </th>
+                <th class="span2 sortable center">
+                  <span class="line"></span>Age 
+                </th>
+                <th class="span2 sortable center">
+                  <span class="line"></span>Acceptance Ratio <span style="float: right"><i id="tour3" class="icon-info-sign info"></i></span>
+                </th>
+                <th class="span3 sortable center">Last Login</th>
+                <th class="span2 sortable align-right">
+                  <span class="line"></span>Total FameRate
+                </th>
+                <th class="span4 sortable center">
+                 <span class="line"></span> Status 
+               </th>
+               <div class="row">
+               </thead>
+               <tbody>
+                <!-- row -->
+                <% for(var i=0; i<writer.length; i++) {
+                  if(clients.indexOf(writer[i].id)!=-1) {%>
+                  <tr>
+                    <td>
+                      <% if(locals.writer[i].logoPath) {%>
+                      <div style="width: 36px; height: 36px;">
+                       <img alt="Tyler's Avatar" src="../<%=writer[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit; height: inherit;" />
+                     </div>
+                     <% } else { %>
+                     <div style="width: 36px; height: 36px;">
+                      <img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+                    </div>
+                    <%}%>
+                    <a style="color: #3b9852; " href="/users/seeProfile?id=<%= writer[i].id %>&acceptance=<%=writer[i].acceptance%>"  class="name"><%= writer[i].profileInfo.name%></a>
+                  </td>
+                  <td>
+                   <% if(locals.writer[i].profileInfo.interest){ %>
+                   <%= writer[i].profileInfo.interest %>
+                   <%}%>
+                 </td>
+                 <td class="center">
+                   <%= writer[i].profileInfo.Age%>
+                 </td>
+                 <td class="center">
+                  <%=writer[i].acceptance %> %
+                </td>
+                <%if (writer[i].lastLogin){%>
+                    <td class="center"><%= writer[i].lastLogin.toString().substring(4,16) %></td>
+                <%}else{%>
+                    <td class="center"> &nbsp;  </td>
+                <% } %>
+                <td class="center">
+                   <%= writer[i].si%>
+                </td>
+                <td>
+                 <button class="btn btn-success btn-small" disabled>
+                   <i class="icon-edit bigger-110"></i>
+                   Writing for you
+                 </button>
+                 &nbsp;
+                 <button class="btn btn-danger btn-small" id="<%=i%>" onclick="delete_client(this)">
+                  <i class="icon-trash bigger-110"></i>
+                  Drop
+                </button>
+              </td>
+            </tr>
+            <%}}%>
+            <!-- row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row-fluid table" id="table1" >
+      <table class="table table-hover">
+        <thead>
+          <tr class="row">
+            <th class="span2 sortable">
+              <span class="line"></span> Writer
+            </th>
+            <th class="span4 sortable center">
+              <span class="line"></span> Interest
+            </th>
+            <th class="span2 sortable center">
+              <span class="line"></span>Age 
+            </th>
+            <th class="span2 sortable center">
+              <span class="line"></span>Acceptance Ratio <span style="float: right"><i id="tour3" class="icon-info-sign info"></i></span>
+            </th>
+                      <!--<th class="span2 sortable align-right">
+                          <span class="line"></span>Total Social Influence
+                        </th>-->
+                        <th class="span3 sortable center">Last Login</th>
+                        <th class="span2 sortable align-right">
+                          <span class="line"></span>Total FameRate
+                        </th>
+                        <th class="span4 sortable center">
+                          <span class="line"></span> Status 
+                        </th>
+                      </tr>
+                      <div class="row">
+                      </thead>
+                      <tbody>
+                        <% for(var i=0; i<writer.length; i++) {%>
+                        <td>
+                          <% if(locals.writer[i].logoPath) {%>
+                          <div style="width: 36px; height: 36px;">
+                            <img alt="Tyler's Avatar" src="../<%=writer[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width:inherit; height: inherit;" />
+                          </div>
+                          <% } else { %>
+                          <div style="width: 36px; height: 36px;">
+                            <img class="nav-user-photo" src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit" />
+                          </div>
+                          <%}%>
+                          <a  href="/users/seeProfile?id=<%= writer[i].id %>&acceptance=<%=writer[i].acceptance%>" style="color: #3b9852;"  class="name"><%= writer[i].profileInfo.name%></a>
+                        </td>
+                        <td> 
+                          <% if(locals.writer[i].profileInfo.interest){%>
+                          <%= writer[i].profileInfo.interest %>
+                          <%}%>
+                        </td> 
+                        <td class="center"><%= writer[i].profileInfo.Age%></td>
+                        <td class="center"><%=writer[i].acceptance %>%</td>
+                        <%if (writer[i].lastLogin){%>
+                          <td class="center"><%= writer[i].lastLogin.toString().substring(4,16) %></td>
+                        <%}else{%>
+                          <td class="center"> &nbsp;  </td>
+                        <% } %>
+                        <td class="center"> <%=writer[i].si%> </td>
+                       <td>
+                        <%
+                        fg =0;
+                        fg1=0;
+                        for(var j=0;j<RequestRecieve.length;j++)
+                          {
+                            if(RequestRecieve[j].id == writer[i].id.toString())
+                              {
+                                console.log("found");
+                                fg=1;
+                                break;
+                              }
+                            } 
+                            for(var j=0;j<RequestSend.length;j++)
+                              {
+                                if(RequestSend[j].id == writer[i].id.toString())
+                                  {
+                                    console.log("found");
+                                    fg1=1;
+                                    break;
+                                  }
+                                }   
+                                %>
+                                <% if(fg == 1) { %>
+                                <button class="btn btn-info btn-small" disabled>
+                                  <i class="icon-edit bigger-110"></i>
+                                  Waiting for acceptance
+                                </button>
+                                <% } else if(clients.indexOf(writer[i].id)!=-1) { %>
+                                <button class="btn btn-success btn-small" disabled>
+                                  <i class="icon-edit bigger-110"></i>
+                                  Writing for you
+                                </button>
+                                &nbsp;
+                                <button class="btn btn-danger btn-small" id="<%=i%>" onclick="delete_client(this)">
+                                  <i class="icon-trash bigger-110"></i>
+                                  Drop
+                                </button> 
+                                <% }else if(fg1==1){%>
+                                <button class="btn btn-warning btn-small" disabled>
+                                  <!-- <i class="icon-spinner bigger-110"></i> -->
+                                  Pending
+                                </button>
+                                <% } else { %>
+                                <button class="btn btn-info btn-small"  id="<%=i%>" onclick="requestToWrite(this)" >
+                                  <i class="icon-edit bigger-110"></i>
+                                  Request To Write
+                                </button>
+                                <%}%>
+                              </td>
+                            </tr>
+                            <%}%>
+                            <!-- row -->
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <% include feedback.ejs%>
+                  <script src='../assets/js/jquery-1.9.1.min.js'></script>
+                  <script src="../assets/js/bootstrap.min.js"></script>
+                  <script src="../js/topbar.js"></script>
+                  <script src="../js/accept.js"></script>
+                  <script type="text/javascript">
+                    var writer= <% if(locals.writer){%>
+                     <%- JSON.stringify(writer) %>
+                     <%}%>;
+                     var clients= <% if(locals.clients){%>
+                      <%- JSON.stringify(clients) %>
+                      <%}%>;
+                      function requestToWrite(element){
+  //console.log(brands);
+  var button= $(element);
+  button.html('Pending');
+  /*button.addClass('icon-spinner bigger-110');*/
+  button.addClass('btn btn-warning btn-small');
+  button.prop('disabled','disabled');
+  if(button.val()!='Pending'){
+    var address= './browseClients'
+    $.ajax({
+      type: "POST",
+      url: address,
+      data: {id: writer[element.id].id},
+      success: function(data){
+        button.val('Pending');
+      }
+    });
+  }
+}
+</script>
+<script type="text/javascript">
+
+
+
+$('.info').tooltip({
+    'show': true,
+        'placement': 'top',
+        'title': "Percentage of acceptance over submission (e.g, 5 Blurb accepted over 10 submitted blurb gives 50% acceptance ratio.)"
+});
+
+
+
+
+  function add_writers(){
+  //alert('works');
+  $('#add_writer').show();
+}
+$('#email_form').submit(function(){
+   // return false;
+    //alert('works');
+    var formdata = $('#email_form').serialize();
+    var address ='/users/addWriters';
+    $.ajax({
+      type: 'POST',
+      url: address,
+      data: formdata,
+      success: function(data){
+       console.log(data);
+       if(data=='not available'){
+        $('#emailAvailable').show("slow");
+        setTimeout(function(){
+          $('#emailAvailable').hide("slow");
+        },3000);
+      }
+      else{
+        $('#added_emails').append('<li>'+ data + '</li>');
+      }
+    }
+  })
+    return false;
+  })
+function client_or_not()
+{
+	//($("#clients input[type='radio']:checked").val());
+	if($(" input[type='radio']:checked").val()=="my_clients"){
+		$("#table1").hide();
+    $('#table3').hide();
+    $("#table2").show();
+    $('#add_writer').hide();
+		//alert($("#clients input[type='radio']:checked").val());
+	}
+	else if($(" input[type='radio']:checked").val()=="all_clients"){
+		$("#table2").hide();
+    $('#table3').hide();
+    $("#table1").show();
+    $('#add_writer').hide();
+  }
+  else{
+    $("#table1").hide();
+    $('#table2').hide();
+    $("#table3").show();
+    $('#add_writer').hide();
+  }
+}
+function delete_client(element){
+  //console.log(element);
+  //var id = $(element.id);
+  //id.disabled = true;
+  //id.html('disabled');
+  //alert('works');
+  //var van=$('#vanish'+element.id);
+  //van.hide();
+  address='/users/delete';
+  var id = writer[element.id].id;
+  $.ajax({
+    type: "POST",
+    url: address,
+    data: {'id': id},
+    success: function(data){
+      location.reload();
+    }
+  });
+}
+</script>
+</body>
+</html>

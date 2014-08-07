@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Settings Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+
+
+		<style>
+			a:hover{
+				text-decoration: none;
+				cursor: pointer;
+			}
+			.fb-hover:hover{
+				color: black !important;
+			}
+			.twitter-hover:hover{
+				color: black !important;
+			}
+			.linkedin-hover:hover{
+				color: black !important;
+			}
+
+		</style>
+
+	</head>
+<body>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+	        <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				<% include topbar.ejs %>	
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+  <div id="sidebar">
+   <% include sidebar.ejs %>
+  </div>
+  <div id="main-content" class="clearfix" >
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+      </div>
+      <!--/.page-header-->
+       <div id="common_alert" style="display: none" class="alert alert-block alert-success">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+			<div id="alert_description">
+			</div>
+		</div>
+
+		<div id="deactive_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+		    <div class="modal-header" style="background-color:  #D6E9C0;">  
+		        <h2 >
+		        <text id="header"> </text>
+		        </h2>  
+		    </div>      
+		    <div class="modal-body" style="color: green">  
+		        <p id="description">
+		        	Are you sure to deactivate your account? <!-- sss $<text id="blurb_price"> </text>-->
+		        </p> 
+		        <br>
+		        <button  data-dismiss="modal" id="yes" class="btn btn-success btn-small">Yes</button>
+		        <button   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+		    </div>  
+		</div>
+
+	    <div class="modal fade" id="changeEmail-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	      <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <button type="button" style="position:absolute; right:2%; top:4%;"  data-dismiss="modal" aria-hidden="true">X</button>
+	            <h5 class="modal-title" id="myModalLabel">&nbsp;</h5>
+	          </div>
+	          <div class="modal-body" id="changeEmail-modal-body">
+	            <div class="col-xs-10 co-lg-offset-1 col-md-offset-1">
+	            	<form id="change_email_form" >
+		              <div class="col-xs-6" style="padding-top:20px;">
+		                <div class="form-group">
+		                  <label class="control-label small login-pass-label"> Enter your new email address</label>
+		                  <input style="width: 80%;" type="email" name="email" id="email_edit_email" class="form-control input-xs" placeholder="Type Your New Email Address." required>
+		                </div>
+		                <div style="width: 80%; display: none;" id="new_email_unavailable">
+				            <label class="label label-important" >Email address is in use.</label>
+				        </div>
+		                <!-- <div class="form-group">
+		                  <label class="control-label small login-pass-label"> Enter your Password</label>
+		                  <input style="width: 80%;" type="text" id="password_edit_email" class="form-control input-xs" placeholder="Type Your Password" required>
+		                </div>
+		                <div style="width: 80%; display: none;" id="passwod_missmatch">
+				            <label class="label label-important" >Password Missmatch.</label>
+				        </div> -->
+		              </div>
+		              <div class="col-xs-12">
+		                
+		                <div class="btn-group">
+		                  <button type="submit"  class="btn btn-primary btn-block btn-sm ebook-btn" style="border-radius:0px;">Submit</button>
+		                </div>
+		              </div>
+	              </form>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+    	<ul class="nav nav-list" style="width: 60%">
+	    	<li onclick="linkto_again()" style="margin-bottom: 20px; border-bottom: none">
+	    		<a href ="#"><label style="color: #3b9852">Link social accounts</label></a>
+	    	  	<div id="link_div"  style=" padding-left: 5%"  ><br>
+	                <% if(locals.facebook) {%>   
+						<div style="float:left; margin-right:  4%; text-align: center; ">
+							<a href="" id="facebook_">
+							<!-- <img style="width:30px;height:30px;" src="../assets/images/fb2.png"> -->
+							<i style="font-size:40px;" class="icon-facebook-sign fb-hover fb-color icon-only "></i>
+							</a>
+							<button style="width: 27px; color: #FC070A; margin-top: -29px;margin-left: 19px;" type="button" class="close" onclick="disconnect_link('facebook')">
+								<i class="icon-remove"></i>
+							</button>     		
+							<!-- <img style="width: 27px;height: 35px;margin-top: -23px;margin-left: 3px;" src="../assets/images/icons/tick.png"> -->
+						</div>
+	               	<%} else{%>
+	               		 <a href="" id="facebook_">
+			               	<div style="float:left;margin-right: 4%; text-align: center; ">
+			               		<i style="font-size:40px;color:gray" class="icon-facebook-sign fb-hover fb-color icon-only "></i>
+			               	</div>
+	               		</a>
+	               	<% } %>
+	               <%if(locals.twitter){%>
+		               	<div style="float:left; margin-right: 4%; text-align: center;">
+		               		<a href="" id="twitter_">
+		               		<!-- <img style="width:30px;height:30px;" src="../assets/images/tw2.png"> -->
+		               		<i style="font-size:40px;" class="icon-twitter-sign twitter-color twitter-hover icon-only "></i>
+		               		</a>
+		               		<button style="width: 27px; color: #FC070A; margin-top: -29px;margin-left: 19px;" type="button" class="close" onclick="disconnect_link('twitter')">
+								<i class="icon-remove"></i>
+							</button>
+		               		<!-- <img style=" width: 27px;height: 35px;margin-top: -23px;margin-left: 3px;" src="../assets/images/icons/tick.png"> -->
+		               	</div>
+	               <%} else{%>
+	                <a href="" id="twitter_">
+	               	<div style="float:left; margin-right:4%; text-align: center;">
+	               		<!-- <img style="width:30px;height:30px;" src="../assets/images/tw2.png"> -->
+	               		<i style="font-size:40px;color:gray" class="icon-twitter-sign twitter-color twitter-hover icon-only "></i>
+	               	</div>
+	               </a>
+	               <%} %>
+	               <%if(locals.linkedin){%>
+	               	<div style="float:left; margin-right: 4%; text-align: center;">
+	               		<a href="" id="linkedin_">
+	               		<!-- <img style="width:30px;height:30px;"  src="../assets/images/icons/linkedin.png"> -->
+	               		<i style="font-size:40px;" class="icon-linkedin-sign linkedin-color linkedin-hover icon-only "></i>
+	               		</a>
+	               		<button style="width: 27px; color: #FC070A; margin-top: -29px;margin-left: 19px;" type="button" class="close" onclick="disconnect_link('linkedin')" >
+								<i class="icon-remove"></i>
+						</button>
+	               		<!-- <img style="width: 27px;height: 35px;margin-top: -23px;margin-left: 3px;" src="../assets/images/icons/tick.png"> -->
+	               	</div>
+	               <%} else{%>
+	                <a href="" id="linkedin_">
+	               	<div style="float:left; margin-right:4%; text-align: center;">
+	               		<!-- <img style="width:30px;height:30px;"  src="../assets/images/icons/linkedin.png"> -->
+	               		<i style="font-size:40px;color:gray" class="icon-linkedin-sign linkedin-color linkedin-hover icon-only "></i>
+	               	</div>
+	               </a>
+	               <%} %>
+	               	<div style="float:left; margin-right: 4%; text-align: center;">
+	               	</div>
+	               <% if(locals.bufferapp){%>
+	               	<div >
+	               		<!-- <a href="" id="buffer_">
+	               		<img style="width:30px;height:30px;"  src="../assets/images/icons/bufferapp.png">
+	               		</a>
+	               		<img style="width:15px;height:15px;" src="../assets/images/icons/tick.png"> -->
+	               	</div>
+	               <%} else { %>
+	                <a href="" id="buffer_">
+	               	 	<!-- <div >
+	               		<img style="width:30px;height:30px;" src="../assets/images/icons/bufferapp.png">
+	               		<p></p>
+	               	</div> -->
+	               </a>
+	               <% } %>
+	            </div>
+	            <br>
+	            <br>
+	    	</li>
+    	<li onclick="change_email_settings()">
+	    	<a href="#"><label style="color: #3b9852">Change Email Settings</label></a>
+	    	<div style="padding-left: 5%; display:none;" id="email_div">
+
+	    		
+				<div style="background-color: #FFFFD5; height: 19px;">
+					
+    				<div style="float: left;">
+	    				<a data-toggle="modal" data-target="#changeEmail-modal" >
+	    					<i class="icon-pencil" ></i>Edit &nbsp; &nbsp;
+	    				</a>
+	    			</div>
+    				<div >
+	    				Email: &nbsp; <%=email%> 
+	    			</div>
+	    			
+    			</div>
+	    	
+	    		<br>
+	    		<label>Get Notifications in Your E-mail For</label>
+	    			<%
+	    		var action =0;
+	    		var news =0;
+	    		var stuff =0;
+	    		 for(var i=0;i<emailSettings.length;i++){
+	       			if(emailSettings[i]=="SiteActions")
+	       			action=1;
+	       			if(emailSettings[i]=="SiteNews")
+	       			news=1;
+	       			if(emailSettings[i]=="HelpfulStuff")
+	       			stuff=1;
+	     		 }%>			
+				<spanty>
+					<form action="/users/changeSettings" method="POST">
+						<label>
+							<% if(action==1) {%>
+							<input name="emailSettings" value="SiteActions" id="SiteActions" type="checkbox" checked>
+							<%} else{ %>
+							<input name="emailSettings" value="SiteActions" id="SiteActions" type="checkbox" >
+							<% }%>
+							<span class="lbl"> Site Actions </span>
+						</label>
+						<label>
+							<% if(news==1) {%>
+							<input name="emailSettings" value="SiteNews"  id="SiteNews" type="checkbox" checked>
+							<%} else{ %>
+							<input name="emailSettings" value="SiteNews"  id="SiteNews" type="checkbox">
+							<% }%>
+							<span class="lbl"> Site News </span>
+						</label>
+						<label>
+							<% if(stuff==1) {%>
+							<input name="emailSettings" value="HelpfulStuff" id="HelpfulStuff" type="checkbox" checked>
+							<%} else{ %>
+							<input name="emailSettings" value="HelpfulStuff" id="HelpfulStuff" type="checkbox">
+							<% }%>
+							<span class="lbl"> Helpful Stuff </span>
+						</label>
+					</form>
+				</spanty>
+				<br>
+				<button   class="btn btn-success btn-small" id="submit2"> Submit </button>
+				</div><br>
+    	</li>
+    	<li onclick="change_password()">
+	    	<a href="#" ><label style="color: #3b9852">Change password</label></a>
+	    	<p></p>
+	    	<div style="padding-left: 5%">
+		    	<div style="display:none;" id="pass_form" >
+			    	<div class="row-fluid">
+				    	<label >Type Your New Password</label>
+				    	<input type="password" id="new_pass1" style="float:left; margin-right: 5px"/>
+			    	</div>
+			    	<div class="row-fluid">
+			    		<label for="form-field-8">Re-Type Your New Password</label>
+			    	 	<input type="password" id="new_pass2"/>
+			    	 	<label style="display:none;color:RED;" id="missmatch2">Password doesn't match</label>
+			    	</div>
+			    	<button  class="btn btn-success btn-small" disabled onclick="match_pass()" id="submit"> Submit </button>
+		    	</div>
+	    	</div>
+	    	<br>
+    	</li>
+    	<a href="#" id="cancel_subscription" ><label style="color: #3b9852"><small>Cancel Subscription</small></label></a>
+    	</ul>
+    </div>
+   </div>
+  <% include feedback.ejs%>
+<script src='../assets/js/jquery-1.9.1.min.js'></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var fg = 0;
+		var location = window.location.hash;
+		if(location.indexOf('unsubscribe')!=-1){
+			//alert('unsubscribe');
+			$('#link_div').hide();
+			$('#email_div').show();
+			$('#pass_form').hide();
+		}
+		if(location.indexOf('change_password')!=-1)
+		{
+			$('#link_div').hide();
+			$('#email_div').hide();
+			$('#pass_form').show();
+		}
+		$('#submit2').click(function(){
+			document.getElementById('alert_description').innerHTML = 'Your email settings has been changed.'
+			$('#common_alert').show();
+			setTimeout(function(){$('#common_alert').fadeOut()},3000);
+		})
+		$('#facebook_').click(function(){
+			//alert("works");
+			//e.preventDefault();
+			myWindow=window.open('/auth/facebook','','width=640,height=500');
+			myWindow.focus();
+		})
+		$('#twitter_').click(function(){
+			//e.preventDefault();
+			myWindow=window.open('/auth/twitter','','width=640,height=500');
+			myWindow.focus();
+		})
+		$('#buffer_').click(function(){
+			//e.preventDefault();
+			myWindow=window.open('/auth/bufferapp','','width=640,height=500');
+			myWindow.focus();
+		})
+		$('#linkedin_').click(function(){
+			myWindow=window.open('/auth/linkedin','','width=500,height=5000');
+			myWindow.focus();
+		})
+		// $('#network_button').click(function(){
+		// 	var formdata = $('#preferred_netwoks_form').serialize();
+		// 		$.ajax({
+		// 			type: 'POST',
+		// 			url: '/users/preferredNetworks',
+		// 			data: formdata,
+		// 			success: function(data){
+		// 			}
+		// 		})
+		// })
+		$('#cancel_subscription').click(function(){
+			$('#deactive_modal').modal();
+		})
+		$('#yes').click(function(){
+			//alert("jdfkjasdf");
+			window.location = '/users/deactivate' ;
+		})
+
+		$('#email_edit_email').on('keyup',function(e){
+
+	      	var email=$('#email_edit_email').val();
+	      	if(email.indexOf('@')!=-1){
+		        $.ajax({
+		              url:  '/emailAvailability',
+		              type: 'POST',
+		              data: {email : email},
+		              success: function(res) {
+		                //console.log(res);
+		                if(res=="not available"){
+		                    $('#new_email_unavailable').show('slow');
+
+		                 }
+		                if(res=="available"){
+		                    $('#new_email_unavailable').hide();
+
+		                 }
+		              
+		            }
+
+		        });
+
+	      }
+		       
+		          
+		})
+
+	  	$('#email_edit_email').on('change',function(e){
+
+	      var email=$('#email_edit_email').val();
+	      if(email.indexOf('@')!=-1){
+	        $.ajax({
+	              url:  '/emailAvailability',
+	              type: 'POST',
+	              data: {email : email},
+	              success: function(res) {
+	                //console.log(res);
+	                if(res=="not available"){
+	                    $('#new_email_unavailable').show('slow');
+
+	                }
+	                if(res=="available"){
+	                    $('#new_email_unavailable').hide();
+
+	                 }
+	              
+	            }
+
+	        });
+
+	      }
+	             
+	  })
+	  $('#change_email_form').submit(function(){
+		  	$.ajax({
+	              url:  '/users/changeEmail',
+	              type: 'POST',
+	              data: {email : $('#email_edit_email').val()},
+	              success: function(res) {
+	                //console.log(res);
+	                document.getElementById('changeEmail-modal-body').innerHTML = 'Your activation link for email change has been sent to your new eamil address. Please activate your new email address by clicking the link.';
+		              
+		       	}
+
+		    });
+		    return false;
+
+
+		})
+	})
+</script>
+<script type="text/javascript">
+function select_fb(element){
+	//var id = $(element);
+	var id = $('#fb_');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/fb2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/fb2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_twt(element){
+	 var id = $('#twt_');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/tw2_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/tw2.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_buf(element){
+	 var id = $('#buf_');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/buffer_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/buffer.png";
+		  	 	id.val('true') ;
+		  }
+}
+function select_linkedin(element){
+	 var id = $('#linkedin_');
+	  if(id.val()=='true'){
+		  	element.src =  "../assets/images/linkedin_gray.png";
+		  	id.val('false')
+		  }		
+		  else{
+		  	 element.src =  "../assets/images/linkedin.png";
+		  	 	id.val('true') ;
+		  }
+}
+function change_password(){
+	//alert("works");
+	$('#link_div').hide();
+	$('#email_div').hide();
+	$('#pass_form').show();
+	var i =0;
+	$('#new_pass2').on('keyup',function(){
+		if($('#new_pass1').val() == $('#new_pass2').val()){
+			document.getElementById("submit").disabled = false;
+		}
+	})
+}
+function match_pass(){
+	if($('#new_pass1').val() == $('#new_pass2').val() )
+	{
+		$('#missmatch2').hide();
+		var pass = $('#new_pass1').val();
+		console.log(pass);
+		 var address = '/users/changePassword';
+		$.ajax({
+			type: "POST",
+			url: address,
+			data: {'pass' : pass},
+			success: function(res){
+				console.log(res);
+				$('#pass_form').hide();
+				document.getElementById('alert_description').innerHTML = 'Your password has been changed.'
+				$('#common_alert').show();
+				setTimeout(function(){$('#common_alert').fadeOut()},3000);
+			}
+		})
+	}
+	else
+	{
+		//$('#passdiv').show();
+		//alert("doesn't match");
+		$('#missmatch2').show();
+	}
+}
+function change_email_settings(){
+	$('#link_div').hide();
+	$('#pass_form').hide();
+	//$('#preferred_networks').hide();
+	$('#email_div').show();
+}
+function linkto_again(){
+	$('#pass_form').hide();
+	$('#email_div').hide();
+	//$('#preferred_networks').hide();
+	$('#link_div').show();
+}
+// function preferred_networks(){
+// 	$('#pass_form').hide();
+// 	$('#email_div').hide();
+// 	$('#preferred_networks').show();
+// 	$('#link_div').hide();
+// }
+
+function disconnect_link(channel){
+	//alert(channel);
+	var description;
+	description = 'Your ' + channel + ' link has been disconnected.';
+	var address = '/users/disconnectLink';
+	$.ajax({
+        type: "POST",
+        url: address,
+        data: {'channel': channel},
+        success: function(data){
+        	document.getElementById('alert_description').innerHTML = description;
+			$('#common_alert').show();
+			setTimeout(function(){$('#common_alert').fadeOut()},3000);
+        	setTimeout(function(){location.reload()},3010);
+        }
+
+     });
+
+}
+</script>
+</body>
+</html>

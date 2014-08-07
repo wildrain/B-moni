@@ -1,0 +1,548 @@
+
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Top Up Account</title>
+		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	</head>
+	<body>
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					<% include topbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+		<div class="container-fluid" id="main-container">
+			<div id="sidebar">
+				<% include sidebar.ejs %>
+			</div>
+			<div id="main-content" class="clearfix">
+				<!-- start modal section -->
+				<div id="modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+					<div class="modal-header" style="background-color:  #D6E9C0;">  
+						<h2 >
+							&nbsp
+							<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						</h2>  
+					</div>      
+					<div class="modal-body" style="color: green">  
+						<p id="description">
+						</p>  
+					</div>  
+				</div>
+				<!-- end modal section -->
+				<div id="page-content" class="clearfix">
+					<div class="page-header position-relative">
+						<h1 style="color: #3b9852">
+							Top Up Account
+						</h1>
+					</div><!--/.page-header-->
+					<!--PAGE CONTENT BEGINS HERE-->
+					<div class="boxwidth1">
+						<div >
+							Your current general account balance is:  <%=parseFloat(accountBalance).toFixed(2)%> $
+						</div>
+						<div >
+							Your current campaign account balance is:  <%=parseFloat(campaignBalance).toFixed(2)%> $
+						</div>
+						<div class="autoRenew" style="font-weight: bold;margin-top: 5px">Auto renew when balance reaches $5 <span style="margin-left: 15px"><input style="opacity: 1;" type="checkbox" ></span></div>
+
+
+
+						<div id="cmpradio"  class="row-fluid camRadioBtn" >
+							<div class="control-group" style="margin-top : 25px">
+								<div class="controls" style="float: left; margin-right: 100px">
+									<label>
+										<input id="radioGeneral" name="topupType"  value = "radioGeneral" type="radio" class="ace" checked="true" />
+										<span class="lbl"> General</span>
+									</label>
+								</div>
+								<div class="controls" >
+									<label>
+										<input id="radioCampaign" name="topupType"  value = "radioCampaign" type="radio" class="ace"  />
+										<span class="lbl"> Campaign</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<br>   <!-- end radio button section -->
+						<div id = "createCampaign" style="width: 150px; display : none">
+							<button onclick = "location.href = '/users/callAction?evtType=camp'" class="btn btn-success" type="submit">
+								<i class="bigger-110"></i>
+								Create Campaign
+							</button>
+						</div>
+						<div class="row-fluid" style="display: none;" id="cmpSelect" style="margin-top : -20px">
+							<label for="event" >Select Campaign</label>
+							<select id="event" name="prevCampaign" style="width:170px;">
+								<%=historyCallAction.length%>
+								<% for(var i=0; i<historyCallAction.length; i++){ %>
+								<% if(historyCallAction[i].eventType == 'campaign') { %>
+								<option value=<%= historyCallAction[i]._id %>><%= 
+								historyCallAction[i].title %>
+								</option>
+								<% } }%>
+							</select>
+						</div>
+						<br>  <!-- end dropdown if radio button selected -->
+						<!-- start top up account section -->
+						<div id="topup">
+							<br>
+							<div class="control-group">
+								<label class="control-label">Amount</label>
+								<div class="controls" id="radio">
+									<label>
+										<input name="form-field-radio" type="radio" value='10'>
+										<span class="lbl"> $10 </span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='20'>
+										<span class="lbl"> $20 </span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='30'>
+										<span class="lbl"> $30 </span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='40'>
+										<span class="lbl"> $40 </span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='50'>
+										<span class="lbl"> $50 <span style="color: gray">($2.5 extra credit)</span></span> 
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='100'>
+										<span class="lbl"> $100 <span style="color: gray">($5 extra credit)</span></span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='500'>
+										<span class="lbl"> $500 <span style="color: gray">($25 extra credit)</span></span>
+									</label>
+									<label>
+										<input name="form-field-radio" type="radio" value='1000'>
+										<span class="lbl" style="z-index: 0;"> $1000 <span style="color: gray">($60 extra credit)</span></span>
+									</label>
+									<label>
+										<input name="form-field-radio" class="othersValue" type="radio" value='others..'>
+										<span class="lbl" style="z-index: 0;">
+										  <input type="number" id="othersAmount" class="input-small" style="color: Black;" placeholder="others.." size="10" autocomplete="off"><br>
+										</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<input type="radio" name="opt" id="paypal">
+										<span class="lbl" style="z-index: 0;"> paypal</span>
+									</label>
+										<form id="paypalform" action="/users/paypalPayment" method="POST" style="display:none;">
+											<br>
+											<label>Amount</label>
+											<input type="hidden" name="isGeneral" id="paypal_isGeneral" value="true" />
+											<input type="text" disable id="amountPaypal" style="color: Black" name="amount" size="2" readonly><br>
+											<input type="hidden" name="campaignId" id="paypal_campaignId">
+											<button type="submit" class="btn btn-success" class="depositeAmount" id="submitBtn">Deposit</button>
+										</form>
+									<label>
+										<i class="icon-lock" style="font-size: 20px;
+											color: #DDCE1F;
+											display: inline-block;
+											width: 20px;
+											text-align: center;
+											margin-left: -23px;
+											margin-top: 2px;">
+										</i>
+										<input type="radio" name="opt" id="others">
+										<span class="lbl" style="z-index: 0;"> Visa/Credit Card/Debit Card</span>
+									</label>
+										<form id="payment-form" action="./payment" method="POST" style="display:none;">
+											<div id="payment-errors"  style="display: none" class="alert alert-error"></div>
+											<br>
+											<label>Card Number</label>
+											<input type="hidden" name="isGeneral" id="payment_isGeneral" value="true"/>
+											<input type="hidden" name="campaignId" id="payment_campaignId">
+											<input type="text" id="card-number" style="color: Black" size="20" autocomplete="off" required><br>
+											<label>CVC</label>
+											<input type="text" style="color: Black" id="card-cvc" size="4" autocomplete="off" required><br>
+											<label>Expiration (MM/YYYY)</label>
+											<input type="text" style="color: Black" id="card-expiry-month" size="2" required>
+											<span> / </span>
+											<input type="text" id="card-expiry-year" style="color: Black" size="4" required><br>
+											<input type="text"  id="amount" name="amount" size="2" style="display:none;"><br>
+											<button type="submit" class="btn btn-success" id="submitBtn">Deposit</button>
+										</form>
+									<!-- start testing purpose  -->	
+									<% if(brandType.brandType== 'enterprise'){%>
+											<label>
+											<input type="radio" id="invoice" name="opt">
+												<span class="lbl" style="z-index: 0;">Invocing (enterprise)</	span>
+											</label>
+												<form id="invoiceForm" action="#" style="display:none" >
+													<div id="payment-errors"  style="display: none" class="alert alert-error"></div>
+													<br>
+													<!-- <label>Invoice Amount</label> -->
+													<br>
+													<button type="submit" class="btn btn-success" id="invSubmitBtn">Invoice</button>
+												</form>
+									<%}%>
+									<!-- end testing purpose for pdf -->	
+									<br>
+								</div> <!-- end controls radio -->
+							</div> <!-- end control group -->
+						</div> <!-- end top up -->
+					</div>	<!-- end boxwidth1 -->
+				</div> <!-- end page-content -->
+			</div> <!-- end main-content -->
+		</div> <!-- end container fluid -->
+		<% include feedback.ejs%>
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../js/pay.js"></script>
+		<script src="../js/jspdf.js" type="text/javascript"></script>
+		<script src="../js/BlobBuilder.js"></script>
+		<script src="../js/FileSaver.js"></script>
+		<script src="../js/jquery.raty.js" type="text/javascript"></script>		
+		<script src="../js/jspdf.plugin.addimage.js" type="text/javascript"></script>
+		<script src="../js/jspdf.plugin.standard_fonts_metrics.js" type="text/javascript"></script>
+		<script src="../js/jspdf.plugin.from_html.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var env= <% if(locals.env){%>
+				<%- JSON.stringify(env) %>
+			<%}else{%>
+				null
+			<%}%>;
+
+			var historyCallAction = <% if(locals.historyCallAction){ %>	
+										<%- JSON.stringify(historyCallAction)%>
+										<% } %>;
+
+			var userId = <% if(locals.id){  %>						
+						 <%- JSON.stringify(id)%>
+						 <% } else{ %>
+						 	null
+						 <%}%>;
+
+			var company = <% if(locals.profileInfo){ %>	
+						  <%- JSON.stringify(profileInfo) %>
+						  <% } else{%>
+						  	null
+						  <%}%> 	;
+
+	        var invoiceIndexNo = <% if(locals.invoiceIndexNo){ %>	
+						  <%- JSON.stringify(invoiceIndexNo) %>
+						  <% } else{ %>
+						  	null
+						  <%}%>;					  		 
+
+
+			/*var invoiceIndexNo = 2;*/
+			/*alert(invoiceIndexNo);*/
+
+			
+			if(env.env=="development"){
+				//alert('jskdf');
+				Stripe.setPublishableKey('pk_test_4hr0ZzFWSXtnDScg1As0QMRf');
+			}
+			else{
+				Stripe.setPublishableKey('pk_live_yg3OXpS42lHvsDKZJT8mHz1j');
+			}
+		</script>
+		<script src="../js/pay.js"></script>
+		<script>
+			$(function () {
+				$('.depositeAmount').click(function(){
+					
+				});
+
+
+				/*script for invoice amount of per campaing*/
+
+				
+
+							 
+
+				$('#invSubmitBtn').click(function(e){
+					
+					
+					var selectedCampaignId = $('#event').val();
+					var invoiceAmount = $("#topup input[type='radio']:checked").val();
+					var campaignTitle;
+					var campaignDepositedAmount;
+
+					for(var a=0; a<historyCallAction.length;a++){
+						if(selectedCampaignId == historyCallAction[a]._id){
+							campaignTitle = historyCallAction[a].title;
+							campaignDepositedAmount = 0;
+						}
+					}
+
+
+					/*alert(selectedCampaignId+ ' ' + unitCost+' '+campaignTitle+' '+userId);*/
+
+
+					$.ajax({
+						type: "POST",
+						url: '/users/invoiceAmountPost',
+						data: {selectedCampaignId: selectedCampaignId,invoiceAmount: invoiceAmount,campaignTitle: campaignTitle,userId: userId, company: company, campaignDepositedAmount: campaignDepositedAmount, invoiceIndexNo: invoiceIndexNo},
+						success: function(result){
+							/*window.location = '/users/TopUpAccount';*/
+						}
+
+					});
+
+					/*e.preventDefault();*/
+
+				})
+
+
+
+
+
+
+
+
+				/*end script for invoice amount of per campaing*/
+
+
+
+
+
+				/*alert('code is working');*/
+				var objToday = new Date(),
+                weekday = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
+                dayOfWeek = weekday[objToday.getDay()],
+                domEnder = new Array( 'th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th' ),
+                /*dayOfMonth = today + (objToday.getDate() < 10) ? '0' + objToday.getDate() + domEnder[objToday.getDate()] : objToday.getDate() + domEnder[parseFloat(("" + objToday.getDate()).substr(("" + objToday.getDate()).length - 1))],*/
+                dayOfMonth = today + (objToday.getDate() < 10) ? '0' + objToday.getDate() : objToday.getDate(),
+                months = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
+                curMonth = months[objToday.getMonth()],
+                curYear = objToday.getFullYear(),
+                curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
+                curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
+                curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds(),
+                curMeridiem = objToday.getHours() > 12 ? "PM" : "AM";
+				var today = dayOfMonth + " " + curMonth + "," + curYear;
+				// alert(invoiceAmount);
+				var amountDue = 197;
+				/*var invoiceIndexNo = 2;*/
+				var historyCallAction = <% if(locals.historyCallAction){ %>	
+										<%- JSON.stringify(historyCallAction)%>
+										<% } %>;
+			  $('#invoiceForm').submit(function(e){
+
+
+
+			  	var doc = new jsPDF();
+			  	var unitCost = $("#topup input[type='radio']:checked").val();
+				var quantity = 1;
+				var lineTotal = unitCost*quantity;
+				var enterpriseAddress = <% if(locals.enterpriseAddress){ %>
+					<%- JSON.stringify(enterpriseAddress) %>
+					<% } %>
+				var name = <% if(locals.name) { %>
+						   <%- JSON.stringify(name)%>	
+						   <% } %>;
+				var Address = enterpriseAddress.enterpriseAddress;
+			  	/*alert("amount:"+unitCost);*/
+			  	/*var invoiceNo = 1;*/
+			  	/*blurbi inc address*/
+			    doc.setFont("helvetica");
+			    doc.setFontType("normal");
+			    doc.text(20, 30, 'Blurbi Inc.');
+			    doc.text(20, 37, '10 Dundas St E #502');
+			    doc.text(20, 44., 'Toronto, ON M5B 2G9');
+			    /*enterprise client address*/
+			    doc.setFont("helvetica");
+			    doc.setFontType("normal");
+			    doc.text(20, 75, name);
+			    doc.text(20, 83, Address);
+			    /*invoice information*/
+			    doc.setFont("helvetica");
+			    doc.setFontType("normal");
+			    doc.text(110, 75, 'Invoice # ');
+			    doc.text(170, 75, '000000'+invoiceIndexNo.toString());
+			    doc.text(110, 85, 'Invoice Date' );
+			    doc.text(165, 85, today);
+			    /*fill color section*/
+			    doc.setDrawColor(234, 234, 234);
+				doc.setFillColor(231,231,231);
+				doc.rect(110, 95, 90, 10, 'FD')
+				/*fill color section*/
+			    doc.setDrawColor(234, 234, 234);
+				doc.setFillColor(231,231,231);
+				doc.rect(10, 125, 190, 10, 'FD');
+				/*colume heading*/
+				doc.setFont("helvetica");
+				doc.setFontSize(12);
+			    doc.setFontType("bold");
+				doc.text(13, 130, 'Item ');
+				doc.text(55, 130, 'Description');
+				doc.text(100, 130, 'Unit Cost');
+				doc.text(130, 130, 'Quantity');
+				doc.text(160, 130, 'Line Total');
+				/*campaign section*/
+				var inc=0;
+				var top=0;
+				var lineTotalSum = 0;
+				var selectCampaign = $('#event').val();
+				for(var a=0;a<historyCallAction.length;a++){
+					if(selectCampaign == historyCallAction[a]._id){
+						var i = 170;
+						var title = historyCallAction[a].title.substring(0,15);
+						/*alert(title);*/
+						lineTotalSum = parseFloat(lineTotalSum) + parseFloat(unitCost);
+						doc.setFont("helvetica");
+						doc.setFontSize(12);
+					    doc.setFontType("normal");
+						doc.text(13, 142+inc,title);
+						doc.text(60, 142+inc, historyCallAction[a].description.substring(0,15));
+						doc.text(110, 142+inc, unitCost.toString());
+						doc.text(140, 142+inc, quantity.toString());
+						doc.text(i, 142+inc, lineTotal.toString());
+						doc.line(10, 146+inc, 200, 146+inc);
+						inc +=10;
+						top = 146+inc;
+					}
+				}
+				/*calculation section */
+				var hst = (lineTotalSum*20)/100;
+				var subTotal = parseFloat(lineTotalSum)+parseFloat(hst);
+				var amountPaid = 0;
+				doc.setFont("helvetica");
+				doc.setFontSize(12);
+			    doc.setFontType("bold");
+				doc.text(130, top, 'subtotal');
+				doc.text(170, top, lineTotalSum.toString());
+				doc.setFontType("normal");
+				doc.text(130, top+10, 'HST 13%');
+				doc.text(170, top+10, hst.toString());
+				doc.line(130, top+15, 200, top+15);
+				doc.setFontType("bold");
+				doc.text(130, top+20, 'Total');
+				doc.text(170, top+20, subTotal.toString());
+				doc.setFontType("normal");
+				doc.text(130, top+25, 'Amount Paid ');
+				doc.text(180, top+25, amountPaid.toString());
+				/*fill color section*/
+			    doc.setDrawColor(234, 234, 234);
+				doc.setFillColor(231,231,231);
+				doc.rect(130, top+30, 70, 10, 'FD');
+				/*amount due section*/
+				var amountDueFinal = subTotal - amountPaid;
+				doc.setFont("helvetica");
+			    doc.setFontType("bold");
+				doc.text(132, top+35, 'Amount Due ');
+				doc.text(175, top+35, amountDueFinal.toString());
+				/*amount due section*/
+				doc.setFont("helvetica");
+			    doc.setFontType("bold");
+				doc.text(113, 101, 'Amount Due ');
+				doc.text(183, 101, amountDueFinal.toString());
+			    var getImageFromUrl = function(url, callback) {
+			      var img = new Image, data, ret={data: null, pending: true};
+			      img.onError = function() {
+			        throw new Error('Cannot load image: "'+url+'"');
+			      }
+			      img.onload = function() {
+			        var canvas = document.createElement('canvas');
+			        document.body.appendChild(canvas);
+			        canvas.width = img.width;
+			        canvas.height = img.height;
+			        var ctx = canvas.getContext('2d');
+			        ctx.drawImage(img, 0, 0);
+			        data = canvas.toDataURL('image/jpeg').slice('data:image/jpeg;base64,'.length);
+			        data = atob(data)
+			        document.body.removeChild(canvas);
+			        ret['data'] = data;
+			        ret['pending'] = false;
+			        if (typeof callback === 'function') {
+			          callback(data);
+			        }
+			      }
+			      img.src = url;
+			      return ret;
+			    }
+			    var createPDF = function(imgData) {
+			      doc.addImage(imgData, 'JPEG', 150, 25, 50, 15);
+			      doc.save('test.pdf');
+			      document.getElementById('description').innerHTML = 'a pdf file has been send to your mail'; 
+			      window.location = '/users/TopUpAccount';
+			     /* $('#modal').modal();*/
+			    }
+			    getImageFromUrl('../profile_pictures/siglogo.jpg', createPDF);
+			    e.preventDefault();
+			  });
+			});
+
+
+
+
+			var historyCallAction = <% if(locals.historyCallAction){ %>
+				<%- JSON.stringify(historyCallAction) %>
+				<% } %>
+			/*for others value*/
+			$('#othersAmount').change(function(){
+				var value = $('#othersAmount').val();
+				$('.othersValue').val(value);
+				/*alert(value);*/
+			})	
+			/*start form submit with hidden field*/	
+			$('#paypalform').submit(function(){
+				var selectedCTAType = $("#cmpradio input[type='radio']:checked").val();
+				var selectedCampaign = $('#event').val();
+				var selectedAmount = $('#amountPaypal').val();
+				if((selectedCTAType == 'radioCampaign') && (selectedCampaign != 'selectCampaign') && (selectedAmount>0)){
+					$('#paypal_campaignId').val(selectedCampaign);
+					$(this).submit();
+				}
+			})
+			/*end form submit with hidden field*/
+			$('#radioCampaign').click(function(){
+				$('#payment_isGeneral').val("false");
+				$('#paypal_isGeneral').val("false");
+				var a = 0;
+				for(var i=0;i<historyCallAction.length;i++){
+					if(historyCallAction[i].eventType == 'campaign'){
+						a++;
+					}
+				}
+				if(a != 0){
+					$('#cmpSelect').show();
+				}else{
+					$('#createCampaign').show();
+				}
+			});
+			$('#radioGeneral').click(function(){
+				$('#cmpSelect').hide();
+				$('#createCampaign').hide();
+				$('#payment_isGeneral').val("true");
+				$('#paypal_isGeneral').val("true");
+			});
+			$('#invoice').click(function(){
+				var x=$("#topup input[type='radio']:checked").val();
+				if(x>0){
+					$('#payment-errors').hide();
+					$("#paypalform").hide();
+					$('#payment-form').hide();
+					$('#invoiceForm').show();
+				}else{
+					alert('Select your amount first');
+				}
+			});
+			$('#invoiceForm').submit(function(event) {
+				var x=$("#topup input[type='radio']:checked").val();
+			});
+		</script>
+</body>
+</html>

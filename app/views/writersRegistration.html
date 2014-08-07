@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../img/favicon.png">
+    <title>Blurbi: Social Media Content</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/css/bootstrap3.css" rel="stylesheet">
+    <link href="../assets/css/PublicPagsStyle.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400' rel='stylesheet' type='text/css'>
+  </head>
+  <body style="padding-top:75px;">
+<!-- NAVBAR
+================================================== -->
+  <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+    <div class="container-fluid col-lg-offset-2 col-md-offset-1 col-sm-offset-0">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header co-xs-2">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><span class="logo-txt">Blurbi</span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav" id="nav-scroll">
+          <li><a href="#section-0">For brands/agencies</a></li>
+          <li><a href="/writers">For content curators/writers</a></li>
+          <li><a href="#section-2">What is Blurbi?</a></li>
+        </ul>
+        <!-- <div class="btn-group" style="padding-top:12px; padding-left:10px;">
+          <a href="signup.html" class="btn btn-primary btn-xs"style="border-radius:2px;"><b>Sign up</b></a>
+        </div>
+        <div class="btn-group" style="padding-top:12px; padding-left:10px;">
+          <a href="login.html" class="btn btn-primary btn-xs" style="border-radius:2px;"><b>Log in</b></a>
+        </div> -->
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+<div class="container">
+  <div class="col-lg-8 col-md-8 col-sm-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding:20px 15px;">
+        <h1><i class="glyphicon glyphicon-edit"></i>&nbsp;Request to Write/Curate</h1>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding:20px 15px;">
+        Thanks for your interest in becoming a writer/curator on Blurbi. Unfortuantely we only offer limited spots. This is to ensure that every one of you can make money.
+        <br/>
+        <br/>
+         We need some information from you so that we can get an idea of your capabilities.
+      </div>
+      <form  method="post" action="/writerRegistration" class="form-horizontal" role="form">
+        <input type="hidden" id="writer_info" name="writerInfo" value="info" />
+        <div class="col-lg-12 col-sm-12 col-md-12" style="padding:20px 15px;">
+          <div  class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-6">
+              <input type="text" name="name" id="username" value=<%=req.session.writer_name %> class="input-sm form-control" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Twitter</label>
+            <div class="col-sm-6">
+              <input type="text" name="twitter_name" id="twitter_name" class="input-sm form-control" required placeholder="your Twitter name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">LinkedIn</label>
+            <div class="col-sm-6">
+              <input type="text" name="linkedin_name" id="linkedin_name" class="input-sm form-control" required placeholder="your LinkedIn profile">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Age</label>
+            <div class="col-sm-6">
+              <input type="number" name="Age" id="age" class="input-sm form-control" required placeholder="your age"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Interests</label>
+            <div class="col-sm-6">
+              <input type="text"  name="interest" id="interest" class="input-sm form-control typeahead" required placeholder="your interests" autocomplete="off"/><small>&nbsp;(Maximum&nbsp;5)</small>
+              </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Location</label>
+            <div class="col-sm-6">
+              <input type="text" name="location" id="location" class="input-sm form-control" required placeholder="your location"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Country</label>
+            <div class="col-sm-6">
+              <select id="country" class="input-sm form-control" name="country">
+                <option value=""></option>
+                <option value="Canada">Canada</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Australia">Australia</option>
+                <option value="New Zealand">New Zealand</option>
+                <option value="WorldWide">WorldWide</option>
+                <option value="Afghanistan">Afghanistan</option>
+                <option value="Albania">Albania</option>
+                <option value="Algeria">Algeria</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Angola">Angola</option>
+                <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Armenia">Armenia</option>
+                <option value="Aruba">Aruba</option>
+                <option value="Austria">Austria</option>
+                <option value="Azerbaijan">Azerbaijan</option>
+                <option value="Bahamas, The">Bahamas, The</option>
+                <option value="Bahrain">Bahrain</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Barbados">Barbados</option>
+                <option value="Belarus">Belarus</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Belize">Belize</option>
+                <option value="Benin">Benin</option>
+                <option value="Bhutan">Bhutan</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                <option value="Botswana">Botswana</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Brunei">Brunei</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Burkina Faso">Burkina Faso</option>
+                <option value="Burma">Burma</option>
+                <option value="Burundi">Burundi</option>
+                <option value="Cambodia">Cambodia</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Cape Verde">Cape Verde</option>
+                <option value="Central African Republic">Central African Republic</option>
+                <option value="Chad">Chad</option>
+                <option value="Chile">Chile</option>
+                <option value="China">China</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Comoros">Comoros</option>
+                <option value="Congo, Democratic Republic of the">Congo, Democratic Republic of the</option>
+                <option value="Congo, Republic of the">Congo, Republic of the</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Cote d'Ivoire">Cote d'Ivoire</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Curacao">Curacao</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czech Republic">Czech Republic</option>
+                <option value="East Timor (see Timor-Leste)">East Timor (see Timor-Leste)</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Egypt">Egypt</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                <option value="Eritrea">Eritrea</option>
+                <option value="Estonia">Estonia</option>
+                <option value="Ethiopia">Ethiopia</option>
+                <option value="Fiji">Fiji</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Gabon">Gabon</option>
+                <option value="Gambia ">Gambia, The</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Germany">Germany</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Greece">Greece</option>
+                <option value="Grenada">Grenada</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Guinea">Guinea</option>
+                <option value="Guinea-Bissau">Guinea-Bissau</option>
+                <option value="Guyana">Guyana</option>
+                <option value="Haiti">Haiti</option>
+                <option value="Holy See">Holy See</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="Iceland">Iceland</option>
+                <option value="India">India</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Iran">Iran</option>
+                <option value="Iraq">Iraq</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Israel">Israel</option>
+                <option value="Italy">Italy</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Japan">Japan</option>
+                <option value="Jordan">Jordan</option>
+                <option value="Kazakhstan">Kazakhstan</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Kiribati">Kiribati</option>
+                <option value="Korea, North">Korea, North</option>
+                <option value="Korea, South">Korea, South</option>
+                <option value="Kosovo">Kosovo</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Kyrgyzstan">Kyrgyzstan</option>
+                <option value="Laos">Laos</option>
+                <option value="Latvia">Latvia</option>
+                <option value="Lebanon">Lebanon</option>
+                <option value="Lesotho">Lesotho</option>
+                <option value="Liberia">Liberia</option>
+                <option value=">Libya">Libya</option>
+                <option value="Liechtenstein">Liechtenstein</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Macau">Macau</option>
+                <option value="Macedonia">Macedonia</option>
+                <option value="Madagascar">Madagascar</option>
+                <option value="Malawi">Malawi</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Maldives">Maldives</option>
+                <option value="Mali">Mali</option>
+                <option value="Malta">Malta</option>
+                <option value="Marshall Islands">Marshall Islands</option>
+                <option value="Mauritania">Mauritania</option>
+                <option value="Mauritius">Mauritius</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Micronesia">Micronesia</option>
+                <option value="Moldova">Moldova</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Mongolia">Mongolia</option>
+                <option value="Montenegro">Montenegro</option>
+                <option value="Morocco">Morocco</option>
+                <option value="Mozambique">Mozambique</option>
+                <option value="Namibia">Namibia</option>
+                <option value="Nauru">Nauru</option>
+                <option value="Nepal">Nepal</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Netherlands Antilles">Netherlands Antilles</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Niger">Niger</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="North Korea">North Korea</option>
+                <option value="Norway">Norway</option>
+                <option value="Oman">Oman</option>
+                <option value="Pakistan">Pakistan</option>
+                <option value="Palau">Palau</option>
+                <option value="Palestinian Territories">Palestinian Territories</option>
+                <option value="Panama">Panama</option>
+                <option value="Papua New Guinea">Papua New Guinea</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Peru">Peru</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Qatar">Qatar</option>
+                <option value="Romania">Romania</option>
+                <option value="Russia">Russia</option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                <option value="Saint Lucia">Saint Lucia</option>
+                <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                <option value="Samoa">Samoa</option>
+                <option value="San Marino">San Marino</option>
+                <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                <option value="Saudi Arabia">Saudi Arabia</option>                
+                <option value="Serbia">Serbia</option>
+                <option value="Seychelles">Seychelles</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Sint Maarten">Sint Maarten</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Solomon Islands">Solomon Islands</option>
+                <option value="Somalia">Somalia</option>
+                <option value="South Africa">South Africa</option>
+                <option value="South Korea">South Korea</option>
+                <option value="South Sudan">South Sudan</option>
+                <option value="Spain">Spain</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="Sudan">Sudan</option>
+                <option value="Suriname">Suriname</option>
+                <option value="Swaziland">Swaziland</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Syria">Syria</option>
+                <option value="Taiwan">Taiwan</option>
+                <option value="Tajikistan">Tajikistan</option>
+                <option value="Tanzania">Tanzania</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Timor-Leste">Timor-Leste</option>
+                <option value="Togo">Togo</option>
+                <option value="Tonga">Tonga</option>
+                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                <option value="Tunisia">Tunisia</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Turkmenistan">Turkmenistan</option>
+                <option value="Tuvalu">Tuvalu</option>
+                <option value="Uganda">Uganda</option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="United Arab Emirates">United Arab Emirates</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Uzbekistan">Uzbekistan</option>
+                <option value="Vanuatu">Vanuatu</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Vietnam">Vietnam</option>
+                <option value="Yemen">Yemen</option>
+                <option value="Zambia">Zambia</option>
+                <option value="Zimbabwe">Zimbabwe</option>
+              </select>
+            </div>
+          </div>
+           <div class="col-lg-12 col-md-12 col-sm-12" style="padding-right: 10px">
+            <div class="col-lg-8 col-sm-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+              <div class="form-group col-sm-3 radio" style=" padding-left:13px;">
+                <label><input type="radio" name="radio" value="male">Male</label>
+              </div>
+              <div class="form-group col-sm-3 radio">
+                <label><input type="radio" name="radio" value="female">Female</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12"  style="padding: 10px 0px">
+          <div class="col-lg-8 col-sm-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+              <label>
+                <input type="checkbox" required>
+                  I agree with the <a href="/terms" target="blank" id="terms" style="color: rgb(129, 181, 43);">Terms</a> &
+                <a href="/policy" target="blank" id="policy" style="color: rgba(129, 181, 43);">Privacy Policy.</a>
+              </label>
+              <div class="col-lg-12 col-md-12 col-sm-12 text-center"  style="padding:20px 15px;">
+                <input type="submit" class="btn btn-success btn-lg" value="Send Request"/>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="marketing-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" style="position:absolute; right:2%; top:4%;" class="btn btn-danger btn-xs" data-dismiss="modal" aria-hidden="true">X</button>
+        <h5 class="modal-title" id="myModalLabel">Get Custom Marketing</h5>
+      </div>
+      <div class="modal-body">
+        <div class="col-xs-10 co-lg-offset-1 col-md-offset-1">
+        Do you want more than just content for your marketing? We offer an array of services from social media growth to SEO.  
+      Let us know what you need!
+             <div class="col-xs-6" style="padding-top:20px;">
+                <div class="form-group">
+                  <label class="control-label small login-pass-label">Name*</label>
+                  <input type="text" class="form-control input-xs" placeholder="Enter you name here." required>
+                </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="form-group" style="padding-top:20px;">
+                  <label class="control-label small login-pass-label">Phone number</label>
+                  <input type="number" class="form-control input-xs" placeholder="XXX-XXX-XXXXX" required>
+              </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                  <label class="control-label small login-pass-label">Requirement</label>
+                  <textarea type="text" class="form-control input-xs" rows="3" placeholder="Please tell us your need and we will get back to you in two business days." required></textarea>
+                </div>
+                <div class="btn-group">
+                  <button type="submit" class="btn btn-primary btn-sm ebook-btn" style="border-radius:0px;">Submit</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal-->
+<!-- FOOTER -->
+<footer>
+  <div class="col-xs-12 footer-main">
+    <div class="col-xs-12">
+      <ul class="nav nav-pills col-xs-3">
+        <li class="pull-right"><a href="index.html">&copy; 2013 Blurbi Inc.</a></li>
+      </ul>
+      <ul class="nav nav-pills pull-right col-xs-6">
+        <li><a data-toggle="modal" data-target="#marketing-modal">Get Custom Marketing</a></li>
+        <li><a href="http://blog.blurbi.ca/">Blog</a></li>
+        <li><a href="https://twitter.com/Blurbatme">Twitter</a></li>
+        <li><a href="https://www.facebook.com/pages/Blurbi/536017369753104">Facebook</a></li>
+        <li><a href="mailto:helloblurbi@blurbi.ca">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap3.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/jquery.nav.js"></script>
+    <script src="../assets/js/jquery.scrollTo.js"></script>
+<script type="text/javascript">
+    var interests= [];
+    $(document).ready(function(){
+        $.get('../interests_mapping.txt', function(data) {
+           var lines = data.split("\n");
+           for(var i=0;i<lines.length;i++){
+                // console.log(lines[i]);
+                interests.push(lines[i]);
+           }
+        });
+       
+    })
+    function extractor(query) {
+        var result = /([^,]+)$/.exec(query);
+        if(result && result[1])
+            return result[1].trim();
+        return ' ';
+    }
+    $('.typeahead').typeahead({
+        source: interests,
+        updater: function(item) {
+            return this.$element.val().replace(/[^,]*$/,' ')+item+', ';
+        },
+        matcher: function (item) {
+          var tquery = extractor(this.query);
+          if(!tquery) return false;
+          return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+        },
+        highlighter: function (item) {
+          var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+          return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+            return '<strong>' + match + '</strong>'
+          })
+        }
+    });
+
+$('#interest').keyup(function(){    
+
+    var interestLen = new Array();
+    var interestInput = $(this).val();
+
+    interestLen = interestInput.split(',');
+
+    
+    if(interestLen.length >= 5){
+        $('#interest').attr('readonly', true);
+    }
+
+});
+    
+</script>
+  </body>
+</html>

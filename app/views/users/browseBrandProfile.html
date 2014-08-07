@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Browse Profile Page</title>
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+</head>
+<body>
+	<%
+		var amount = accountBalance;
+		var target;
+		var x;
+		var percentege;
+		if (amount < 10)
+		{
+			percentege = (amount/10)*100;
+			target = 10;
+		} 
+		else  if(amount<25 && amount > 10)
+			{
+				percentege = (amount/25)*100;
+				target = 25;
+			}
+		else if(amount>25 && amount<100)
+			{
+				percentege = (amount/100)*100;
+				target = 100;
+		}
+		percentege=Math.floor(percentege);
+	%>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+             <div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+				<% include topbar.ejs %>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+	<div class="container-fluid" id="main-container"> <a id="menu-toggler" href="#"> <span></span> </a>
+	  <div id="sidebar">
+	   <% include sidebar.ejs %> 
+	  </div>
+	  <div id="main-content" class="clearfix">
+	    <div id="page-content" class="clearfix">
+		      <div class="page-header position-relative">
+		        <!--<h1> Profile <small> <i class="icon-double-angle-right"></i>  </small> </h1>-->
+		      </div>
+	      <!--/.page-header-->
+	      <div class="row-fluid"> 
+	<! -- / PROFILE BEGINS -->
+			<div class="boxwidth1">
+			                <!-- header -->
+			                <div class="row-fluid header">
+			                		<% if(locals.brandLogoPath) { %>	
+									<div style="width: 150px; height: 150px;">
+									<img src="../<%= brandLogoPath %>" onerror="this.src='../assets/avatars/default.png';" class="avatar img-circle" style="width: inherit; height: inherit;"/>
+									</div>
+									<%} else {%>
+									<div style="width: 80px; height: 80px;">
+									<img src="../assets/avatars/default.png" class="avatar img-circle" style="width: inherit; height: inherit; ">
+									</div>
+									<%}%>
+			                        <h3 class="name"><%=brandProfile.company%></h3>
+			                 </div>
+			                 <div class="lcon">
+			            		<div class="tysp">
+			                          	<% if (locals.facebook) { %>
+											<spanty id="facebook_">
+												<a href="#"><img src="../assets/images/facebook42px.png"></a>
+											</spanty>
+										<%} %>
+										<% if (locals.twitter){ %>
+				                        	<spanty id="twitter_">
+				                        	 	<a href="#"><img src="../assets/images/twitter42px.png"></a>
+				                        	</spanty>
+				                        <% } %>
+				                        <% if(locals.linkedin){%>
+				                        	<spanty id="linkedin_"> 
+				                        		<a href="#"><img src="../assets/images/linkedin42px.png"></a>
+				                        	</spanty>
+				                        <%} %> 
+										<spanty title="acceptance ratio">
+											<div class="infobox infobox-orange2">						
+													<div class="infobox-data">
+														<span class="infobox-data-number" style="color: #3b9852"><%=acceptance%>%</span>
+													</div>
+													<div class="badge badge-success">
+														Accept %
+														<i class="icon-arrow-up"></i>
+													</div>
+											</div>
+										</spanty>
+									</div>
+								</div><br>
+			    </div>
+				<div class="boxwidth1"> 
+
+					<div class="brandprofile" style="float: left">
+						<h6 style="color: #3b9852">Description</h6>
+						<p><%= brandProfile.description %></p>
+						
+						<!-- <h6 style="color: #3b9852">Target Audience Age Range</h6>
+											    <p><%= brandProfile.range1%> To <%= brandProfile.range2%> </p> -->
+						<!-- <h6 style="color: #3b9852">Tone of Voice</h6>
+						               					    <p><%= brandProfile.voice %></p> -->               
+						<h6 style="color: #3b9852">Target Audience Interests</h6>
+					    <p><%= brandProfile.interest %></p>
+						<h6 style="color: #3b9852">Company Location</h6>
+						<p><%= brandProfile.country %></p>
+						                           
+						<h6 style="color: #3b9852">Target Customer Area</h6>
+						<p><%= brandProfile.customerCountry %></p>                          
+
+						<!-- <h6 style="color: #3b9852">Company URL</h6>
+						                           								 <p><a href="<%= brandProfile.companyUrl%>" target="_blank"><%= brandProfile.companyUrl %></a> </p> -->                           								 
+						<h6 style="color: #3b9852">Customer Location</h6>
+						<p><%= brandProfile.localCity %> </p><br>
+					</div>
+
+
+
+					<!-- start imporve profile show section -->
+
+					
+
+
+
+					<!-- end improve profile show section -->
+
+				</div>
+
+
+
+
+
+				<!-- <div class="boxwidth improveProfile" >
+				
+						
+							
+					
+				
+				</div> -->
+
+
+
+
+
+
+
+
+
+
+		</div>
+	    <% include feedback.ejs%>
+	<!--basic scripts--> 
+	<script src='../assets/js/jquery-1.9.1.min.js'></script>
+	<script src='../assets/js/bootstrap.min.js'></script>
+	<script type = "text/javascript">
+		var facebook= <% if(locals.facebook){%>
+					<%- JSON.stringify(facebook) %>
+				  	<%}else{%>
+				  		null
+				  		<%}%>;
+		var twitter= <% if(locals.twitter){%>
+					<%- JSON.stringify(twitter) %>
+				  	<%}else{%>
+				  	null
+				  	<%}%>
+				  	;
+		var linkedin= <% if(locals.linkedin){%>
+					<%- JSON.stringify(linkedin) %>
+				  	<%}else{%>
+				  	null
+				  	<%}%>
+
+		var improveProfile= <% if(locals.improveProfile){%>
+					<%- JSON.stringify(improveProfile) %>
+				  	<%}else{%>
+				  	null
+				  	<%}%>
+		
+
+		if(improveProfile.length > 0){
+			$('.improveprofile').show();
+		}	
+
+		if(jQuery.isEmptyObject(improveProfile)){
+			$('.showImproveProfile').hide();
+		}else{
+			$('.showImproveProfile').show();
+		}	  			  	
+				  	;
+		$('#facebook_').click(function(e){
+				e.preventDefault();
+				var url = facebook;
+				myWindow=window.open(url);
+				myWindow.focus();
+		});
+		$('#twitter_').click(function(e){
+				e.preventDefault();
+				var url = 'https://www.twitter.com/' + twitter;
+				//console.log(user.twitter);
+				myWindow=window.open(url);
+				myWindow.focus();
+		});
+		$('#linkedin_').click(function(e){
+				e.preventDefault();
+				var url = linkedin;
+				myWindow=window.open(url);
+				myWindow.focus();
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Blurbi - Analytics</title>
+
+		
+	
+
+		<link rel="shortcut icon" href="../img/favicon.png">
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+		<link rel="stylesheet" href="../assets/css/font.css" />
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	
+	
+	</head>
+
+	<body>
+		<%
+			var amount = accountBalance;
+			var target;
+			var x;
+			var percentege;
+			if (amount < 10 || amount ==10)
+			{
+				percentege = (amount/10)*100;
+				target = 10;
+
+			} 
+			else  if((amount<25 && amount > 10) || amount==25)
+				{
+					percentege = (amount/25)*100;
+					target = 25;
+
+				}
+			else if((amount>25 && amount<100) || amount==100)
+				{
+					percentege = (amount/100)*100;
+					target = 100;
+
+			}
+			percentege=Math.floor(percentege);
+		%>
+
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+                	<a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a>
+					
+					<ul class="nav ace-nav pull-right">
+					<% include topbar.ejs %>
+						
+					</ul><!--/.ace-nav-->
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+
+		<div class="container-fluid" id="main-container">
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+
+			<div id="sidebar">
+				
+
+				<% include sidebar.ejs %>
+
+				
+			</div>
+
+			<div id="main-content" class="clearfix">
+				 <!-- ************************************************************************************************** -->
+
+				<div id="page-content" class="clearfix" >
+				
+				<!-- ************************************************************************************************** -->
+				
+					<div class="page-header position-relative">
+						
+					</div><!--/.page-header-->
+
+					<div class="row-fluid" >
+
+						<div class="boxwidth1">
+								<div class="moveright">
+								<div class="widget-box transparent">
+									<div class="widget-header widget-header-flat">
+										<h4 class="lighter">
+											<i class="icon-signal"></i>
+											Followers 
+										</h4>
+										<div class="widget-toolbar no-border">
+											<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+												<span id="followers-dropdown" class="center">Last Week</span>
+												<i class="icon-angle-down icon-on-right"></i>
+											</button>
+
+											<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+												
+												<li class="active">
+													<a id="last-week-followers" href="#">Last Week</a>
+												</li>
+
+												<li >
+													<a id="last-month-followers" href="#">Last Month</a>
+												</li>
+												
+											</ul>
+										</div>
+										
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-body-inner">
+											<div class="widget-main padding-4">
+												<div id="sales-charts" style="width: 100%; height: 220px; padding: 0px; position: relative;">
+
+													<canvas id="followers-chart" class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 593px; height: 220px;" width="593" height="220"></canvas>
+
+													<div class="legend"><div style="position: absolute; width: 68px; height: 66px; top: 15px; right: 13px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:15px;right:13px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgba(59,89,192,1);overflow:hidden"></div></div></td><td class="legendLabel">Facebook</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgba(85,172,238,1);overflow:hidden"></div></div></td><td class="legendLabel">Twitter</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgba(14,118,168,1);overflow:hidden"></div></div></td><td class="legendLabel">LinkedIn</td></tr></tbody></table></div>
+												</div>
+											</div><!--/widget-main-->
+										</div>
+									</div><!--/widget-body-->
+								</div><!--/widget-box-->
+							</div>
+						</div>
+
+
+						<div class="boxwidth2">
+							<div class="vspace"></div>
+
+								<div class="widget-box no-border" >
+									<div class="widget-header widget-header-flat widget-header-small">
+										<h5>
+											<i class="icon-signal"></i>
+											Social Influence
+										</h5>
+										
+
+										<div class="widget-toolbar no-border">
+											<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+												<span id="si-dropdown" class="center">Last Week</span>
+												<i class="icon-angle-down icon-on-right"></i>
+											</button>
+
+											<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+												<li class="active">
+													<a id="last-week-si" href="#">Last Week</a>
+												</li>
+
+												<li>
+													<a id="last-month-si" href="#">Last Month</a>
+												</li>
+
+												
+											</ul>
+										</div>
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-main">
+											
+											<div class="clearfix">
+												<div class="grid3">
+													
+												</div>
+
+											<i class="icon-arrow-up green" ></i>
+
+													
+													<h1 id="si" class="center text-success">SI</h1>
+												
+											</div>
+										</div><!--/widget-main-->
+									</div><!--/widget-body-->
+								</div><!--/widget-box-->
+						
+						</div><!--/row-->
+						<br>
+						<br>
+									
+						
+						<div class="boxwidth2">
+
+					
+
+						
+								<div class="widget-box transparent">
+									<div class="widget-header widget-header-flat">
+										<h4 class="lighter">
+											<i class="icon-star orange"></i>
+										
+											Your Top Blurbers
+										
+										</h4>
+										
+										
+											
+											<div class="widget-toolbar no-border">
+											<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+												<span id="topblurbers-dropdown" class="center">Last Week</span>
+												<i class="icon-angle-down icon-on-right"></i>
+											</button>
+
+											<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+												<li class="active">
+													<a id="last-week-tblurbers" href="#">Last Week</a>
+												</li>
+
+												<li>
+													<a id="last-month-tblurbers" href="#">Last Month</a>
+												</li>
+
+
+												
+											</ul>
+										</div>
+
+										
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-main no-padding">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th>
+															
+																<i class="icon-user icon-2x"></i>
+														</th>
+
+														<th>
+															
+															<i class="icon-bullhorn icon-2x"></i>
+														</th>
+
+														<th class="hidden-phone">
+														
+															<i class="icon-heart icon-2x"></i>
+														</th>
+														<th>
+														
+															<i class="icon-money icon-2x"></i>
+														</th>
+													</tr>
+												</thead>
+
+												<tbody>
+													<div id="lastMonthTopBlurbers_div">
+														<% for(var i=0;i<lastMonthTopBlurbers.length;i++){
+															var siIndex = lastMonthTopBlurbers[i].writer.totalSI.length;
+															if(siIndex>0)
+																siIndex --;
+														%>
+															<tr>
+																
+																<td><a href="#"><%=lastMonthTopBlurbers[i].name%></a></td>
+
+																<td>
+																	
+																	<b class="green"><%=lastMonthTopBlurbers[i].writer.totalSI[siIndex].count%></b>
+																</td>
+
+																<td class="hidden-phone">
+																	<b class="pink"><%=parseFloat(lastMonthTopBlurbers[i].writer.acceptance).toFixed(2)%>%</b>
+																</td>
+																<td class="hidden-phone">
+																	<b class="light-green">$<%=parseFloat(lastMonthTopBlurbers[i].writer.accountBalance).toFixed(2)%></b>
+																</td>
+															</tr>
+														<%}%>
+													</div>
+													
+												</tbody>
+											</table>
+										</div><!--/widget-main-->
+									</div><!--/widget-body-->
+								</div><!--/widget-box-->
+							</div>
+
+							<div class="boxwidth1">
+					
+								<div class="widget-box ">
+									<div class="widget-header">
+										<h4 class="lighter smaller">
+											<i class="icon-comment blue"></i>
+											Top Blurbs
+										</h4>
+										<div class="widget-toolbar no-border">
+											<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+												<span id="topblurbs-dropdown" class="center">Last Week</span>
+												<i class="icon-angle-down icon-on-right"></i>
+											</button>
+
+											<ul class="dropdown-menu dropdown-info pull-right dropdown-caret">
+												<li class="active">
+													<a id="last-week-tblurbs" href="#">Last Week</a>
+												</li>
+
+												<li>
+													<a id="last-month-tblurbs" href="#">Last Month</a>
+												</li>
+
+												
+
+											</ul>
+										</div>
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-main no-padding">
+											<div id="divBlurbsLastWeek">
+
+												<% for(var i=0;i<blurbsLastWeek.length;i++){
+													if(i==5)
+														break;
+													if(blurbsLastWeek[i].SI>0){%>
+														<div class="itemdiv dialogdiv">
+															<div class="user">
+																
+																<img alt="Tyler's Avatar"  src="../<%=blurbsLastWeek[i].writer_image%>" onerror="this.src='../assets/avatars/default.png'">
+															
+															</div>
+
+															<div class="body">
+																
+		                                                        <div class="time">
+																Social Influence:
+																	<i class="icon-arrow-up green"></i>
+																	<span class="green">
+																		<%=blurbsLastWeek[i].SI%>
+																	</span>
+																</div>
+
+																<div class="name">
+																	<a href="#"><%=blurbsLastWeek[i].writer_name%></a>
+																</div>
+		                                                        
+		                                                        
+																<div class="text">
+			                                                        <div class="text-solid">
+			                                                        	<%=blurbsLastWeek[i].description%>
+			                                                        </div>
+		                                                        </div>
+															</div>
+													
+
+														</div>
+
+												<%}}%>
+								
+										</div><!--/widget-main-->
+										<div id="divBlurbsLastMonth" style="display:none;">
+
+											<% for(var i=0;i<blurbsLastWeek.length;i++){
+												if(i==5)
+													break;
+												if(blurbsLastWeek[i].SI>0){%>
+													<div class="itemdiv dialogdiv">
+														<div class="user">
+															
+															<img alt="Tyler's Avatar"  src="../<%=blurbsLastMonth[i].writer_image%>" onerror="this.src='../assets/avatars/default.png'">
+														
+														</div>
+
+														<div class="body">
+															
+	                                                        <div class="time">
+															Social Influence:
+																<i class="icon-arrow-up green"></i>
+																<span class="green">
+																	<%=blurbsLastMonth[i].SI%>
+																</span>
+															</div>
+
+															<div class="name">
+																<a href="#"><%=blurbsLastMonth[i].writer_name%></a>
+															</div>
+	                                                        
+	                                                        
+															<div class="text">
+		                                                        <div class="text-solid">
+		                                                        	<%=blurbsLastMonth[i].description%>
+		                                                        </div>
+	                                                        </div>
+														</div>
+												
+
+													</div>
+
+											<%}}%>
+								
+										</div>
+
+									</div>
+								</div>
+								<% include feedback.ejs%>
+		
+							
+							</div>
+						</div><!--/#main-content-->
+
+
+
+
+
+					
+					
+					
+					
+					
+					
+					
+					
+
+		
+
+
+		<!--basic scripts-->
+		
+		<!-- *********************************************************************** -->
+
+
+		<!--chart script-->
+		<script src="../assets/js/Chart.js"></script>
+		
+		<!--<div id = "dialg" >
+		
+		<img src="../assets/images/derekconstruction.png" >
+		
+		</div>-->
+		
+		
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		
+
+		<script type="text/javascript">
+
+
+		//GLOBAL DECLARATION OF RENDERED VARIBALES
+
+
+		var twitterFollowersCount= <% 
+			if(locals.twitterFollowersCount){%>
+				<%-JSON.stringify(twitterFollowersCount)%>
+ 			<%}%>;
+
+ 		var facebookSubscribersCount= <% 
+			if(locals.facebookSubscribersCount){%>
+				<%-JSON.stringify(facebookSubscribersCount)%>
+ 			<%}%>;
+
+ 		var linkedinFollowersCount= <% 
+			if(locals.linkedinFollowersCount){%>
+				<%-JSON.stringify(linkedinFollowersCount)%>
+ 			<%}%>;
+
+ 		var blurbsLastWeek= <% 
+			if(locals.blurbsLastWeek){%>
+				<%-JSON.stringify(blurbsLastWeek)%>
+ 			<%}%>;
+
+ 		var blurbsLastMonth= <% 
+			if(locals.blurbsLastMonth){%>
+				<%-JSON.stringify(blurbsLastMonth)%>
+ 			<%}%>;
+
+ 		var lastMonthTopBlurbers = <%
+ 				if(locals.lastMonthTopBlurbers){%>
+ 					<%-JSON.stringify(lastMonthTopBlurbers)%>
+ 				<%}%>
+			
+			//---------------------------------------
+
+			
+
+			//GLOBAL DECLARATION FOR BLURBERS
+			var wBlurbers=[],mBlurbers=[],yBlurbers=[];
+
+
+			$(document).ready(function(){
+				// $( "#dialg" ).dialog({width: 800,height:400});
+			  $(".ui-dialog-titlebar").hide()
+				if(window.location.pathname=='/users/brandContent')
+				$('#one').addClass(" active ");
+				if(window.location.pathname=='/users/browseWriter')
+				$('#two').addClass(" active ");
+				if(window.location.pathname=='/users/callAction')
+				$('#three').addClass(" active ");
+				if(window.location.pathname=='/users/analytics')
+				$('#four').addClass(" active ");
+
+			});
+
+			// DEFAULT CHART LOAD
+			LOAD_FOLLOWERS("lastWeek");
+
+			//  DEFAULT SI LOAD
+			LOAD_SI("lastWeek");
+
+			// DEFAULT TOP BLURBS LOAD
+
+			// DROP DOWN ACTIONS FOR FOLLOWERS
+			$("#last-week-followers").click(function(){
+				console.log("WEEK");
+				$("#followers-dropdown").text("Last Week");
+				LOAD_FOLLOWERS("lastWeek");
+			});
+			$("#last-month-followers").click(function(){
+				//alert("works");
+				console.log("MONTH");
+				$("#followers-dropdown").text("Last Month");
+				LOAD_FOLLOWERS("lastMonth");
+			});
+
+
+			//DROP DOWN ACTIONS FOR SI
+
+			$("#last-week-si").click(function(){
+				console.log("LAST WEEK SI");
+				$("#si-dropdown").text("Last Week");
+				LOAD_SI("lastWeek");
+			});
+			$("#last-month-si").click(function(){
+				console.log("LAST MONTH SI");
+				$("#si-dropdown").text("Last Month");
+				LOAD_SI("lastMonth");
+			});
+			$("#last-week-tblurbs").click(function(){
+			
+				$("#topblurbs-dropdown").text("Last Week");
+				$('#divBlurbsLastMonth').hide();
+				$('#divBlurbsLastWeek').show();
+				
+			
+			});
+			$("#last-month-tblurbs").click(function(){
+		
+				$("#topblurbs-dropdown").text("Last Month");
+				$('#divBlurbsLastWeek').hide();
+				$('#divBlurbsLastMonth').show();
+				
+			});
+			
+
+			// DROP DOWN ACTIONS FOR TOP BLURBS
+			
+			
+
+			function LOAD_FOLLOWERS(param){
+				if(param=="lastWeek"){
+
+					var labels=[],twitDataSet=[],fbDataSet=[],LkdnDataSet=[];
+					var len=twitterFollowersCount.length;
+
+					for(var i=len-1-6;i<=len-1;i++){
+						var date = facebookSubscribersCount[i].date;
+						var date_parse = date.split(" ")
+						//alert(date_parse[0]);
+						labels.push(date_parse[0]);
+						twitDataSet.push(twitterFollowersCount[i].count);
+						fbDataSet.push(facebookSubscribersCount[i].count);
+						LkdnDataSet.push(linkedinFollowersCount[i].count);
+						// if(cx++>7) break;
+					}
+
+					DRAW_CHART(labels,twitDataSet,fbDataSet,LkdnDataSet);
+				}else if(param=="lastMonth"){
+
+					var labels=[],twitDataSet=[],fbDataSet=[],LkdnDataSet=[];
+					var len= twitterFollowersCount.length;
+
+					for(var i=len-1,cx=0;i>=0;i--){
+
+						var date = facebookSubscribersCount[cx].date;
+						var date_parse = date.split(" ")
+						labels.push(date_parse[1] + " " + date_parse[2]);
+						twitDataSet.push(twitterFollowersCount[cx].count);
+						fbDataSet.push(facebookSubscribersCount[cx].count);
+						LkdnDataSet.push(linkedinFollowersCount[cx].count);
+						if(cx++>30) break;
+					}
+
+					DRAW_CHART(labels,twitDataSet,fbDataSet,LkdnDataSet);
+				}
+			}
+
+			function DRAW_CHART(labels,twitDataSet,fbDataSet,LkdnDataSet){
+		
+				console.log(twitDataSet);
+				console.log(fbDataSet);
+				console.log(LkdnDataSet);
+				var options = {
+				    datasetStrokeWidth: 2
+				};
+				var lineChartData = {
+					labels : labels,
+					datasets : [
+						
+						//facebook
+						{
+							fillColor: "rgba(0,0,0,0)",
+				            strokeColor: "rgba(59,89,192,1)",
+				            pointColor: "#3b5998",
+				            pointStrokeColor: "#3b5998",
+				            data: fbDataSet
+						},
+						//twitter
+						{
+							fillColor: "rgba(0,0,0,0)",
+				            strokeColor: "rgba(85,172,238,1)",
+				            pointColor: "#55acee",
+				            pointStrokeColor: "#55acee",
+							//data : [34,76,68,83,59,50,23]
+							data: twitDataSet
+						},
+						//linkedin
+						{
+							
+				            fillColor: "rgba(0,0,0,0)",
+				            strokeColor: "rgba(14,118,168,1)",
+				            pointColor: "#0e76a8",
+				            pointStrokeColor: "#0e76a8",
+							//data : [28,48,40,19,96,27,100,45]
+							data: LkdnDataSet
+						},
+					]
+					
+				}
+				var myLine = new Chart(document.getElementById("followers-chart").getContext("2d")).Line(lineChartData,options);
+			}
+
+			function GET_DAY_DIFF(firstDate){
+				var oneDay= 24*60*60*1000; // hours*minutes*seconds*milliseconds
+				var firstDate= new Date(firstDate);
+				var lastDate= new Date(Date.now());
+				var diffDays=Math.round(Math.abs((firstDate.getTime() - lastDate.getTime())/(oneDay)));
+				return diffDays;
+			}
+
+			function LOAD_SI(param){
+				var SI=0;
+				if(param=="lastWeek"){
+					
+					for(var i=0;i<blurbsLastWeek.length;i++){
+						SI +=blurbsLastWeek[i].SI;
+					}
+					$("#si").text(SI);
+				}else{
+					for(var i=0;i<blurbsLastMonth.length;i++){
+						SI +=blurbsLastMonth[i].SI;
+					}
+					$("#si").text(SI);
+				}
+			}
+
+
+			// SORTING BLURBS (PRECALCULATION)
+
+
+
+		</script>	
+	</body>
+</html>

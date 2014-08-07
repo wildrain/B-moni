@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blurbi - Write Blurbs</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min.css" />
+	<!-- <link rel="stylesheet" href="../assets/css/link-preview.css" /> -->
+	<link rel="stylesheet" href="../assets/css/preview.css" />
+</head>
+<body>
+	<div id="modal" class="modal hide" style="width: 713px; height: auto;  left:33%; top: 9%" >  
+		<div class="modal-header" style="background-color:  #D6E9C0;">  
+			<h2 >
+				&nbsp
+				<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</h2>  
+		</div>      
+		<div class="modal-body" style="color: green">  
+			<p id="description"></p>
+			<!-- <a href="#">check</a> -->
+			<table id="table_bug_report" class="table table-hover">
+				<thead>
+					<th>des</th>
+					<th>des</th>
+					<th>des</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>des</td>
+						<td>des</td>
+						<td>des</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>  
+	</div>
+	<%
+	var amount = accountBalance;
+	var target;
+	var x;
+	var percentege;
+	if (amount < 10 || amount ==10)
+		{
+			percentege = (amount/10)*100;
+			target = 10;
+		} 
+	else  if((amount<25 && amount > 10) || amount==25)
+		{
+			percentege = (amount/25)*100;
+			target = 25;
+		}
+	else if((amount>25 && amount<100) || amount==100)
+		{
+			percentege = (amount/100)*100;
+			target = 100;
+		}
+		percentege=Math.floor(percentege);
+		%>
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<div class="span2"><a href="#"><img class="logo" src="../assets/images/betatoplogo125.png"></a></div>
+					<% include topbar.ejs %>
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+	</div>
+	<div class="container-fluid" id="main-container">
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+		<div id="sidebar" style="margin-top: 25px;">
+			<% include sidebar.ejs %>
+		</div>
+		<div id="main-content" class="clearfix">
+			<div id="page-content" class="clearfix">
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<div class="row-fluid">
+					<!--PAGE CONTENT BEGINS HERE-->
+					<!-- BROWSE CONTENT !-->
+					<div class="boxwidth1" id="allCallOut" style="width: 580px;">
+						<div class="widget-box ">
+							<div class="widget-header">
+								<h4 class="lighter smaller">
+									<i class="icon-comment grey"></i>
+									<% var len = callOut.length; if(len==0){ %>
+									No New Messages 
+									<% } else{ %>
+									New Messages
+									<% } %>
+								</h4>
+							</div>
+						<!-- start write blurbs-->
+						<div class="participateCallAction" style="display: none">
+							<div id="modal" class="modal hide" style="width: 350px; height: 150px;  left:55%; top: 25%" >  
+								<div class="modal-header" style="background-color:  #D6E9C0;">  
+									<h2 >
+										&nbsp
+										<button style="color: #CC0000" type="button" id="bclose_" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									</h2>  
+								</div>      
+								<div class="modal-body" style="color: green">  
+									<p id="description">
+									</p>  
+								</div>  
+							</div>
+							<h4 class="lighter smaller">
+								<form id="getTag">
+									<!--<textarea input id="writers" class="spanT" placeholder="Clients..." ></textarea>-->
+									<p>
+										<input name="tags" id="mySingleField" value="" disabled="true" style="display:none;" required/>
+									</p>
+									<ul id="myTags">
+										<%if(locals.settag && clients.indexOf(brandId)!=-1) {%>
+										<li>
+											<%=settag%>
+										</li>
+										<%}%>
+										<!-- Existing list items will be pre-added to the tags -->
+									</ul>
+									<!--<input id="tags" / >-->
+								</form>
+							</h4>
+							<form class="replyForm" id="blurbwrite"  enctype="multipart/form-data">
+								<fieldset>
+									<textarea required onkeyup="textCounter(this,'counter',140);"tabindex="3" class="input-xlarge span6" id="message" val="" name="message" rows="12" placeholder="Click here to Blurb" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 250px; color: Black;" ></textarea>
+									<div class="selector-wrapper"></div>
+									<div style="display: none; color: Red;" id="check_blurb"> You must write something in your blurb. </div>
+									<input type="text" disabled size="3" style="width:30px;float:left; margin-right:5px;" value="140" id="counter"/> character's left
+									<div class="choose_file">
+										<span>
+											Upload Image
+										</span>
+										<input style="float:right" type="file" id="file" class="file" name="image" accept="image/*"/>
+									</div>
+								</fieldset>
+								<!-- showing image -->
+								<div class="uploadImg" style="display: none">
+									<% if(locals.logoPath) {%>
+									<div style="width: 150px; height: 150px;">
+										<img id="profile_picture" src="../<%= logoPath %>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit; height: inherit;"/>
+									</div>
+									<% } else { %>
+									<div style="width: 80px; height: 80px;">
+										<img id="profile_picture1" class="avatar "  src="../assets/avatars/default.png" alt="Jason's Photo" style="width: inherit; height: inherit; " />
+									</div>
+									<%}%>
+								</div>
+								<!-- end showing images -->
+								<input type="hidden" name="image_name" id="image_name"/>
+								<input type="hidden" name="image_path" id="image_path"/>
+							</form>	
+							<div class="lconwriter">
+								<div class="buttonGroup" style="float: right;margin-right: 98px;">
+									<button id='blurbcancel' class="btn btn-danger" type="submit" >
+										<i class="icon-remove bigger-110"></i>
+										Cancel
+									</button>
+									<button id='blurbsubmit' class="btn btn-success" type="submit" >
+										<i class="icon-ok bigger-110"></i>
+										Submit
+									</button>
+								</div>
+								<br>
+								<br>
+								<br>
+								<div id="smodal" style="display:none" class="alert alert-block alert-success">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="icon-remove"></i>
+									</button>
+									Your Blurb has been Submitted.
+								</div>
+							</div>
+						</div>  <!-- end participate call action -->
+							<!-- end write blurbs-->
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<div class="dialogs">
+										<%
+										callOut.sort(function(a,b){
+											var dateA = new Date(a.date);
+											var dateB = new Date (b.date);
+											return dateB - dateA;
+										})
+										%>		
+										<% for (var i=0; i< callOut.length; i++){ 
+											var x = new Date(callOut[i].historyCallAction.datepicker);
+											var y = new Date(callOut[i].historyCallAction.date);
+											var today = new Date();
+											var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+												"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+												if((x> today || callOut[i].historyCallAction.datepicker=="") && callOut[i].historyCallAction.writers.indexOf(userId)==-1 && callOut[i].historyCallAction.writersDenied.indexOf(userId)==-1 && callOut[i].historyCallAction.deleteStatus != 'deleted') {
+													%>
+													<div class="itemdiv dialogdiv" id="participateCA">
+														<div class="user">
+															<% if(locals.callOut[i].logoPath) {%>
+															<div style="width: 50px; height: 55px; ">
+																<img alt="Tyler's Avatar" src="../<%=callOut[i].logoPath%>" onerror="this.src='../assets/avatars/default.png';"  />
+															</div>
+															<!-- <span style="font-size: 10px;"><%= callOut[i].brandName %></span> -->
+															<% } else {%>
+															<div style="width: 36px; height: 36px;">
+																<img alt="Tyler's Avatar" src="../assets/avatars/default.png" style="width: inherit" />
+															</div>
+															<%}%>
+														</div>
+														<div class="body">
+															<div class="time">
+																<i class="icon-time"></i>
+																<% if( callOut[i].historyCallAction.datepicker==""){%>
+																<span class="green">No Expired Date</span>
+																<%} else {%>
+																<!-- <span class="green"><%= x.toUTCString() %></span> -->
+																<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate()  %></span>
+																<%}%>
+																<i><img src="../assets/images/icons/currency_dollar.png" style="width:19px;height:19px;" /></i>
+																<span class="green"><%= callOut[i].historyCallAction.price %></span>
+															</div>
+															<div>
+															</div>
+															<div class="name">
+																<a  href="/users/seeProfile?id=<%= callOut[i].brandId%>"><b class="green" ><%=callOut[i].historyCallAction.title%></b></a>
+																<% if(callOut[i].historyCallAction.eventType == 'updateCampaign'){ %>
+																<span class="badge badge-info">update</span>
+																<% } %>
+															</div>
+															<b class="green"></b>
+															<br>
+															<div class="text" >
+																<div class="text-solid" style="margin-bottom: 20px"><%= callOut[i].historyCallAction.description%>
+																</div>
+																<button style="float: right; margin-top: -12px;" class="btn btn-success btn-small " type="submit" id="<%= i %>"  onclick="participate(<%= i %>)">
+																<i class="icon-ok bigger-110"></i>
+																Participate
+																</button>
+																<div class="another-icon">
+																	<div class="other-icon">
+																		<a href="#" id="<%=i%>" onclick="del(<%=i%>)">
+																			<!-- <div class="logcol">
+																				<i style="color: #3b9852; float:right; margin-top: -31px;margin-right: 100px;"  class="icon-trash icon-2x"></i>
+																			</div> -->
+																			<button style="float: right; margin-top: -12px; margin-right: 6px;" class="btn btn-danger btn-small " >
+																			<i class="icon-trash bigger-110"></i>
+																			Delete
+																		    </button>
+																		</a>
+																	</div>
+																</div>
+																<% if(callOut[i].historyCallAction.filePath){ %>
+																		<!-- <button  class="btn btn-info btn-small " type="submit"   onclick="downloadMe(<%= i %>)"><i class="icon-download bigger-110"></i>
+																			Download File
+																		</button> -->
+																		<div class="another-icon">
+																	<div class="other-icon">
+																		<button style="float: left; margin-top: -12px; margin-right: 6px;" onclick="downloadMe(<%= i %>)" class="btn btn-info btn-small " >
+																		<i class="icon-download bigger-110"></i>
+																		Download Attachment
+																	    </button>
+																	</div>
+																</div>
+																<% } %>
+															</div> <!-- end text -->
+															<br>
+														</div> <!-- end body -->
+													</div> <!-- end itemdiv -->
+												<% } }  %>
+									</div><!--dialog-->
+								</div><!--widget main-->
+							</div><!--widgets body-->
+						</div><!--widget box-->
+					</div><!--box width1-->
+					<!-- start to show individal cta blurbs -->
+					<div class="boxwidth1" id="ctaPostedBlurbs" style="width: 607px; display:none">
+						<div class="widget-box ">
+							<div class="widget-header">
+								<h4 class="lighter smaller">
+									<i class="icon-comment grey"></i>
+									<% var len = callOut.length; if(len==0){ %>
+									No New Calls 
+									<% } else{ %>
+									Specific Message <span id="closeCTA" style="margin-left: 414px;" ><i class="icon-remove bigger-110"></i></span>
+									<% } %>
+								</h4>
+							</div>
+							<!-- end item div -->
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<div class="dialogs">
+										<table id="table_bug_report" style="border-top: 3px solid #5C983B; margin-left: 9px;" class="table table-hover">
+											<thead>
+												<tr>
+													<th class="center green">Des</th>
+													<th class="center green">per blurb</th>
+													<th class="center green">FameRate</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% if(ctaCount != null){ %>
+												<!-- start individual CTA info -->
+												<div class="itemdiv dialogdiv" id="participateCA">
+														<div class="user">
+															<% if(locals.callOut[ctaCount].logoPath) {%>
+															<div style="width: 36px; height: 36px;">
+																<img alt="Tyler's Avatar" src="../<%=callOut[ctaCount].logoPath%>" onerror="this.src='../assets/avatars/default.png';" style="width: inherit" />
+															</div>
+															<% } else {%>
+															<div style="width: 36px; height: 36px;">
+																<img alt="Tyler's Avatar" src="../assets/avatars/default.png" style="width: inherit" />
+															</div>
+															<%}%>
+														</div>
+														<div class="body">
+															<div class="time">
+																<i class="icon-time"></i>
+																<% if( callOut[ctaCount].historyCallAction.datepicker==""){%>
+																<span class="green">No Expired Date</span>
+																<%} else {%>
+																<!-- <span class="green"><%= x.toUTCString() %></span> -->
+																<span class="green"><%= monthNames[x.getMonth()] + ' ' + x.getDate() %></span>
+																<%}%>
+																<i><img src="../assets/images/icons/currency_dollar.png" style="width:19px;height:19px;" /></i>
+																<span class="green"><%= callOut[ctaCount].historyCallAction.price %></span>
+															</div>
+															<div>
+															</div>
+															<div class="name">
+																<a  href="/users/seeProfile?id=<%= callOut[ctaCount].brandId%>"><b class="green" ><%=callOut[ctaCount].historyCallAction.title%></b></a>
+																<% if(callOut[ctaCount].historyCallAction.eventType == "updateCampaign"){ %>
+																<span class="badge badge-info">Update</span>
+																<% } %>
+															</div>
+															<b class="green"></b>
+															<br>
+															<div class="text">
+																<div class="text-solid"><%= callOut[ctaCount].historyCallAction.description%>
+																</div>
+															</div> <!-- end text -->
+															<br>
+															<% if(callOut[ctaCount].historyCallAction.filePath){ %>
+																<button class="btn btn-info btn-small " type="submit"   onclick	="downloadMe(<%= ctaCount %>)">
+																	<i class="icon-download bigger-110"></i>
+																	Download Attachment
+																</button>
+																<% } %>
+															<button class="btn btn-success btn-small " type="submit" id="<%= ctaCount %>"  onclick="participate(<%= ctaCount %>)">
+																<i class="icon-ok bigger-110"></i>
+																Participate
+															</button>
+														</div> <!-- end body -->
+													</div> <!-- end itemdiv -->
+												<!-- end individual CTA info -->
+												<% for(var a=0; a<historyWriteBlurb.length;a++){ %>
+												<% if(historyWriteBlurb[a].ctaId != undefined) { %>
+												<% if(callOut[ctaCount].historyCallAction._id == historyWriteBlurb[a].ctaId) { %>
+												<!-- <tr>
+													<td><%= historyWriteBlurb[a].description %></td>
+													<td class="hidden-phone"><span class="label label-warning"><i class="icon-spinner"></i><%= historyWriteBlurb[a].status%></span></td>
+													<td>0</td>
+												</tr> -->
+												<%if (historyWriteBlurb[a].status=="Deleted") {%>
+												<tr>
+													<td>
+														<a style="color: #3b9852" href="#" id="clicker" ><%= historyWriteBlurb[a].description.substring(0,23)%></a>
+													</td>
+													<td class="hidden-phone center"><span class="label label-important"> <%=historyWriteBlurb[a].status%> </td>
+													<td class="hidden-480 center">0</td>
+												</tr>
+												<%} if(historyWriteBlurb[a].status=="Accepted"){%>
+												<tr>
+													<td>
+														<a style="color: #3b9852" href="#" id="clicker" ><%= historyWriteBlurb[a].description.substring(0,10)%></a>
+													</td>
+													<td class="center hidden-480">
+														<span ></i>$<%= historyWriteBlurb[a].price.toFixed(2) %></span>
+													</td>
+													<td class="center hidden-480">0</td>
+												</tr>
+												<%} if(historyWriteBlurb[a].status=="Pending") { %>
+												<tr>
+													<td>
+														<a style="color: #3b9852" href="#" id="clicker"><%= historyWriteBlurb[a].description.substring(0,10)%></a>
+													</td>
+													<td class="hidden-phone center"><span class="label label-warning"><i class="icon-spinner"></i><%=historyWriteBlurb[a].status%></span></td>
+													<td class="hidden-480 center">0</td>
+												</tr>
+												<%} } } } } %>
+											</tbody>
+										</table>
+									</div><!--dialog-->
+								</div><!--widget main-->
+							</div><!--widgets body-->
+						</div><!--widget box-->
+					</div><!--box width1-->
+					<!-- end to show individual cta blurbs -->
+					<div class="boxwidth2" style="width: 42%">
+						<div class="widget-box">
+							<div class="widget-header" >
+								<h4>Current & Past Messages</h4>
+							</div>
+							<div class="widget-body">
+								<div class="row-fluid span13" style="margin-left: 0 !important;">
+									<table id="table_bug_report" class="table table-hover">
+										<thead>
+											<tr>
+												<th class="green center" style="font-size: 14px">Messages</th>
+												<th class="center span2"><i class="icon-user" style="color: #5C983B; font-size:22px;"></i></th>
+												<th class="center"><i style="color: #5C983B; font-size:22px;" class="icon-money"></i></th>
+												
+												<!-- <th class="hidden-480 center"><i style="color: #5C983B; font-size:22px;" class="icon-bullhorn icon-2x"></i></th> -->
+												<th class="hidden-480 center span2 green" style="font-size: 14px">Status</th>
+											</tr>
+										</thead>
+										<div>
+										<tbody>
+											<% if(ctaCount) { %>
+											<% } %>
+											<% for (var i=0; i< callOut.length; i++){ 
+												var x = new Date(callOut[i].historyCallAction.datepicker);
+												var y = new Date(callOut[i].historyCallAction.date);
+												var today = new Date();
+												var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+													"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+												if( callOut[i].historyCallAction.writers.indexOf(userId)!=-1 && callOut[i].historyCallAction.deleteStatus != 'deleted' ) {
+													%>
+													<tr>
+														<td id="ctaList" style="width: 165px;">
+															<a style="color: #3b9852;"  onclick="popup_blurb(<%=i%>)" href="#">
+															<% if(callOut[i].historyCallAction.title.length>30){ %>
+															<%= callOut[i].historyCallAction.title.substring(0,25) %>...
+															<% } else{ %>
+															<%= callOut[i].historyCallAction.title %>
+															<% } %>
+															</a>
+														</td>
+
+														<td class="center"><%= callOut[i].brandName %></td>
+
+
+														<% var singleCtaEarned=0;
+														for(var a=0; a<historyWriteBlurb.length; a++){
+															if(historyWriteBlurb[a].ctaId == callOut[i].historyCallAction._id ){
+																singleCtaEarned = singleCtaEarned + historyWriteBlurb[a].price		
+															} 
+														}
+														%>
+
+														<td class="center"><%= singleCtaEarned.toFixed(2) %></td>
+
+														<!--<td class="hidden-480"><b class="green">6500</b></td>-->
+														<!-- <% if( callOut[i].historyCallAction.datepicker==""){%>
+														<td class="hidden-phone">No Date</td>
+														<%} else if(x > today) {%>
+														<td class="hidden-phone"><%=monthNames[x.getMonth()] +' '+x.getDate() %></td>
+														<%}  else{ %>
+														<td class="hidden-phone"><span class="label label-important">Expired</span></td>
+														<% } %> -->
+
+														<!-- <td class="center">0</td> -->
+
+														<td class="center">
+															<button class="btn btn-success btn-small " style="width: 100%" type="submit" id="<%= i %>"  onclick="participate(<%= i %>)">
+															<i class="icon-pencil bigger-110"></i>
+															Blurb
+														</button>
+														</td>
+														<% }%>
+													</tr>
+											<%  }%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>  <!-- end boxwidth2 -->
+				</div><!--PAGE CONTENT ENDS HERE-->
+			</div><!--/row-->
+		</div><!--/#page-content-->
+		<% include feedback.ejs%>
+		<script src='../assets/js/jquery-1.9.1.min.js'></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../js/topbar.js"></script>
+		<script src="../assets/js/jquery.ui.widget.js"></script>
+		<script src="../assets/js/jquery.fileupload.js"></script>
+		<script src="../assets/js/jquery.embedly.js" type="text/javascript"></script>
+		<script src="../assets/js/jquery.preview.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		var $j = jQuery.noConflict(true);</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../assets/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+		<link href="../assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+		<!--inline scripts related to this page-->
+		<script type="text/javascript">
+			var callOut= <% if(locals.callOut){%>
+				<%- JSON.stringify(callOut) %>
+				<%}%>;
+			var historyWriteBlurb= <% if(locals.historyWriteBlurb){%>
+				<%- JSON.stringify(historyWriteBlurb) %>
+				<%}%>;
+			/*alert(historyWriteBlurb.length);*/	
+			var brandId= <% if(locals.brandId){%>
+			<%- JSON.stringify(brandId) %>
+			<%}else{%>
+				null
+				<%}%>;
+			var brandIndex= <% if(locals.brandIndex){%>
+				<%- JSON.stringify(brandIndex) %>
+				<%}else{%>
+					null
+					<%}%>;
+			/*var brandIndex = 2;*/		
+			var settag= <% if(locals.settag){%>
+				<%- JSON.stringify(settag) %>
+				<%}else{%>
+					null
+					<%}%>;
+			var clients= <% if(locals.clients){%>
+						<%- JSON.stringify(clients) %>
+						<%}%>;
+			var expiredate= <% if(locals.expiredate){%>
+			<%- JSON.stringify(expiredate) %>
+			<%}else{%>
+				" "
+				<%}%>;
+			var price= <% if(locals.price){%>
+				<%- JSON.stringify(price) %>
+				<%}else{%>
+					null
+					<%}%>;	
+			/*alert("price are : " + price);*/		
+			var ctaId= <% if(locals.ctaId){%>
+				<%- JSON.stringify(ctaId) %>
+				<%}else{%>
+					null
+					<%}%>;	
+			var ctaCount= <% if(locals.ctaCount){%>
+				<%- JSON.stringify(ctaCount) %>
+				<%}else{%>
+					null
+					<%}%>;
+			/*alert(ctaCount);*/							
+			var idlist = [];
+			var taglist = [];
+			if(settag && clients.indexOf(brandId)!=-1)
+			{
+				taglist.push(settag);
+				idlist[settag]=brandId;
+			}	
+			/*$('.participateCA').click(function(){
+			});*/
+			if(brandId){
+				$('.participateCallAction').show();
+			}else{
+				$('.participateCallAction').hide();
+			}
+			function participate(i ){
+				/*alert(i);*/
+				var ctaId = callOut[i].historyCallAction._id;
+				var brandId = callOut[i].brandId;
+				var brandName = callOut[i].brandName;
+				var expiredate = callOut[i].historyCallAction.datepicker;
+				var price = callOut[i].historyCallAction.price;
+				
+				/*alert(campaignId);*/
+				window.location = '/users/writerContent?brandId='+brandId+'&settag='+brandName+'&price='+price+ '&ctaId='+ctaId;
+			}
+			function del(i){
+				
+				var address='/users/writerContent';
+				var ctaId = callOut[i].historyCallAction._id;
+				$.ajax({
+					type: "POST",
+					url: address,
+					data: {'brandId': callOut[i].brandId, 'ctaId': ctaId},
+					success: function(data){
+						location.reload();
+					}
+				});
+		   }
+		   /*download files*/
+			function downloadMe(i){
+				window.open(
+                  '../'+callOut[i].historyCallAction.filePath,
+                  '_blank' 
+                );
+			}
+			function popup_blurb(i){
+				window.location = '/users/writerContent?ctaCount='+i;
+			}
+			function textCounter(field,field2,maxlimit)
+			{
+			//var link = new Array();
+			$('#message').keyup(function(e){
+				console.log(e.keyCode);
+				if(e.keyCode==32){
+					var msg = $('#message').val();
+					var array = msg.split(" ");
+					for(var n=0;n< array.length;n++)
+					{
+						if(isUrl(array[n])){
+							link = array[n];
+						}
+					}
+					}
+				})
+			var countfield = document.getElementById(field2);
+			countfield.value = maxlimit - field.value.length;
+			if ( field.value.length > maxlimit ) {
+				document.getElementById(field2).style.color = 'RED';
+			    //field.value = field.value.substring( 0, maxlimit );
+			    //return false;
+				} else {
+					document.getElementById(field2).style.color = 'BLACK';
+				}
+			}
+			if(ctaCount){
+				$('#ctaPostedBlurbs').show();
+				$('#allCallOut').hide();
+			}else{
+				$('#ctaPostedBlurbs').hide();
+				$('#allCallOut').show();
+			}
+			$('#closeCTA').click(function(){
+				$('#ctaPostedBlurbs').hide();
+				$('#allCallOut').show();
+				window.location.href = '/users/writerContent';
+			})
+			$('.close').click(function(){
+				$('#modal').hide();
+			});
+			$("#myTags").tagit({
+				/*console.log($().jquery);*/
+				availableTags: taglist,
+				showAutocompleteOnFocus: true,
+				placeholderText: 'Clients...',
+			});
+			/*cancel participateCallAction*/
+			$('#blurbcancel').click(function(){
+				$('.participateCallAction').hide();
+				window.location = '/users/writerContent';
+			})
+			/*submit blurbs script*/
+			$('#blurbsubmit').click(function(){
+				var formdata = $('#blurbwrite').serialize();
+				/*alert(formdata);*/
+				/*alert(ctaId);*/
+				var $tags=$('#getTag :input');
+				var values = [];
+				var i=0;
+				$tags.each(function() {
+					values[i++] = $(this).val();
+				});
+				var data = [];
+				if(values.length == 0)
+					return false;
+				for(var i=1;i<values.length-1;i++)
+				{
+					data.push(idlist[values[i]]);
+				}
+				console.log('data are : '+data);
+				/*alert('hmm')
+*/
+				/*var address='/users/writeBlurbs/'+data+'?brandId='+brandId+'&settag='+settag+'&expiredate='+expiredate+'&price='+price+'&brandIndex='+brandIndex;
+					address=address.replace(/"/g, "");*/
+				if($('#message').val()=="")
+				{
+					$('#check_blurb').show();
+					return false;
+				}
+				else
+					$('#check_blurb').hide();
+				$.ajax({
+					type: "POST",
+					url: '/users/writeBlurbs/'+data+'?brandId='+brandId+'&settag='+settag+'&expiredate='+expiredate+'&price='+price+'&ctaId=' + ctaId,
+					data: formdata,
+					success: function(data){
+						/*$('.participateCallAction').hide();	*/					
+						$("#smodal").show();
+						setTimeout(function(){$("#smodal").fadeOut()},2000);
+						setTimeout(function(){location.reload();},2010);
+						window.location.href = '/users/writerContent';
+					}
+				});
+			})
+			/*end write blurbs script*/
+			/*link preveiw initialize*/
+			$j('#message').preview({key: '16f7a571ba3546f5ba52d638c76b9158'});
+			/*file upload script*/
+			$('.file').change(function(){
+				readURL(this);				
+			})
+			$j('#file').fileupload({
+				url: '/users/testlogo',
+				dataType: 'json',
+				done: function (e, data) {
+				            	//console.log(e);
+				            },
+				            success: function(data){
+				            	console.log(data.image.name);
+				            	$('#image_name').val(data.image.name);
+				            	$('#image_path').val(data.image.path);
+				            	$('.uploadImg').css("display","block");
+				            }
+				});
+			/*start readURL script*/
+			function readURL(input){
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();            
+					reader.onload = function (e) {
+						console.log(e.target.result);
+						$('#profile_picture').attr('src', e.target.result);
+						$('#profile_picture1').attr('src', e.target.result);
+					}
+					reader.readAsDataURL(input.files[0]);
+				}
+			} 
+			/*end readURL script*/
+		</script>
+</body>
+</html>

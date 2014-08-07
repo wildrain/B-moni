@@ -1,0 +1,1534 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Blurbi - Home</title>
+	<link rel="shortcut icon" href="../img/favicon.png">
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../assets/css/tylerstyle.css" />
+	<link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="../assets/css/font.css" />
+	<link rel="stylesheet" href="../assets/css/preview.css" />
+	<link rel="stylesheet" href="../tour/css/hopscotch.css" />	
+	<!--ace styles-->
+	<link rel="stylesheet" href="../assets/css/ace.min1.css" />
+
+	<script type="text/javascript">
+		//window.location.reload();
+		
+		document.onselectstart = function(){
+			return false;
+		}
+		
+	</script>
+	<style type="text/css">
+	.user {
+		background:#ffffff;
+	}
+	.row:before {
+		content:none !important;
+	}
+	.row-fluid:before {
+		content:none !important;
+	}
+	.nav-list > li > a {
+	background-color: #E9E9E9;
+	display: block;
+	font-size: 13px;
+	height: 38px;
+	line-height: 36px;
+	padding: 0 16px 0 7px;
+	text-decoration: none;
+	text-shadow: none !important;
+	}
+	.nav-list > li.active:after {
+	border-right: none;
+	bottom: 0;
+	content: "";
+	display: inline-block;
+	position: absolute;
+	right: -2px;
+	top: -1px;
+	}
+	.nav-list > li.active {
+	background-color: #FFFFFF;
+	}
+	.nav-list > li:first-child {
+	border-top: 0 none;
+	}
+	.nav-list > li.active > a:after {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: rgba(0, 0, 0, 0) #E9E9E9 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+	border-image: none;
+	border-style: solid;
+	border-width: 14px 10px;
+	content: "";
+	display: inline-block;
+	position: absolute !important;
+	right: 0;
+	top: 4px;
+	}
+	.widget-body {
+	border:0;
+	}
+	.itemdiv.dialogdiv:before {
+	    -moz-border-bottom-colors: none;
+	    -moz-border-left-colors: none;
+	    -moz-border-right-colors: none;
+	    -moz-border-top-colors: none;
+	    border-color: #ffffff;
+	    border-image: none;
+	    bottom: 0;
+	    content: "";
+	    display: block;
+	    left: 19px;
+	    max-width: 0;
+	    position: absolute;
+	    top: 0;
+	    width: 0;
+	}
+	.nav-list > li > a:hover {
+	    background-color: #FFFFFF !important;
+	    color: #3b9852 !important;
+	}
+	.nav-list>li>a:hover:before {
+		display: block;
+		content: "";
+		position: absolute;
+		top: -1px;
+		bottom: 0;
+		left: 0;
+		width: 3px;
+		max-width: 3px;
+		overflow: hidden;
+		background-color: #3b9852 !important;
+		color: #3b9852 !important;
+	}
+	
+   	a:hover{
+	    text-decoration: none;
+	}
+	.facebook-hover:hover{
+	   color: gray !important;
+	}
+   .twitter-hover:hover{
+	    color: gray !important;
+	}
+   .linkedin-hover:hover{
+	   color: gray !important;
+	}
+
+ 
+</style>
+</head>
+
+<body oncopy="return false" style="padding-top:50px;" >
+	
+	<!-- this is for test -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="span2">
+					<a href="#">
+						<img class="logo" src="../assets/images/betatoplogo125.png">
+					</a>
+				</div>
+				<% include topbar.ejs %>
+				<div style="margin-top: 25px; margin-left: 190px; cursor: pointer;">
+					<h5 style="text-decoration:underline" onclick="ShareModal()"><%=discountText.toString()%></h5> 
+				</div>
+			</div><!--/.container-fluid-->
+		</div><!--/.navbar-inner-->
+	</div>
+	<div class="container-fluid" id="main-container">
+		<a id="menu-toggler" href="#">
+			<span></span>
+		</a>
+		<div id="sidebar">
+			<% include sidebar.ejs %>
+		</div>
+		<div>
+		</div>
+		<div id="main-content" class="clearfix">
+
+			<div id="ShareBlurbi_modal" class="modal hide" style="width: 530px; height: auto;  left:50%; top: 25%" >  
+				<div class="modal-header" style="height: 50px">
+					
+					<div class="time" >
+						<button style="color: #CC0000; margin-left: 20px; margin-right: -0px; " type="button"  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+				</div>      
+				<div class="modal-body" style="color: green">  
+				
+					<textarea style="width: 97%; margin-right: 10px; margin-bottom: -3px" name="shareBlurbi_text" id="shareBlurbi_text"  rows="2" placeholder="Write Something...."></textarea>
+					<textarea style="width: 97%; margin-right: 10px; margin-bottom: -3px; resize: none;" name="blurb_text"  rows="2" readonly placeholder="Website link: https://www.blurbi.ca; PromoCode: <%=promoCode%>"></textarea>
+						
+					<div>
+                    	<br>
+                    	<div class="row-fluid">
+                    		<div>                        	
+									<% if(locals.facebook){%>
+										<input type="hidden" id="fb_s" value="true"/>
+										<div id="facebook" style="width:30px; margin-top:4px; text-align:center; float: left; ">
+											<a  href="javascript:void(0)">
+												<i style="font-size:32px;"  onclick="select_fb_s(this)" class="icon-facebook-sign fb-color icon-only facebook-hover"></i>
+											</a>
+										</div> 
+									<%}%>
+									<% if(locals.twitter){%>
+										<input type="hidden" id="twt_s" value="true"/> 
+										<div id="twitter" style="width:30px; text-align:center; margin-top:4px; float: left; ">
+											<a  href="javascript:void(0)" >
+												<i style="font-size:32px;"  onclick="select_twt_s(this)" class="icon-twitter-sign twitter-color icon-only twitter-hover"></i>
+											</a>
+										</div>
+									<%}%>
+									<% if(locals.linkedin){%>
+										<input type="hidden" id="linkedin_s" value="true"/>  
+										<div id="linkedin" style="width:30px; text-align:center; margin-top:4px; float: left; ">
+											<a href="javascript:void(0)"  >
+												<i style="font-size:32px; color:#4875B4; "  onclick="select_linkedin_s(this)" class="icon-linkedin-sign linkedin-color icon-only linkedin-hover"></i>
+											</a>
+										</div>
+									<%}%>
+							
+                    			
+                    		</div>
+
+
+                    		<div style="float: right; ">
+	                    		<span>
+	                    			<button id="3" onclick="allpost_s()" class="btn  btn-info btn-small">Share</button>
+	                    		</span>
+	                    		
+                    		</div>
+                    	</div> <!-- end row-fluid -->
+                    </div>
+
+
+				</div>  
+			</div>
+			
+			<div id="reblurb_modal" class="modal hide" style="width: 530px; height: auto;  left:50%; top: 25%" >  
+				<div class="modal-header" style="height: 50px"> 
+
+						<div class="user" style="width:auto; padding:0 0px;">
+															
+							<img id="writer_image" class="nav-user-photo" src="../assets/avatars/avatar.png" alt="Jason's Photo" style="width:58px;height:55px; float: left; margin-right: 10px;">
+
+							<div>
+							
+								<div class="name" style="width:100%; ">
+									
+									<a href='#'><b id="writer_name" class='green'> </b></a>
+									<br>
+									<span style="margin-left: 8px; color: #3b9852; font-size: 12px; font-weight: bold"></span>							
+								</div>
+
+								<div class="time" style="float: right; margin-top: -39px">
+									<button style="color: #CC0000; margin-left: 20px; margin-right: -0px; " type="button"  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								</div>
+
+							</div>
+						</div>
+
+					<!-- </h2>  --> 
+				</div>      
+				<div class="modal-body" style="color: green">  
+				
+					<textarea style="width: 97%; margin-right: 10px; margin-bottom: -3px" name="blurb_text" id="reblurb_text"  rows="2" ></textarea>
+						
+					<div>
+                    	<br>
+                    	<div class="row-fluid">
+                    		<div>                        	
+								<input type="hidden" id="blurb_id" />
+								<% if(locals.facebook){%>
+									<input type="hidden" id="fb_r" value="true"/>
+									<div id="facebook" style="width:30px; margin-top:4px; text-align:center; float: left; ">
+										<a  href="javascript:void(0)">
+											<i style="font-size:32px;"  onclick="select_fb_r(this)" class="icon-facebook-sign fb-color icon-only facebook-hover"></i>
+										</a>
+									</div> 
+								<%}%>
+								<% if(locals.twitter){%>
+									<input type="hidden" id="twt_r" value="true"/> 
+									<div id="twitter" style="width:30px; text-align:center; margin-top:4px; float: left; ">
+										<a  href="javascript:void(0)" >
+											<i style="font-size:32px;"  onclick="select_twt_r(this)" class="icon-twitter-sign twitter-color icon-only twitter-hover"></i>
+										</a>
+									</div>
+							    <%}%>
+
+							    <% if(locals.linkedin){%>
+							    	<input type="hidden" id="linkedin_r" value="true"/>  
+									<div id="linkedin" style="width:30px; text-align:center; margin-top:4px; float: left; ">
+										<a href="javascript:void(0)"  >
+											<i style="font-size:32px; color:#4875B4; "  onclick="select_linkedin_r(this)" class="icon-linkedin-sign linkedin-color icon-only linkedin-hover"></i>
+										</a>
+									</div>
+								<%}%>
+							
+                    			
+                    		</div>
+                    		<div id="rescheduleDatetime" style="display:none;">
+								<div class=span12><span style="padding-left:15px;">Schedule Time : </span> </div>
+								<div class="span12">
+									<div class="input-append date form_datetime" data-date="">
+									    <input id="inputReschedule" size="16" type="text" value="" readonly>
+									    <span class="add-on"><i class="icon-remove"></i></span>
+									    <span class="add-on"><i class="icon-th"></i></span>
+									</div>
+									<span style="padding-left:4px;">
+										<button  onclick="re_set()" type="button" class="btn btn-success btn-small" style="margin-top: -9px;width:50px;">SET</button> 
+									</span>
+									<span style="padding-left:2px;">
+										<button  onclick="re_cancel()" type="button" class="btn btn-danger btn-small" style="margin-top: -9px;width:65px;">Cancel</button> 
+									</span>
+								</div>
+							</div>
+                    		<div style="float: right; ">
+                    			<span id="reschedule_button" >
+	                    			<button  onclick="reSchedule()" class="btn btn-warning btn-small">
+	                    				<i class="icon-calendar"></i>Reschedule
+	                    			</button>
+	                    		</span>
+	                    		<span id="reblurb_button">
+	                    			<button id="3" onclick="allpost_r()" class="btn  btn-info btn-small">Re-Blurb</button>
+	                    		</span>
+	                    		
+                    		</div>
+                    	</div> <!-- end row-fluid -->
+                    </div>
+
+
+				</div>  
+			</div>
+			<div id="modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						<text id="header">&nbsp</text>
+						<button style="color: #CC0000" type="button" id="bclose_" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="description">
+					</p>  
+				</div>
+			</div>
+			<div id="confirm_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						<text id="header">Post</text>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="description">
+						Are you sure you want to post this Blurb. <!-- sss $<text id="blurb_price"> </text>-->
+					</p> 
+					<br>
+					<button  data-dismiss="modal" id="yes" class="btn btn-success btn-small">Yes</button>
+					<button   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+				</div>  
+			</div>
+			<div id="campaignBalanceLow_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						<text id="header">Post</text>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="campaignBalance_description">
+						Your campaign balance is running low. Do you want to use your general balance? <!-- sss $<text id="blurb_price"> </text>-->
+					</p> 
+					<br>
+					<button  data-dismiss="modal" id="campaign_yes" class="btn btn-success btn-small">Yes</button>
+					<button   data-dismiss="modal"  class="btn btn-danger btn-small">No</button>   
+				</div>  
+			</div>
+<!-- this is confirmation of schedule -->
+			<div id="schedule_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						<text id="header">Schedule Post</text>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p id="description">
+						Your blurb is now scheduled. Thanks for posting. <!-- sss $<text id="blurb_price"> </text>-->
+					</p> 
+					<br>
+					<button  data-dismiss="modal" id="yes" class="btn btn-success btn-small pull-right">OK</button>
+				</div>  
+			</div>
+<!-- End of confirmation -->
+			<div id="account_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						Alert
+						<button style="color: #CC0000" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p >
+						Your Account Balance is not sufficient for this post.
+					</p>  
+				</div>  
+			</div>
+			<div id="link_modal" class="modal hide" style="width: 350px; height: auto;  left:55%; top: 25%" >  
+				<div class="modal-header" style="background-color:  #D6E9C0;">  
+					<h2 >
+						Alert
+						<button style="color: #CC0000" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</h2>  
+				</div>      
+				<div class="modal-body" style="color: green">  
+					<p >
+						You need to link an acount first.
+					</p>  
+				</div>  
+			</div>
+			<div id="page-content" class="clearfix">
+
+				<div class="page-header position-relative">
+				</div><!--/.page-header-->
+				<div class="row-fluid" id="row-fluid">
+					<!--PAGE CONTENT BEGINS HERE-->
+					<!-- Recent Blurbs Starts !-->
+					<div class="span7">
+						<div id="modal" class="modal hide" style="width: 350px; height: 150px;  left:55%; top: 25%" >  
+							<div class="modal-header" style="background-color:  #D6E9C0;">  
+								<h2 >
+									Blurb Description
+									<button style="color: #CC0000" type="button" id="bclose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								</h2>  
+							</div>      
+							<div class="modal-body" style="color: green">  
+								<p id="description">
+								</p>  
+							</div>  
+						</div>
+						<div class="widget-body">
+							<ul class="nav nav-list" style="width: 90%;">
+								<li>
+									<div id="content_list">
+										<input type="text" class="span12" placeholder="Write Your Own Blurb..."/>
+									</div>
+									<div id="write_content"  style="display: none;">
+										<div style="border: 1px solid #DDE4ED; border-left: 5px; border-right: 5px; border-top: 5px;" >
+											<form  id="blurbwrite"  enctype="multipart/form-data">
+												<br>
+												<fieldset>
+													<textarea  oncopy="return false" id="write_blurb" required tabindex="3" class="input-xlarge span6" id="message" val="" name="message" rows="8" placeholder="Write Your Own Blurb" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 100px; color: Black;" ></textarea>
+												</fieldset>
+												<div class="selector-wrapper"></div>
+											</form>
+											<div class="row-fluid">
+												<div class="social-icon">
+													<%if(locals.facebook) {%>                               	
+														<input type="hidden" id="fb_w" value="true"/>
+														<div id="facebook" style="width:30px; margin-top:4px; text-align:center; float: left;">
+															<a  href="javascript:void(0)" id="<%=i%>">
+																<i style="font-size:32px;"  onclick="select_fb_w(this)" class="icon-facebook-sign fb-color icon-only facebook-hover"></i>												
+															</a>
+														</div> 
+													<% } %>
+													<%if(locals.twitter) {%>  
+														<input type="hidden" id="twt_w" value="true"/> 
+														<div id="twitter" style="width:30px; text-align:center; margin-top:4px; float: left;">
+															<a  href="javascript:void(0)" id="<%=i%>">
+																<i style="font-size:32px;"  onclick="select_twt_w(this)" class="icon-twitter-sign twitter-color icon-only twitter-hover"></i>
+															</a>
+														</div>
+													<% } %>
+													<%if(locals.linkedin) {%> 
+														<input type="hidden" id="linkedin_w" value="true"/>  
+														<div id="linkedin" style="width:30px; text-align:center; margin-top:4px; float: left;">
+															<a href="javascript:void(0)"  id="<%=i%>">
+																<i style="font-size:32px; color:#4875B4; "  onclick="select_linkedin_w(this)" class="icon-linkedin-sign linkedin-color icon-only linkedin-hover"></i>
+															</a>
+														</div>
+													<% } %>
+												</div>
+
+
+<!-- 												<div id="wrscheduleDatetime" style="display:none;">
+													<div class=span12><span class="green" style="padding-left:15px;">Schedule Time : </span> </div>
+													<div class="span12" style="width: 50%">
+														<div class="input-append date form_datetime" data-date="" style="width: 75%">
+														    <input style="width: 71%" id="inputWrschedule" size="16" type="text" value="" readonly>
+														    <span class="add-on"><i class="icon-remove"></i></span>
+														    <span class="add-on"><i class="icon-th"></i></span>
+														</div>
+														<span style="padding-left:4px;">
+															<button  onclick="wr_set()" type="button" class="btn btn-success btn-small" style="margin-top: -9px;width:50px;">SET</button> 
+														</span>
+														
+													</div>
+												</div> -->
+
+
+
+
+												<div style="margin-right;float: right;">
+
+													<!-- <span id="wrschedule_button" >
+						                    			<button  onclick="wrSchedule()" class="btn btn-warning btn-small">
+						                    				<i class="icon-calendar"></i>Schedule
+						                    			</button>
+						                    		</span> -->
+
+
+													<button class="btn btn-small btn-danger" id='new_cancel'>
+														<i class="icon-remove"></i>Cancel
+													</button>
+													<button  onclick="allpost_w()" class="btn btn-success btn-small">
+														<i  class="icon-share"></i>
+														Post
+													</button>
+													<br>
+													<br>
+												</div>
+											</div>
+										</div>
+									</div>  <!-- end write content -->
+								</li>
+								<li>
+									<a href="#">
+										<i class="icon-comment grey"></i>
+										Select Content
+									</a>
+									<div class="widget-body">
+										<div class="widget-main no-padding">
+											<div id="dialogs" class="dialogs">
+												<% for(var i= historyWriteBlurb.length-1;i>=0;i--) {
+													var x = new Date( historyWriteBlurb[i].date);
+													var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+														"Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+														if(historyWriteBlurb[i].deleteStatus!='Deleted' && historyWriteBlurb[i].status!='Accepted' && historyWriteBlurb[i].description!=null && !historyWriteBlurb[i].scheduleTime){ 
+															%>
+													<div class="itemdiv dialogdiv" id="hideDiv<%=i%>">
+														<div class="user" style="width:auto; padding:0 5px;">
+															<% if(locals.historyWriteBlurb[i].path) { %>
+															<div style="width: auto; height: auto;">
+																<img class="img-circle" alt="Avatar" src="../<%= historyWriteBlurb[i].path%>" onerror="this.src='../assets/avatars/default.png';" style="width:50px; height:50px;" />
+															</div>
+															<%} else {%>
+															<img class="nav-user-photo img-circle" src="../assets/avatars/default.png" alt="Jason's Photo" style="width:45px;height:45px;" />
+															<%}%>
+															<div class="name text-center" style="width:100%;">
+																<%if(locals.historyWriteBlurb[i].id){%>
+																<a href="/users/seeProfile?id=<%= historyWriteBlurb[i].id %>"><b class="green"><%=historyWriteBlurb[i].writer.name.substring(0,6)%></b></a>
+																<%}else{%>
+																<b class="green"><%=historyWriteBlurb[i].writer.name.substring(0,6)%></b>
+																<%}%><br>
+															<!-- <span class="label label-info" style="auto">Tag Tag</span> -->
+															</div>
+														</div>
+														<div class="body" style="overflow: hidden;">
+															<b id="tour1"> </b>
+															<div class="text" >
+																<div style="widht: 50%;" id="editvanish<%= i %>" >
+																	<script>
+																		var description= <%- JSON.stringify(historyWriteBlurb[i].description) %>;
+																		var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+																		document.write(description.replace(exp,"<a href='$1' target='_blank'>$1</a>")) ;
+																	</script> 		
+																	<% if(historyWriteBlurb[i].linkInfo==null && historyWriteBlurb[i].imagePath!='' && historyWriteBlurb[i].imagePath!=undefined){ %>
+																		<div class="postedImg">
+																			<div style="width:172px; height:110px;" >
+																				<img src="../<%= historyWriteBlurb[i].imagePath %>" style="max-width:172px; max-height:110px; width:auto; height:auto;" />
+																			</div>
+																		</div>
+																	<%}%>
+																	<!-- start url preveiw -->
+																	<div class="url_preview">
+																		<% if((historyWriteBlurb[i].linkInfo) && historyWriteBlurb[i].linkInfo.error_code!=404){%>						
+																		<ul>
+																			<% if(historyWriteBlurb[i].imagePath){ %>
+																				<li class="url_img" id="li<%=i%>" >
+																					<div style="width:172px; height:110px; " class="childDiv">
+																						<img src="../<%= historyWriteBlurb[i].imagePath %>" style="max-width:172px; max-height:110px; width:auto; height:auto;" />
+																					</div> 
+																					<div style=" height:200px; display: none" class="linkImage1">
+																						<img src="../<%= historyWriteBlurb[i].imagePath %>" />
+																					</div> 
+																				</li>
+																			<%} else if(historyWriteBlurb[i].selected_thumbnail){%>
+																				<li class="url_img" id="li<%=i%>" >
+																					<div style="width:172px; height:110px;" class="childDiv">
+																						<img src="<%= historyWriteBlurb[i].selected_thumbnail %>" style="max-width:172px; max-height:110px; width:auto; height:auto;" />
+																					</div> 
+																					<div style=" height:200px; display: none" class="linkImage2">
+																						<img src="<%= historyWriteBlurb[i].selected_thumbnail %>" />
+																					</div> 
+																				</li>
+																					
+																			<% } else if(historyWriteBlurb[i].linkInfo.thumbnail_url==undefined){ %>
+																				<li class="url_img">
+																					<img class="imge" src="../uploadImage/no-image-available.jpg" alt="no-image-available"> 
+																				</li>
+																			<%} else{ %>
+																				
+																				<%if (historyWriteBlurb[i].linkInfo.thumbnail_height> 208 && historyWriteBlurb[i].linkInfo.thumbnail_width > 399){%>
+																					<li class="url_img_big" id="li<%=i%>" >
+																						<div style=" height:200px;" class="linkImage2">
+																							<img  src="<%= historyWriteBlurb[i].linkInfo.thumbnail_url %>"   />
+																						</div>
+																					</li>
+
+																				
+																				<%}else{%>
+																					<li class="url_img" id="li<%=i%>" >
+																						<div style="width:172px; height:110px; " class="childDiv" >
+																							<img id="<%=i%>" src="<%= historyWriteBlurb[i].linkInfo.thumbnail_url %>" style="max-width:172px; max-height:110px; width:auto; height:auto;"  />
+																						</div>
+																					</li> 
+																				
+																				<%}%>
+																			
+																			<%}%>
+																			<li class="url_des">
+																				<a href="<%= historyWriteBlurb[i].previewUrl %>" target="_blank"> 
+																					<h5><%= historyWriteBlurb[i].linkInfo.title %></h5>
+																				</a>
+																				<span><%= historyWriteBlurb[i].linkInfo.provider_url %></span> 
+																				<%
+																				var prevdes = historyWriteBlurb[i].linkInfo.description; 
+																				%> 
+																				<p>'<%= historyWriteBlurb[i].previewDes %>'</p>
+																			</li>
+																		</ul>
+																		<%}%>
+																	</div> <!-- end url preview -->
+																</div> <!-- end editvanish -->
+																<form oncopy="return false" id="editPanel<%=i%>" style="display:none;" method='POST'  enctype="multipart/form-data">
+																	<textarea onkeyup="textCounter(this,'counter<%=i%>',140);" tabindex="1" class="input-xlarge span6" id="message<%=i%>" name="message" rows="3" placeholder="Click here to Blurb" ></textarea>
+																	<input type='hidden' id='edit_id<%=i%>' name="id"/>
+																	<input type="hidden" id="fbState<%=i%>" name="fbState" value="1">
+
+																	<input type="hidden" id="twtState<%=i%>" name="twtState" value = "1">
+																	<input type="hidden" id="linkedinState<%= i %>" name="linkedinState" value="1" >
+																	<div id="counterDiv<%=i%>">
+																		<input type="text" disabled size="3" style="width:26px; padding: 0; background-color: #FFFFFF"  id="counter<%=i%>"/> 
+																		<span style="text-align: center;">character's left if you want to post this to Twitter.</span>
+																	</div>
+																	<br>
+																	<button class="btn btn-small btn-success" id='blurbsubmit'   >
+																		Save
+																	</button>
+																	<button class="btn btn-small btn-danger" id='edit_cancel'   >
+																		Cancel
+																	</button>
+																</form>
+																<!-- Date Time picker for schedule time: -->
+																<div id="scheduleDatetime<%=i%>" style="display:none;">
+																	<div class=span12><span style="padding-left:15px;">Schedule Time : </span> </div>
+																	<div class="span12">
+																		<div class="input-append date form_datetime" data-date="">
+																		    <input id="inputSchedule<%=i%>" size="16" type="text" value="" readonly>
+																		    <span class="add-on"><i class="icon-remove"></i></span>
+																		    <span class="add-on"><i class="icon-th"></i></span>
+																		</div>
+																		<span style="padding-left:4px;">
+																			<button id="<%=i%>"  onclick="set('<%=locals.userType%>',this)" type="button" class="btn btn-success btn-small" style="margin-top: -9px;width:50px;">SET</button> 
+																		</span>
+																		<span style="padding-left:2px;">
+																			<button id="<%=i%>"  onclick="cancel(this)" type="button" class="btn btn-danger btn-small" style="margin-top: -9px;width:65px;">Cancel</button> 
+																		</span>
+																	</div>
+																</div>
+								                            </div> <!-- end text -->
+									                    <div>
+									                    	<br>
+									                    	<div class="row-fluid">
+									                    		<div >
+									                    		    <%if(locals.facebook) {%>
+									                    			<input type="hidden" id="fb<%=i%>" value="true">
+										                    			<div id="facebook" style="width:30px; margin-top:4px; text-align:center; float: left;">
+										                    				<a  href="javascript:void(0)" id="<%=i%>">
+										                    					<i id="<%=i%>" style="font-size:32px;" onclick="select_fb(this)" class="icon-facebook-sign f<%= i %> icon-only fb-color facebook-hover "></i>
+										                    				</a>
+										                    			</div> 
+									                    			<% } %>
+									                    			<%if(locals.twitter) {%>  
+									                    			<input type="hidden" id="twt<%=i%>" value="true"> 
+										                    			<div id="twitter" style="width:30px; margin-top:4px; text-align:center; float: left;">
+										                    				<a  href="javascript:void(0)" id="<%=i%>">
+										                    					<i id="twtimg<%=i%>" style="font-size:32px; color: #55acee;"  onclick="select_twt(this,<%=i%>)" class=" twt t<%= i %> icon-twitter-sign icon-only twitter-color twitter-hover"></i>
+										                    				</a>
+										                    			</div>
+									                    			<% } %>
+									                    			<%if(locals.linkedin) {%> 
+									                    			<input type="hidden" style="float: left;" id="linkedin<%=i%>" value="true">  
+										                    			<div id="linkedin" style="width:30px; margin-top:4px; text-align:center; float: left;">
+										                    				<a href="javascript:void(0)"  id="<%=i%>">
+										                    					<i id="<%=i%>" style="font-size:32px; color:#4875B4; "  onclick="select_linkedin(this)" class="icon-linkedin-sign l<%= i %> icon-only linkedin-color linkedin-hover"></i>
+										                    				</a>
+										                    			</div>
+									                    			<% } %>
+									                    		</div>
+									                    		<div style="float: right; ">
+									                    			<%if(!locals.historyWriteBlurb[i].scheduleTime){%>
+									                    			<span id="delete<%=i%>">
+										                    			<button class="btn btn-danger btn-small" id="<%=i%>" onclick="del(this)">
+										                    				<i class="icon-trash"></i>Decline
+										                    			</button>
+										                    		</span>
+										                    		<% } %>
+									                    			<%if(!locals.historyWriteBlurb[i].scheduleTime){%>
+									                    			<span id="schedule<%=i%>">
+										                    			<button id="<%=i%>" onclick="schedule(this)" class="btn btn-warning btn-small">
+										                    				<i class="icon-calendar"></i>Schedule
+										                    			</button>
+										                    		</span>
+										                    		<% } %>
+										                    		<%if(locals.historyWriteBlurb[i].scheduleTime){%>
+										                    			<button id="scheduled<%=i%>" class="btn btn-warning btn-small" title="<%=locals.historyWriteBlurb[i].scheduleTime%>">
+										                    			<i  class="icon-calendar"></i>Scheduled</button>
+										                    		<% } %>
+										                    		<span style="display:none;" id="scheduledTime<%=i%>">
+										                    			<button  class="btn btn-warning btn-small" title="<%=locals.historyWriteBlurb[i].scheduleTime%>">
+										                    			<i  class="icon-calendar"></i>Scheduled</button>
+										                    		</span>
+										                    		<%if(!locals.historyWriteBlurb[i].scheduleTime){%>
+									                    			<span id="edit<%=i%>">
+										                    			<button class="btn btn-info btn-small" id="<%=i%>" onclick="edit(this)">
+										                    				<i class="icon-pencil"></i>Edit
+										                    			</button>
+										                    		</span>
+										                    		<% } %>
+										                    		<%if(!locals.historyWriteBlurb[i].scheduleTime){%>
+										                    		<span id="post<%=i%>">
+										                    			<button id="<%=i%>" onclick="allpost(this)" class="btn btn-success btn-small" >
+										                    				<i  class="icon-share "></i>
+										                    				Post
+										                    			</button>
+										                    		</span>
+										                    		<% } %>
+									                    		</div>
+									                    	</div> <!-- end row-fluid -->
+									                    	<b id="tour2"> </b>
+									                    </div> <!--  end div -->
+									                    <br>
+									                </div> <!--  end body -->
+            									</div>  <!-- end itemdiv -->
+				                    <%  }}%>
+				                </li>
+				             </ul>
+			            </div><!--/widget body-->
+			        </div><!--/boxwidth1-->
+					<div class="span5 pull-right" id="showLess">
+						<!-- <div class="widget-box row-fluid"> -->
+							<!-- <div class="widget-header" style="margin-bottom:-10px;">
+								<h4>Recent</h4>
+								<span class="widget-toolbar no-border"></span>
+							</div> -->
+							<!-- <div class="widget-body"> -->
+								<div class="span12">
+									<table id="table_bug_report no-border" class="table table-hover">
+										<thead>
+											<tr class="row-fluid">	
+												<th class="span7 green" style="border:1px solid lightgray; text-align:center !important;">
+													<span style="font-size:14px;">Recent</span>
+													 <!-- <i class="icon-align-justify icon-2x" style="color: #3b9852;"> -->
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;">
+													<i class="icon-user" style="color: #3b9852; font-size:22px;"></i>
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;" class="hidden-480">
+													<i style="color: #3b9852; font-size:22px;" class="icon-bullhorn icon-2x"></i><span style="float: right;"><i id="SIInfo" class="icon-info-sign info"></i></span>
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;" class="hidden-480">
+													<i style="color: #3b9852; font-size:22px;" class="icon-money"></i>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											var l1=0;
+											for(var i=historyWriteBlurb.length-1; i>=0; i--){
+												if(l1==10)
+													break;
+												var des = historyWriteBlurb[i].description;
+												if(historyWriteBlurb[i].status=='Accepted'){
+													var socialInfluence = 0;
+													if(historyWriteBlurb[i].si!=null)
+													   socialInfluence=parseFloat(historyWriteBlurb[i].si).toFixed(2);
+													l1++;
+													%>
+													<tr>
+														<td>
+															<a style="color: #3b9852 " href="#" onclick="openModal(<%=i%>)"><%= des.substring(0,30) %>...</a>
+														</td>
+														<td style="text-align:center;">
+															<%= historyWriteBlurb[i].writer.name %>
+														</td>
+														<td style="text-align:center;" class="hidden-480"><%= socialInfluence %><b class="green"></b></td>
+														<td style="text-align:center;" class="hidden-phone">$<%= historyWriteBlurb[i].price %></td>
+													</tr>
+												<% }}%>
+										</tbody>
+									</table>
+								</div>
+								<ul style="list-style-type:none">
+									<% if(l1>9){%>	
+									<li style="text-align:center;">
+										<a style="color: #3b9852; " onclick="showall()"  href="#">
+											More...
+											<i class="icon-arrow-right"></i>
+										</a>
+									</li>
+									<%}%>
+								</ul>
+							<!-- </div> --> <!-- end widget body -->
+						<!-- </div> --> <!-- end widget box -->
+					</div> <!-- end boxwidth 2 -->
+					<div class="span5 pull-right" id="showAll" style="display:none;">
+						<!-- <div class="widget-box row-fluid"> -->
+							<!-- <div class="widget-header" style="margin-bottom:-10px;">
+								<h4>Recent</h4>
+								<span class="widget-toolbar no-border">
+								</span>
+							</div> -->
+							<div class="widget-body" >
+								<div class="span12">
+									<table id="table_bug_report no-border" class="table table-hover">
+										<thead>
+											<tr class="row-fluid">	
+												<th class="span7" style="border:1px solid lightgray; text-align:center !important;">
+													<span style="font-size:14px;">Recent</span>
+													<!-- <i class="icon-align-justify icon-2x" style="color: #3b9852;"> -->
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;">
+													<i class="icon-user" style="color: #3b9852; font-size:22px;"></i>
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;" class="hidden-480">
+													<i style="color: #3b9852; font-size:22px;" class="icon-bullhorn icon-2x"></i><span style="float: right;"><i id="SIInfo" class="icon-info-sign info"></i></span>
+												</th>
+												<th class="span2" style="border:1px solid lightgray; text-align:center !important;" class="hidden-480">
+													<i style="color: #3b9852; font-size:22px;" class="icon-money"></i>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											for(var i=historyWriteBlurb.length-1; i>=0; i--){
+												var des = historyWriteBlurb[i].description;
+												if(historyWriteBlurb[i].status=='Accepted'){
+													var influence = 0;
+													if(historyWriteBlurb[i].si!=null)
+													   influence=parseFloat(historyWriteBlurb[i].si).toFixed(2);
+													%>
+													<tr class="row-fluid">
+														<td class="span6">
+															<a style="color: #3b9852 " href="#" onclick="openModal(<%=i%>)"><%= des.substring(0,10) %>...</a>
+														</td>
+														<td class="span2"><%= historyWriteBlurb[i].writer.name %></td>
+														<td class="hidden-480 span2"><%=influence%><b class="green"></b></td>
+														<td class="hidden-phone span2">$<%= historyWriteBlurb[i].price %></td>
+													</tr>
+											<% }}%>
+										</tbody>
+									</table>
+								</div>
+								<ul style="list-style-type:none">	
+									<li style="text-align:center;">
+										<a style="color: #3b9852; " onclick="showless()" href="#">
+											Less..
+											<i class="icon-arrow-right"></i>
+										</a>
+									</li>
+								</ul>
+							<!-- </div> -->  <!-- end widget body -->
+						</div>  <!-- end widget box -->
+					</div>  <!-- end boxwidth2 -->
+					<!-- END of New Writers in your community !-->
+					<!-- BROWSE CONTENT !-->
+					
+                </div><!--end row-fluid-->
+            </div><!--/page content-->
+        </div><!--/main content-->
+              
+        <% include feedback.ejs%>
+    </div><!--end contatainer-->
+        </div><!--/row-->
+    </div><!--/#page-content-->
+    <!--basic scripts-->
+
+   <!--  <div class="test">
+    	<img src="../assets/images/linkedin.png" style="width: 100px">
+    </div> -->
+    <script src='../assets/js/jquery-1.9.1.min.js'></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/underscore-min.js"></script>
+    <script src="../js/topbar.js"></script>
+    <script src="../js/postFacebook.js"></script>
+    <script src="../assets/js/jquery.embedly.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery.preview.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="../assets/js/boxlight/jquery.blImageCenter.js" type="text/javascript"></script>
+	<script src="../tour/js/hopscotch.js" type="text/javascript"></script>
+    <script src="../tour/js/tour.js" type="text/javascript"></script>
+
+
+    <script>
+    	var fg=0;
+    	
+    	$(".form_datetime").datetimepicker({
+	        format: "dd MM yyyy - HH:ii P",
+	        showMeridian: true,
+	        autoclose: true,
+	        todayBtn: true,
+	        startDate: new Date(),
+	        // minuteStep: 1
+	    });
+    	var historyWriteBlurb= <% if(locals.historyWriteBlurb){%>
+    		<%- JSON.stringify(historyWriteBlurb) %>
+    		<%}%>;
+
+    	var profile = <% if(locals.profile) { %>
+              <%- JSON.stringify(profile) %>
+              <% } %>;
+    				  			  	
+        console.log(profile);     
+    	/*alert(historyWriteBlurb[5].facebook);*/	
+		var accountBalance= <% if(locals.accountBalance)%>
+		<%= accountBalance %>;
+		var percentage= <% if(locals.percentage){%>
+			<%- JSON.stringify(percentage) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var facebook= <% if(locals.facebook){%>
+			<%- JSON.stringify(facebook) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var twitter= <% if(locals.twitter){%>
+			<%- JSON.stringify(twitter) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var bufferapp= <% if(locals.bufferapp){%>
+			<%- JSON.stringify(bufferapp) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var linkedin= <% if(locals.linkedin){%>
+			<%- JSON.stringify(linkedin) %>
+		<%}else{%>
+			null
+		<%}%>;
+		var uncheck = <% if(locals.uncheck)%>
+		<%=uncheck%>;
+	
+		var reload = 0;
+    	$(document).ready(function(){
+    		$('div.linkImage1 img').centerImage('outside');
+    		$('div.linkImage2 img').centerImage('outside');
+
+
+	    	$('div.linkImage1 img').each(function() {
+	    		var changeImg = $(this);
+	    		var img = $(this)[0];
+	    		//console.log($(this)[0]);
+	    		img.onload=function(){
+
+	    			if(img.naturalWidth > 399 && img.naturalHeight > 208){
+	    				var parent_li = $(img.parentNode.parentNode);
+	    				parent_li.removeClass('url_img').addClass('url_img_big');
+	    				$(img.parentNode).show();
+	    				var children = img.parentNode.parentNode.childNodes;
+	    				for (var i=0,len=children.length;i<len;i++){
+				            if (children[i].nodeType == 1
+				                &&
+				                children[i].className == 'childDiv'){
+				                    var sub = $(children[i]);
+				                	sub.hide();
+				            }
+				        }
+	    					
+	    			}
+	    			else{
+	    				var children = img.parentNode.parentNode.childNodes;
+	    				for (var i=0,len=children.length;i<len;i++){
+				            if (children[i].nodeType == 1
+				                &&
+				                children[i].className == 'childDiv'){
+				                    var sub = $(children[i]);
+				                	sub.show();
+				            }
+				        }
+	    			}
+				  
+				}
+			    
+			})
+
+		
+    		
+    		for(var i=0;i<historyWriteBlurb.length;i++){
+    			//console.log(historyWriteBlurb[i].description.length);
+    			if(historyWriteBlurb[i].description.length > 140){
+    				$('#twtimg' + i).addClass('grey');
+    				var id = $('#twt' + i);
+    				id.val(false); 
+    				$('#counterDiv' + i).hide();
+    			}
+    		}									
+    		$('#bclose_').click(function(){
+				//alert("djfkdf");
+				location.reload();
+			})
+			if(uncheck)
+			{
+				//$('#uncheck_icon').show();
+				//setTimeout(function(){$('#uncheck_icon').fadeOut()},6000);
+				// Start the tour!
+				hopscotch.startTour(tour);
+			}
+			$('#bclose').click(function(){
+				location.reload();
+			})
+			$('#content_list').click(function(){
+				$('#content_list').hide();
+				$('#write_content').show();
+				$('#write_blurb').focus();
+			})
+			$('#new_cancel').click(function(){
+				$('#write_content').hide();
+				$('#content_list').show();
+			})
+	 		$('#write_blurb').preview({key: '16f7a571ba3546f5ba52d638c76b9158'}) 
+
+
+	 		/*remove reset of social icon*/
+	 		for(var i=0;i<historyWriteBlurb.length;i++){
+	 			if(historyWriteBlurb[i].facebook == '0'){
+	 				$('.f'+i).addClass('grey');
+	 				$('#fb'+i).val('false');
+	 			}
+
+	 			if(historyWriteBlurb[i].twitter == '0'){
+	 				$('.t'+i).addClass('grey');
+	 				$('#twt'+i).val('false');
+	 			}
+
+	 			if(historyWriteBlurb[i].linkedin == '0'){
+	 				$('.l'+i).addClass('grey');
+	 				$('#linkedin'+i).val('false');
+	 			}
+	 		}
+
+
+
+	})
+    function select_fb_w(element){
+	//var id = $(element);
+		var id = $('#fb_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+
+		}
+	}
+	function select_twt_w(element){
+		var id = $('#twt_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_linkedin_w(element){
+		var id = $('#linkedin_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_fb_r(element){
+	//var id = $(element);
+		var id = $('#fb_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+
+		}
+	}
+	function select_twt_r(element){
+		var id = $('#twt_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_linkedin_r(element){
+		var id = $('#linkedin_w');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_fb_s(element){
+	//var id = $(element);
+		var id = $('#fb_s');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+
+		}
+	}
+	function select_twt_s(element){
+		var id = $('#twt_s');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_linkedin_s(element){
+		var id = $('#linkedin_s');
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+		}
+	}
+	function select_fb(element){
+		//var id = $(element);
+		console.log(element.id);
+		var id = $('#fb' + element.id);	
+
+
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			$('#fbState'+ element.id).val('0');
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+			$('#fbState'+element.id).val('1');
+		}
+	}
+	function select_twt(element, i){
+		console.log(element.id);
+		var id = $('#twt' + i);
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			$('#twtState'+ i).val('0');
+			$('#counterDiv' +i).hide();
+		}		
+		else{
+			if(historyWriteBlurb[i].description.length>140){
+				document.getElementById('description').innerHTML = "This blurb has more than 140 characters. You need to edit this blurb" ;
+				//document.getElementById('header').innerHTML = "Blurb Description" ;
+				$('#modal').modal();
+			}
+			else{
+				$(element).removeClass('grey');
+				id.val('true') ;
+				$('#twtState'+ i).val('1');
+				$('#counterDiv' +i).show();
+			}
+		}
+	}
+	function select_linkedin(element){
+		var id = $('#linkedin' + element.id);
+		if(id.val()=='true'){
+			$(element).addClass('grey');
+			id.val('false')
+			$('#linkedinState'+ element.id).val('0');
+		}		
+		else{
+			$(element).removeClass('grey');
+			id.val('true') ;
+			$('#linkedinState'+ element.id).val('1');
+		}
+	}
+	function schedule(element)
+	{
+		value=element.id
+		console.log(value);
+		// var str=''
+		// 
+		var str='#scheduleDatetime'+element.id;
+		console.log(str);
+		$(str).show();
+	}
+	function edit(element)
+	{
+		console.log(element.id);
+		var index=element.id;
+		var van=$('#editvanish'+element.id);
+		var edit_van= $('#editPanel'+element.id);
+		var message = $('#message'+element.id);
+		var edit_id = $('#edit_id'+element.id);
+		var counter = $('#counter'+element.id);
+		van.hide();
+		edit_van.show();
+		 // $('#row-fluid').hide();
+		var data=historyWriteBlurb[index].description;
+		console.log(data);
+		message.val(data);
+		edit_id.val(element.id);
+		counter.val(140-data.length);
+	}
+	function del(element){
+		var index=element.id;
+		var form = document.createElement("form");
+		form.setAttribute("method", 'POST');
+		form.setAttribute("action", './brandContent');
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name",'id');
+		hiddenField.setAttribute("value", index);
+		form.appendChild(hiddenField);
+		document.body.appendChild(form);
+		form.submit();
+	}
+	function cancel(element)
+	{
+		var index=element.id;
+		$('#scheduleDatetime'+index).hide();
+	}
+	function set(userType,element)
+	{
+		$.ajax({
+	        type: 'POST',
+	        url: '/users/ifPostIsAllowed',
+	        data: {id: historyWriteBlurb[element.id]._id},
+	        success: function(data){
+	          console.log(data);
+	          if(data=='allowed'){
+	            timeSetConfirmed(element);
+
+	          }
+	          else if(data == 'campaign balance low'){
+	            $('#campaignBalanceLow_modal').modal();
+	            $('#campaign_yes').click(function(){
+	              timeSetConfirmed(element);
+
+	            })
+
+	          }
+	          else if(data=='not allowed'){
+	            $('#account_modal').modal();
+
+	          }
+	        }
+	      })
+
+	}
+	function timeSetConfirmed(element)
+	{
+		console.log(element.id);
+		var facebook=0;
+		var twitter=0;
+		var linkedin=0;
+		var check_fb = $('#fb' + element.id);
+		if(check_fb.val()=='true')
+		{
+			console.log('Check fb success');
+			facebook=1;
+		}
+		var check_twt=$('#twt' + element.id);
+		if(check_twt.val()=='true')
+		{
+			console.log('Check twitter success');
+			twitter=1;
+		}
+		var check_linkedin=$('#linkedin' + element.id);
+		if(check_linkedin.val()=='true')
+		{
+			console.log('Check twitter success');
+			linkedin=1;
+		}
+		console.log(facebook);
+		console.log(twitter);
+		console.log(linkedin);
+		console.log('Got it');
+		console.log(userType);
+		var userType=userType;
+		var value=element.id;
+		console.log(value);
+		var date=$('#inputSchedule'+value).val();
+		console.log('date:'+date);
+		var dateTimeSplit = date.split(' ');
+		var currentDate = dateTimeSplit[0] + '/' + dateTimeSplit[1] + '/' + dateTimeSplit[2];
+		console.log(currentDate);
+		var currentTime = dateTimeSplit[4] + ' ' + dateTimeSplit[5];
+		console.log(currentTime);
+		var fullDate = currentDate + " " + currentTime;
+		var fullDateReal = new Date(fullDate);
+		var iso = fullDateReal.toISOString();
+		console.log(iso);
+		console.log(value);
+			$.ajax({ url: '/setScheduleTime',
+		           data: {
+		            dateTime:iso,
+		            id:value,
+		            userType:userType,
+		            facebook:facebook,
+		            twitter:twitter,
+		            linkedin:linkedin
+		           },
+		           type: 'POST',
+		           success: function(output) 
+		           {
+		            console.log(output);
+		            $('#scheduleDatetime'+value).hide();
+		            $('#post'+value).hide();
+		            $('#edit'+value).hide();
+		            $('#delete'+value).hide();
+		            $('#schedule'+value).hide();
+		            $('#scheduledTime'+value).show();
+		            $('#hideDiv'+value).hide();
+		            $("#schedule_modal").modal();
+		           }
+		      });
+	}
+	function textCounter(field,field2,maxlimit){
+		var countfield = document.getElementById(field2);
+		countfield.value = maxlimit - field.value.length;
+		if ( field.value.length > maxlimit ) {
+			document.getElementById(field2).style.color = 'RED';
+		  //field.value = field.value.substring( 0, maxlimit );
+		  //return false;
+		} 
+		else {
+			document.getElementById(field2).style.color = 'BLACK';
+		}
+	}
+	var find;
+	function openModal(id) {
+
+		find = historyWriteBlurb[id];
+		
+		$('#reblurb_text').val(find.description);
+	    	document.getElementById('writer_name').innerHTML =  find.writer.name  ;
+	    if(find.path)
+	    	document.getElementById('writer_image').src =  '../' + find.path ;
+	    else
+	    	document.getElementById('writer_image').src = '../assets/avatars/default.png'; 
+	    $('#blurb_id').val(id);
+	    $('#reblurb_modal').modal();
+
+	    
+	}
+
+	function showall(){
+		$('#showLess').css("display","none");
+		$('#showAll').css("display","block");
+	}
+
+	function showless(){
+		$('#showAll').css("display","none");
+		$('#showLess').css("display","block");
+	}
+
+
+	function reSchedule()
+	{
+		
+		var str='#rescheduleDatetime';
+		$(str).show();
+	}
+
+
+	function wrSchedule()
+	{
+		
+		var str='#wrscheduleDatetime';
+		$(str).show();
+	}
+
+
+
+	function re_cancel()
+	{
+		$('#scheduleDatetime').hide();
+	}
+
+
+	function ShareModal(){
+		$('#ShareBlurbi_modal').modal();
+	}
+
+
+	function re_set()
+	{
+		var facebook=0;
+		var twitter=0;
+		var linkedin=0;
+		var check_fb = $('#fb_r');
+		if(check_fb.val()=='true')
+		{
+			facebook=1;
+		}
+		var check_twt=$('#twt_r');
+		if(check_twt.val()=='true')
+		{
+			twitter=1;
+		}
+		var check_linkedin=$('#linkedin_r');
+		if(check_linkedin.val()=='true')
+		{
+			linkedin=1;
+		}
+		var date=$('#inputReschedule').val();
+		console.log('date:'+date);
+		var dateTimeSplit = date.split(' ');
+		var currentDate = dateTimeSplit[0] + '/' + dateTimeSplit[1] + '/' + dateTimeSplit[2];
+		console.log(currentDate);
+		var currentTime = dateTimeSplit[4] + ' ' + dateTimeSplit[5];
+		console.log(currentTime);
+		var fullDate = currentDate + " " + currentTime;
+		var fullDateReal = new Date(fullDate);
+		var iso = fullDateReal.toISOString();
+		$('#reblurb_modal').modal('hide');
+		$.ajax({ url: '/setRescheduleTime',
+	           data: {
+	            dateTime:iso,
+	            blurbId:find._id,
+	            facebook:facebook,
+	            twitter:twitter,
+	            linkedin:linkedin
+	           },
+	           type: 'POST',
+	           success: function(output) 
+	           {
+	            console.log(output);
+	            $('#rescheduleDatetime').hide();
+	            $('#hideDiv').hide();
+	            $("#schedule_modal").modal();
+	           }
+	      });
+	}
+
+
+
+	function wr_set()
+	{
+		var facebook=0;
+		var twitter=0;
+		var linkedin=0;
+		var check = 0;
+		var check_fb = $('#fb_w');
+		if(check_fb.val()=='true')
+		{
+			facebook=1;
+			check = 1;
+		}
+		var check_twt=$('#twt_w');
+		if(check_twt.val()=='true')
+		{
+			twitter=1;
+			check = 1;
+		}
+		var check_linkedin=$('#linkedin_w');
+		if(check_linkedin.val()=='true')
+		{
+			linkedin=1;
+			check = 1;
+		}
+		if(check == 0){
+			$('#link_modal').modal();
+		}
+		else{
+			var date=$('#inputWrschedule').val();
+			console.log('date:'+date);
+			var dateTimeSplit = date.split(' ');
+			var currentDate = dateTimeSplit[0] + '/' + dateTimeSplit[1] + '/' + dateTimeSplit[2];
+			console.log(currentDate);
+			var currentTime = dateTimeSplit[4] + ' ' + dateTimeSplit[5];
+			console.log(currentTime);
+			var fullDate = currentDate + " " + currentTime;
+			var fullDateReal = new Date(fullDate);
+			var iso = fullDateReal.toISOString();
+			/*$('#reblurb_modal').modal('hide');*/
+			if($('#write_blurb').val()!=''){
+				$.ajax({ url: '/setscheduleTimeOwnBlurb',
+		           data: {
+		            dateTime:iso,
+		            description: $('#write_blurb').val(),
+		            facebook:facebook,
+		            twitter:twitter,
+		            linkedin:linkedin
+		           },
+		           type: 'POST',
+		           success: function(output) 
+		           {
+		            console.log(output);
+		            $('#rescheduleDatetime').hide();
+		            $('#hideDiv').hide();
+		            $("#schedule_modal").modal();
+		           }
+		      });
+
+			}
+
+		}
+	
+		
+	}
+
+
+
+
+
+
+	$('.info').tooltip({
+    'show': true,
+        'placement': 'left',
+        'title': "Indicates the FameRate of each blurb across all social networks to which it was posted.  Measured as an accumulation of engagements taken on blurbs (likes, comments, shares) and the reach of the users conducting such engagements. The higher the better!"
+});
+
+</script>
+</body>
+<!--<a href="/users/here"> here </a>-->
+</html>
